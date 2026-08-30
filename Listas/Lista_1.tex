@@ -1,1 +1,2481 @@
+\documentclass[11pt,a4paper]{article}
 
+% ============================================================
+% PACOTES
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+
+\usepackage{amsmath,amssymb,amsfonts,mathtools}
+\usepackage{bm}
+\usepackage{physics}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usetikzlibrary{intersections}
+
+\pgfplotsset{compat=1.18}
+\geometry{margin=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+% ============================================================
+% COMANDOS
+% ============================================================
+\newcommand{\pdvT}[2]{\left(\frac{\partial #1}{\partial #2}\right)_T}
+\newcommand{\pdvV}[2]{\left(\frac{\partial #1}{\partial #2}\right)_v}
+\newcommand{\pdvS}[2]{\left(\frac{\partial #1}{\partial #2}\right)_s}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\e}[1]{\mathrm{e}^{#1}}
+\renewcommand{\dd}{\mathrm{d}}
+\newcommand{\tildep}{\widetilde{p}}
+\newcommand{\tildev}{\widetilde{v}}
+\newcommand{\tildeT}{\widetilde{T}}
+
+% ============================================================
+% DOCUMENTO
+% ============================================================
+\begin{document}
+%
+\begin{center} 
+    {\Large \textbf{Primeira série de exercícios}}\\[0.6cm]
+    {\large Tópicos de Mecânica Estatística -- Transições de Fases -- 2026}\\[0.2cm]
+    {\large Fluido de van der Waals -- 12/8/2026}\\[0.4cm]    
+    {\large Data de Entrega -- 25/8/2026}\\[0.2cm]
+    {\large Data limite -- 28/8/2026}\\[0.4cm]
+    {\Large \textbf{Autor:} Thiago Siqueira Domingues (NºUSP: 8942194)}    
+\end{center}
+%
+\vspace{0.5cm}
+% ============================================================
+\section*{Problema (1) -- Equação de estados correspondentes}
+%
+A equação de estado de van der Waals é
+%
+\begin{equation}
+    \left(p+\frac{a}{v^2}\right)(v-b)=RT
+\label{eq:vdw}
+\end{equation}
+%
+ou, equivalentemente,
+%
+\begin{equation}
+    p(T,v)=\frac{RT}{v-b}-\frac{a}{v^2}.
+\label{eq:pvdw}
+\end{equation}
+%
+Aqui, $p$ é a pressão, $v$ é o volume molar, $T$ é a temperatura absoluta e $R$ é a constante universal dos gases. Os parâmetros fenomenológicos $a>0$ e $b>0$ representam, respectivamente, a atração média entre as moléculas e o volume excluído pelas moléculas.
+%
+Definindo as variáveis adimensionais, 
+%
+\begin{equation}
+    \tilde p=\frac{p}{p_c},
+    \qquad
+    \tilde v=\frac{v}{v_c},
+    \qquad
+    \tilde T=\frac{T}{T_c},
+\label{eq:reduced_variables}
+\end{equation}
+%
+em que $p_c$, $v_c$ e $T_c$ são os valores da pressão, do volume por mol ou molar e da temperatura no ponto crítico. 
+%
+Agora, devemos obter a \textit{equação de ``estados correspondentes"}, válida para qualquer fluído. Primeiro, devemos calcular os parâmetros críticos $p_c$, $v_c$ e $T_c$ em função dos parâmetros fenomenológicos $a$ e $b$. Existem duas maneiras de fazer isto, até onde eu conheça. Seguindo a maneira apresentada em aula e que também pode ser vista em~\cite{salinas}, podemos reescrever a equação de van der Waals na forma de um polinômio cúbico em $v$. 
+%
+Então, multiplicando a Eq.~\ref{eq:vdw} for $v^2$, temos  
+%
+\begin{equation*}
+    (pv^2 + a) (v-b) = v^2 RT \Rightarrow pv^3 - pv^2b + av - ab = v^2RT
+\end{equation*} 
+%
+Agora, dividindo por $p$, chegamos em
+%
+\begin{equation*}
+    v^3 - v^2b + \frac{av}{p} - \frac{ab}{p} - \frac{v^2 RT}{p} = 0,
+\end{equation*}
+%
+agrupando os termos,
+%
+\begin{equation}
+    v^3-\left(b+\frac{RT_c}{p_c}\right)v^2
+    +\frac{a}{p_c}v
+    -\frac{ab}{p_c}=0.
+\label{eq:cubic_polynom}
+\end{equation}
+%
+Agora, no ponto crítico ($T = T_c$, $p = p_c$) as três raízes deste polinômio são idênticas, ou seja,
+%
+\begin{equation*}
+    v_1=v_2=v_3=v_c.
+\end{equation*}
+%
+Portanto, o polinômio cúbico pode ser escrito, no ponto crítico, como
+%
+\begin{equation}
+    (v-v_c)^3=0,
+\end{equation}
+%
+ou, explicitamente,
+%
+\begin{equation}
+    v^3-3v_c v^2+3v_c^2v-v_c^3=0.
+\end{equation}
+%
+Igualando esta equação com a Eq.~\ref{eq:cubic_polynom} e comparando os coeficientes dos dois polinômios, obtemos o sistema
+%
+\begin{align}
+    3v_c &= b+\frac{RT_c}{p_c},
+    \label{eq:critical_comparison_1}\\
+    3v_c^2 &= \frac{a}{p_c},
+    \label{eq:critical_comparison_2}\\
+    v_c^3 &= \frac{ab}{p_c}.
+    \label{eq:critical_comparison_3}
+\end{align}
+%
+As duas últimas equações permitem determinar diretamente $v_c$ e $p_c$. 
+Da Eq.~\ref{eq:critical_comparison_2}, temos
+%
+\begin{equation}
+    p_c=\frac{a}{3v_c^2}.
+\end{equation}
+%
+Substituindo esse resultado na Eq.~\ref{eq:critical_comparison_3}, encontramos
+%
+\begin{equation}
+    v_c^3
+    =
+    \frac{ab}{a/(3v_c^2)}
+    =
+    3bv_c^2.
+\end{equation}
+%
+Como $v_c\neq 0$, segue que
+%
+\begin{equation}
+    \boxed{v_c=3b}.
+\label{eq:vc}
+\end{equation}
+%
+Substituindo esse resultado em
+%
+\begin{equation}
+    p_c=\frac{a}{3v_c^2},
+\end{equation}
+%
+obtemos
+%
+\begin{equation}
+    \boxed{p_c=\frac{a}{27b^2}}.
+\label{eq:pc}
+\end{equation}
+%
+Finalmente, podemos determinar a temperatura crítica utilizando a
+Eq.~\ref{eq:critical_comparison_1}. Temos
+%
+\begin{equation}
+    3v_c=b+\frac{RT_c}{p_c},
+\end{equation}
+%
+e, portanto,
+%
+\begin{equation}
+    RT_c=p_c(3v_c-b).
+\end{equation}
+%
+Usando $v_c=3b$ e $p_c=a/(27b^2)$, resulta
+%
+\begin{equation}
+    RT_c
+    =
+    \frac{a}{27b^2}(9b-b)
+    =
+    \frac{8a}{27b}.
+\end{equation}
+%
+Assim,
+%
+\begin{equation}
+    \boxed{T_c=\frac{8a}{27Rb}}.
+\label{eq:Tc}
+\end{equation}
+%
+Portanto, os parâmetros críticos da equação de van der Waals são
+%
+\begin{equation}
+    \boxed{
+    v_c=3b,
+    \qquad
+    p_c=\frac{a}{27b^2},
+    \qquad
+    T_c=\frac{8a}{27Rb}.
+    }
+\label{eq:vdw_critical_parameters}
+\end{equation}
+%
+Podemos agora substituir esses resultados na equação de estado
+%
+\begin{equation}
+    p=\frac{RT}{v-b}-\frac{a}{v^2},
+\end{equation}
+%
+e expressá-la exclusivamente em termos das variáveis reduzidas
+%
+\begin{equation}
+    \tilde p=\frac{p}{p_c},
+    \qquad
+    \tilde v=\frac{v}{v_c},
+    \qquad
+    \tilde T=\frac{T}{T_c}.
+\end{equation}
+%
+Como
+%
+\begin{equation}
+    p=p_c\tilde p,
+    \qquad
+    v=v_c\tilde v=3b\tilde v,
+    \qquad
+    T=T_c\tilde T,
+\end{equation}
+%
+a equação de van der Waals torna-se
+%
+\begin{equation}
+    p_c\tilde p
+    =
+    \frac{RT_c\tilde T}{3b\tilde v-b}
+    -
+    \frac{a}{9b^2\tilde v^2}.
+\end{equation}
+%
+Como
+%
+\begin{equation}
+    RT_c=\frac{8a}{27b},
+\end{equation}
+%
+temos
+%
+\begin{equation}
+    p_c\tilde p
+    =
+    \frac{8a}{27b^2(3\tilde v-1)}\tilde T
+    -
+    \frac{a}{9b^2\tilde v^2}.
+\end{equation}
+%
+Utilizando ainda
+%
+\begin{equation}
+    p_c=\frac{a}{27b^2},
+\end{equation}
+%
+podemos dividir toda a equação por $p_c$, obtendo
+%
+\begin{equation}
+    \frac{a}{27b^2} \tilde p
+    = \frac{8a}{27b^2(3 \tilde v - 1)} \tilde T - \frac{a}{9b^2 \tilde v^2} \Rightarrow  
+    \tilde p = \frac{8\tilde T}{3\tilde v-1}
+    -
+    \frac{3}{\tilde v^2}.
+\end{equation}
+%
+Agora, rearranjando os termos da equação ficamos com,
+%
+\begin{equation}
+    \tilde p + \frac{3}{\tilde v^2}
+    =
+    \frac{8\tilde T}{3\tilde v-1} = \frac{8\tilde T}{3(\tilde v- \frac{1}{3})}     
+\end{equation}
+%
+Multiplicando os dois lados por $(\tilde v - \frac{1}{3})$, finalmente obtemos a equação de estados correspondentes para um fluido de van der Waals:
+%
+\begin{equation}
+    \boxed{
+        \left(\tilde{p} + \frac{3}{\tilde{v}^2}\right) \left(\tilde{v} - \frac{1}{3}\right) = \frac{8}{3}\tilde{T}
+    }.
+    \label{eq:corresponding_states_vdw}
+\end{equation}
+%
+Essa é a chamada \textbf{equação de estados correspondentes}. O resultado não depende de $a$ nem de $b$. Portanto, todos os fluidos descritos por essa aproximação possuem a mesma equação reduzida.
+%
+\begin{equation*}
+    \boxed{\text{Universalidade: a equação reduzida não depende de }a,b.}
+\end{equation*}
+% ===========================================================
+%
+\section*{Problema (2) -- Energia livre de Helmholtz e a equação de van der Waals}
+%
+Partimos da primeira lei da termodinâmica para um sistema simples
+compressível. Como estamos trabalhando com grandezas molares,
+escrevemos a energia interna molar como uma função da entropia molar
+e do volume molar,
+%
+\begin{equation}
+    u=u(s,v).
+\end{equation}
+%
+A primeira lei da termodinâmica, por mol, é
+%
+\begin{equation}
+\dd u = T\,\dd s-p\,\dd v.
+\label{eq:primeira_lei}
+\end{equation}
+%
+Como $u=u(s,v)$, seu diferencial total pode ser escrito como
+%
+\begin{equation}
+    \dd u
+    =
+    \left(\frac{\partial u}{\partial s}\right)_v
+    \dd s
+    +
+    \left(\frac{\partial u}{\partial v}\right)_s
+    \dd v.
+\end{equation}
+%
+Comparando essa expressão com a primeira lei, Eq.~\eqref{eq:primeira_lei}, obtemos
+%
+\begin{equation}
+    T=
+    \left(\frac{\partial u}{\partial s}\right)_v
+    \label{eq:T}
+\end{equation}
+%
+e
+%
+\begin{equation}
+    -p=
+    \left(\frac{\partial u}{\partial v}\right)_s.
+    \label{eq:p}
+\end{equation}
+%
+Essas são as relações fundamentais que identificam $T$ e $-p$
+como as variáveis conjugadas às variáveis extensivas específicas
+$molares$ $s$ e $v$.  A energia interna possui como variáveis naturais $s$ e $v$,  $u=u(s,v)$. Entretanto, frequentemente é mais conveniente trabalhar com a temperatura $T$ em vez da entropia $s$.
+Para substituir a variável $s$ por sua variável conjugada $T$,
+fazemos uma transformação de Legendre e definimos a energia livre
+de Helmholtz molar:
+%
+\begin{equation}
+    f(T,v)=u-Ts.
+    \label{eq:helmholtz}
+\end{equation}
+%
+Equivalentemente, no equilíbrio termodinâmico, podemos escrever
+a transformação de Legendre na forma:
+%
+\begin{equation}
+    f(T,v)
+    =
+    \min_s
+    \left\{
+        u(s,v)-Ts
+    \right\}.
+    \label{eq:legendre}
+\end{equation}
+%
+A partir da definição
+%
+\begin{equation}
+    f=u-Ts,
+\end{equation}
+%
+calculamos seu diferencial:
+\begin{align}
+    \dd f
+    &=
+    \dd u-\dd(Ts)\\
+    &=
+    \dd u-T\,\dd s-s\,\dd T.
+\end{align}
+%
+Usando a primeira lei,
+%
+\begin{equation}
+    \dd u=T\,\dd s-p\,\dd v,
+\end{equation}
+%
+obtemos
+%
+\begin{align}
+    \dd f
+    &=
+    T\,\dd s-p\,\dd v
+    -T\,\dd s
+    -s\,\dd T\\
+    &=
+    -s\,\dd T-p\,\dd v.
+\end{align}
+%
+Portanto,
+%
+\begin{equation}
+    \dd f=-s\,\dd T-p\,\dd v.
+    \label{eq:df}
+\end{equation}
+%
+Comparando com o diferencial total de uma função
+$f=f(T,v)$,
+%
+\begin{equation}
+    \dd f
+    =
+    \left(\frac{\partial f}{\partial T}\right)_v
+    \dd T
+    +
+    \left(\frac{\partial f}{\partial v}\right)_T
+    \dd v,
+\end{equation}
+%
+obtemos as relações termodinâmicas
+%
+\begin{equation}
+    \left(\frac{\partial f}{\partial T}\right)_v=-s
+    \label{eq:s}
+\end{equation}
+%
+e
+%
+\begin{equation}
+    \left(\frac{\partial f}{\partial v}\right)_T=-p.
+    \label{eq:pressure_free_energy}
+\end{equation}
+%
+A segunda relação será utilizada para obter a energia livre de
+Helmholtz a partir da equação de estado de van der Waals. Agora, substituindo a equação de estado de van der Waals para a pressão $p$:
+%
+\begin{equation}
+    \left(\frac{\partial f}{\partial v}\right)_T = -\left( \frac{RT}{v-b} - \frac{a}{v^2} \right) = -\frac{RT}{v-b} + \frac{a}{v^2}
+\end{equation}
+%
+Para encontrar $f(T,v)$, integramos ambos os lados  em relação ao volume molar $v$, mantendo a temperatura constante:
+%
+\begin{equation}
+    \int
+    \left(\frac{\partial f}{\partial v}\right)_T
+    \dd v
+    =
+    -\int p\,\dd v.
+\end{equation}
+%
+como a integração foi realizada mantendo $T$ constante, a ``constante'' de integração pode ser uma função de $T$. Chamaremos essa função de $f_0(T)$,
+%
+\begin{equation}
+    f(T,v) = \int \left( -\frac{RT}{v-b} + \frac{a}{v^2} \right) dv +
+    f_0(T),
+\end{equation}
+%
+separamos a integral em duas partes:
+%
+\begin{equation}
+    f(T,v) = -RT \int \frac{1}{v-b}\,dv + a \int v^{-2}\,dv +
+    f_0(T)
+\end{equation}
+%
+Resolvendo cada termo individualmente, para a primeira integral, utilizando a substituição 
+%
+$u = v-b$ (onde $du = dv$):
+%
+\begin{equation}
+\int \frac{1}{v-b}\,dv = \ln(v-b)
+\end{equation}
+%
+Para a segunda integral, aplicando a regra da potência:
+%
+\begin{equation}
+\int v^{-2}\,dv = \frac{v^{-1}}{(-1)} = -\frac{1}{v}
+\end{equation}
+%
+Reunindo os termos e adicionando a função de integração $f_0(T)$, que surge pelo fato de a integração ser em relação a $v$ com $T$ constante, chegamos em:
+%
+\begin{equation}
+    \boxed{
+    f = f(T,v)
+    =
+    -RT\ln(v-b)
+    -\frac{a}{v}
+    +f_0(T).
+    }
+    \label{eq:free_energy}
+\end{equation}
+%
+Aqui, $f_0$ deve ser uma função bem comportada da temperatura $f_0 = f_0(T)$ e não pode ser determinada apenas a partir da equação de estado. De fato, $f_0=f_0(T)$ é determinada por propriedades térmicas adicionais, como o calor específico, como será visto no problema (8).
+%
+Para uma fase estável, a energia livre por mol $f$ deve ser convexa em relação às variáveis extensivas apropriadas. Em particular, em relação ao volume,
+%
+\begin{equation}
+    \left(\pdd{f}{v}\right)_T\geq0.
+\end{equation}
+%
+Essa condição pode ser relacionada diretamente à compressibilidade
+isotérmica. Como
+%
+\begin{equation}
+    \left(\pd{f}{v}\right)_T=-p,
+\end{equation}
+%
+temos
+%
+\begin{equation}
+    \left(\pdd{f}{v}\right)_T
+    =
+    -\left(\pd{p}{v}\right)_T.
+\end{equation}
+%
+Assim, a estabilidade termodinâmica exige que
+%
+\begin{equation}
+    \left(\pd{p}{v}\right)_T\leq0.
+\end{equation}
+%
+Essa condição também segue da positividade da compressibilidade
+isotérmica,
+%
+\begin{equation}
+    \kappa_T
+    =
+    -\frac{1}{v}
+    \left(\frac{\partial v}{\partial p}\right)_T
+    >0.
+\end{equation}
+%
+Para a equação de van der Waals,
+%
+\begin{equation}
+    \left(\pd{p}{v}\right)_T
+    =
+    -\frac{RT}{(v-b)^2}
+    +
+    \frac{2a}{v^3}.
+\end{equation}
+%
+Em determinadas temperaturas abaixo de $T_c$, essa quantidade torna-se
+positiva em uma região intermediária de volumes. Consequentemente,
+%
+\begin{equation}
+    \left(\pdd{f}{v}\right)_T<0
+\end{equation}
+%
+nessa região. Substituindo a expressão da derivada da equação de van der Waals, a condição explícita para violar a desigualdade é:
+%
+\begin{equation}
+    -\frac{RT}{(v-b)^2} + \frac{2a}{v^3} \geq 0
+\end{equation}
+%
+Ou, isolando os termos de forma equivalente:
+%
+\begin{equation}
+    \frac{RT}{(v-b)^2} \leq \frac{2a}{v^3}
+\end{equation}
+%
+Logo, a energia livre por mol $f$ de van der Waals possui uma região não convexa (instável termodinamicamente). Esse é o problema da forma de energia livre notado por Maxwell.
+%
+\begin{equation*}
+    \boxed{
+    \text{A energia livre de van der Waals não é convexa em toda a região
+    termodinamicamente acessível.}
+    }
+\end{equation*}
+%
+Essa região corresponde às famosas ``alças'' da isoterma de van der Waals~\cite{salinas}.
+% ============================================================
+\section*{Problema (3) -- Construção de Maxwell e dupla tangente}
+%
+Considere uma temperatura $T<T_c$. As fases líquida e gasosa coexistem nos volumes $v_L<v_G$. Na coexistência, ambas as fases possuem a mesma pressão,
+%
+\begin{equation}
+    p_L=p_G=p_0,
+\end{equation}
+%
+onde $p_0$ é a pressão de coexistência. A construção de Maxwell exige que
+%
+\begin{equation}    
+    \int_{v_L}^{v_G}p(T,v)\,\dd v
+    =
+    p_0(v_G-v_L).
+    \label{eq:maxwell}
+\end{equation}
+%
+em que $v_G$ e $v_L$ são os volumes por mol das fases gasosa e líquida, que estão em coexistência a temperatura e pressão, respectivamente. Agora, utilizando a equação~\ref{eq:pressure_free_energy} podemos escrever que a integral de $p(T,v)$ em relação a $v$ é a própria energia livre de Helmholtz, 
+%
+\begin{equation}
+   \int_{v_L}^{v_G} p(T,v)\, dv = - \int_{v_L}^{v_G} \left(\frac{\partial f}{\partial v}\right)_T\, dv
+\end{equation}
+%
+Portanto, pelo teorema fundamental do cálculo, 
+%
+\begin{equation}
+    \int_{v_L}^{v_G}p(T,v)\,\dd v
+    =
+    -[f_G-f_L],
+\end{equation}
+%
+ou
+%
+\begin{equation}
+    \int_{v_L}^{v_G}p(T,v)\,\dd v
+    =
+    f_L-f_G.
+    \label{eq:intf}
+\end{equation}
+%
+onde $f_L = f(v_L, T)$ e $f_G = f(v_G, T)$ são as energias livres das fases gasosa e líquida, respectivamente.
+%
+Usando a construção de Maxwell (Eq.~\ref{eq:maxwell}),
+%
+\begin{equation}
+    f_L-f_G
+    =
+    p_0(v_G-v_L).
+\end{equation}
+%
+Logo,
+%
+\begin{equation}
+    \boxed{
+    p_0
+    =
+    -\frac{f_G-f_L}{v_G-v_L}.
+    }
+    \label{eq:double_tangent}
+\end{equation}
+%
+Essa equação da dupla tangente mostra que a pressão de coexistência
+é determinada pela inclinação da reta que conecta os pontos
+$(v_L,f_L)$ e $(v_G,f_G)$, veja Fig.~\ref{fig:double_tangent}. Essa é a dupla tangente proposta por Maxwell.
+%
+Agora, o gráfico de $f(T,v)$ contra v, abaixo da temperatura crítica ($T < T_c$), Fig.\ref{fig:double_tangent} podemos notar que a construção da dupla tangente restaura a convexidade da energia livre em relação ao volume. Além de passar pelos pontos $v_L$ e $v_G$, a reta deve ser tangente à energia livre nesses dois pontos. Na Fig.\ref{fig:equal_areas} vemos a correspondência desta construção no diagrama $p-v$.
+%
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{Figures/statistical_mechanics/energia_livre.png}
+    \caption{Gráfico da energia livre de Helmholtz por mol $f(T,v)$ em função do volume específico $v$, abaixo da temperatura crítica ($T < T_c$). Esta é uma representação esquemática da construção da dupla tangente. A envoltória convexa substitui a região não convexa da energia livre. A construção da dupla tangente é equivalente à construção de áreas iguais da figura~\ref{fig:equal_areas}. Figura baseada em~\cite{salinas}.}
+    \label{fig:double_tangent}
+\end{figure}
+%
+De maneira complementar, o diagrama $p-v$ representado na figura~\ref{fig:equal_areas} mostra que a construção da dupla tangente é equivalente a construção das áreas iguais de Maxwell.
+%
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\linewidth]{Figures/statistical_mechanics/isoterma_vdW.png}
+    \caption{Isoterma de van der Waals para $T<T_c$. A linha horizontal $p=p_0$ representa a pressão de coexistência. Os volumes $v_L$ e $v_G$ correspondem às fases líquida e gasosa. A construção de Maxwell exige que as áreas $A_1$ e $A_2$  na região hachurada sejam iguais. Figura baseada em~\cite{salinas}.
+    }
+\label{fig:equal_areas}
+\end{figure}
+% ============================================================
+\section*{Problema (4) -- Expansão crítica: expoentes críticos de van der Waals}
+%
+Para obtermos os expoentes críticos de van der Waals, primeiro devemos defenir as seguintes quantidades (as chamadas variáveis reduzidas),
+%
+\begin{equation}
+    \pi=\frac{p-p_c}{p_c},
+    \qquad
+    \omega=\frac{v-v_c}{v_c},
+    \qquad
+    t=\frac{T-T_c}{T_c}.
+\end{equation}
+%
+Assim, $p=p_c(1+\pi)$, $v=v_c(1+\omega)=3b(1+\omega)$,
+e $T=T_c(1+t)$. A equação reduzida obtida no problema 1 equação~\ref{eq:corresponding_states_vdw} pode ser reescrita na forma,
+%
+\begin{equation}
+    \tilde p
+    =
+    \frac{8\tilde T}{3\tilde v-1}
+    -
+    \frac{3}{\tilde v^2},
+\end{equation}
+%
+e como $\tilde p = 1 + \pi$, $\tilde v=1+\omega$ e $\tilde T = 1+t$,
+%
+obtemos $3\tilde v-1=2+3\omega$, $8 \tilde T = 8(1+t)$ e $\tilde v^2 = (1+ \omega)^2$.
+%
+Portanto, podemos reescrever a equação reduzida na forma,
+%
+\begin{equation}
+    1+\pi
+    =
+    \frac{8(1+t)}{2+3\omega}
+    -
+    \frac{3}{(1+\omega)^2}.
+\end{equation}
+%
+Logo,
+%
+\begin{equation}
+    \pi
+    =
+    \frac{4(1+t)}{1+\frac32\omega}
+    -
+    \frac{3}{(1+\omega)^2}
+    -1.
+    \label{eq:pi_exact}
+\end{equation}
+%
+Agora, para mostrar o comportamento nas proximidades do ponto crítico (quando $t, \omega \rightarrow 0$), devemos utilizar as expansões da Série de Maclaurin (série de Taylor centrada em x = 0)
+%
+\begin{equation}
+    \frac{1}{1+x}
+    =
+    1-x+x^2-x^3+x^4+\mathcal{O}(x^5),
+\end{equation}
+%
+\begin{equation}
+    \frac{1}{(1+x)^2}
+    =
+    1-2x+3x^2-4x^3+5x^4+\mathcal{O}(x^5).
+\end{equation}
+%
+Assim, a expansão próxima do ponto crítico é dada por,
+%
+\begin{equation}
+    \frac{1}
+    {1+\frac32\omega}
+    =
+    1
+    -\frac32\omega
+    +\frac94\omega^2
+    -\frac{27}{8}\omega^3
+    +\frac{81}{16}\omega^4
+    +\mathcal O(\omega^5).
+    \label{eq:first_expansion}
+\end{equation}
+%
+então, 
+%
+\begin{align}
+    \frac{4(1+t)}{1+\frac32\omega}
+    &=
+    4(1+t)
+    \left[
+    1-\frac32\omega
+    +\frac94\omega^2
+    -\frac{27}{8}\omega^3
+    +\frac{81}{16}\omega^4
+    +\mathcal{O}(\omega^5)
+    \right],
+\end{align}
+%
+consequentemente,
+%
+\begin{align}
+    \frac{4(1+t)}{1+\frac32\omega}
+    &=
+    4+4t
+    -6\omega
+    -6t\omega
+    +9\omega^2
+    +9t\omega^2
+    -\frac{27}{2}\omega^3
+    -\frac{27}{2}t\omega^3
+    +\frac{81}{4}\omega^4
+    +\frac{81}{4}t\omega^4
+    +\mathcal{O}(\omega^5).
+\end{align}
+%
+enquanto
+%
+\begin{equation}
+    (1+\omega)^{-2}
+    =
+    1-2\omega+3\omega^2
+    -4\omega^3+5\omega^4
+    +\mathcal O(\omega^5),
+\end{equation}
+%
+portanto, 
+%
+\begin{equation}
+    \frac{3}{(1+\omega)^2}
+    =
+    3-6\omega+9\omega^2-12\omega^3
+    +15\omega^4
+    +\mathcal{O}(\omega^5).
+\end{equation}
+%
+Substituindo as expansões acima na Eq.~\ref{eq:pi_exact}, temos
+%
+\begin{align}
+    \pi
+    &=
+    \left[
+    4+4t
+    -6\omega
+    -6t\omega
+    +9\omega^2
+    +9t\omega^2
+    -\frac{27}{2}\omega^3
+    -\frac{27}{2}t\omega^3
+    +\frac{81}{4}\omega^4
+    +\frac{81}{4}t\omega^4
+    \right]
+    \nonumber\\
+    &\quad
+    -
+    \left[
+    3-6\omega+9\omega^2
+    -12\omega^3+15\omega^4
+    \right]
+    -1
+    +\mathcal{O}(\omega^5).
+\end{align}
+%
+Organizando os termos de mesma ordem, obtemos
+%
+\begin{equation}
+    \begin{aligned}
+        \pi
+        ={}&
+        4t
+        -6t\omega
+        +9t\omega^2
+        -\frac{27}{2}t\omega^3
+        +\frac{81}{4}t\omega^4
+        -\frac{3}{2}\omega^3
+        +\frac{21}{4}\omega^4
+        +\mathcal{O}(\omega^5).
+    \end{aligned}
+    \label{eq:pi_expanded}
+\end{equation}
+%
+Como estamos interessados no comportamento nas proximidades do ponto
+crítico, $t,\omega\rightarrow0$, podemos manter apenas os termos
+dominantes. Nesse caso, na vizinhança crítica, a ordenação de escala relevante é
+%
+\begin{equation}
+    \omega\sim |t|^{1/2}.
+\end{equation}
+%
+Logo,
+%
+\begin{equation}
+    t\omega^2\sim t^2,
+\qquad
+    t\omega^3\sim |t|^{5/2},
+\qquad
+    \omega^4\sim t^2.
+\end{equation}
+%
+Consequentemente, ao nível solicitado,
+%
+\begin{equation}
+    \boxed{
+    \pi
+    =
+    4t
+    -6t\omega
+    -\frac32\omega^3
+    +
+    \mathcal{O}(\omega^4,t\omega^2).
+    }
+    \label{eq:critical_expansion}
+\end{equation}
+%
+Essa é a expansão crítica fundamental do modelo de van der Waals.
+% ============================================================
+\section*{Problema (5) -- Forma assintótica da curva de coexistência de fases}
+%
+A partir da forma assintótica das isotermas de van der Waals para $t<0$ (abaixo do ponto crítico), na vizinhança imediata do ponto crítico obtida no exercício anterior (Eq.~\ref{eq:critical_expansion}), podemos escrever para as duas fases de coexistência,
+%
+\begin{align}
+    \pi_1
+    &=
+    4t-6t\omega_1-\frac32\omega_1^3,
+    \label{eq:pi1}
+    \\
+    \pi_2
+    &=
+    4t-6t\omega_2-\frac32\omega_2^3.
+    \label{eq:pi2}
+\end{align}
+%
+Na coexistência,
+
+\begin{equation}
+    \pi_1=\pi_2.
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+    -6t(\omega_1-\omega_2)
+    -
+    \frac32(\omega_1^3-\omega_2^3)
+    =0.
+\end{equation}
+%
+Fatorando,
+%
+\begin{equation}
+    (\omega_2-\omega_1)
+    \left[
+    -6t
+    -
+    \frac32
+    (\omega_1^2+\omega_1\omega_2+\omega_2^2)
+    \right]
+    =0.
+\end{equation}
+%
+Como $\omega_1\neq\omega_2$, pois estamos na curva de coexistência de fases,
+%
+\begin{equation}
+    -6t
+    -
+    \frac32
+    (\omega_1^2+\omega_1\omega_2+\omega_2^2)=0.
+\end{equation}
+%
+Assim,
+%
+\begin{equation}    
+\omega_1^2+\omega_1\omega_2+\omega_2^2=-4t.
+\label{eq:pressure_condition}
+\end{equation}
+%
+Agora, de acordo com a construção de Maxwell,
+%
+\begin{equation}
+    \int_{\omega_1}^{\omega_2}
+    \left[
+    4t-6t\omega-\frac32\omega^3
+    \right]\dd\omega
+    =
+    \pi(\omega_2-\omega_1).
+\end{equation}
+%
+Integrando,
+%
+\begin{align}
+    &4t(\omega_2-\omega_1)
+    -
+    3t(\omega_2^2-\omega_1^2)
+    -
+    \frac38(\omega_2^4-\omega_1^4)
+    \nonumber\\
+    &\hspace{2cm}
+    =
+    \pi(\omega_2-\omega_1).
+\end{align}
+%
+Definamos
+%
+\begin{equation}
+    S=\omega_1+\omega_2,
+    \qquad
+    P=\omega_1\omega_2.
+\end{equation}
+%
+Então, $S^2 = (\omega_1+\omega_2)^2 = \omega_1^2 +2\omega_1\omega_2 +\omega_2^2 = \omega_1^2+ 2P +\omega_2^2$. Rearranjando essa expressão, segue que
+%
+\begin{equation}
+    \omega_1^2+\omega_2^2
+    =
+    S^2-2P.
+\end{equation}
+%
+Portanto,
+%
+\begin{align}
+    \omega_1^2+\omega_1\omega_2+\omega_2^2
+    &=
+    (\omega_1^2+\omega_2^2)
+    +\omega_1\omega_2
+    \nonumber\\
+    &=
+    (S^2-2P)+P
+    \nonumber\\
+    &=
+    S^2-P.
+\end{align}
+%
+Então a relação \eqref{eq:pressure_condition} torna-se
+%
+\begin{equation}
+    S^2-P=-4t,
+\end{equation}
+%
+ou
+%
+\begin{equation}
+    P=S^2+4t.
+    \label{eq:P}
+\end{equation}
+%
+%
+Para simplificar a condição de Maxwell, podemos fatorar as diferenças
+de potências que aparecem na expressão. Primeiramente,
+%
+\begin{equation}
+    \omega_2^2-\omega_1^2
+    =
+    (\omega_2-\omega_1)(\omega_2+\omega_1)
+    =
+    (\omega_2-\omega_1)S.
+\end{equation}
+%
+Da mesma forma, para a diferença das quartas potências, temos
+%
+\begin{align}
+    \omega_2^4-\omega_1^4
+    &=
+    (\omega_2^2-\omega_1^2)
+    (\omega_2^2+\omega_1^2)
+    \nonumber\\
+    &=
+    (\omega_2-\omega_1)
+    S
+    (\omega_1^2+\omega_2^2).
+\end{align}
+%
+Como já mostramos que
+%
+\begin{equation}
+    \omega_1^2+\omega_2^2=S^2-2P,
+\end{equation}
+%
+segue que
+%
+\begin{equation}
+    \omega_2^4-\omega_1^4
+    =
+    (\omega_2-\omega_1)
+    S(S^2-2P).
+\end{equation}
+%
+Substituindo essas duas relações na condição de Maxwell, obtemos
+%
+\begin{align}
+    &4t(\omega_2-\omega_1)
+    -
+    3t(\omega_2^2-\omega_1^2)
+    -
+    \frac38(\omega_2^4-\omega_1^4)
+    =
+    \pi(\omega_2-\omega_1)
+    \nonumber\\
+    &=
+    4t(\omega_2-\omega_1)
+    -
+    3t(\omega_2-\omega_1)S
+    -
+    \frac38
+    (\omega_2-\omega_1)
+    S(S^2-2P)
+    =
+    \pi(\omega_2-\omega_1).
+\end{align}
+%
+Para as duas fases coexistentes, temos $\omega_1\neq\omega_2$.
+Portanto, podemos dividir toda a equação por
+$(\omega_2-\omega_1)$:
+%
+\begin{equation}
+    4t
+    -3tS
+    -\frac38S(S^2-2P)
+    =
+    \pi.
+\label{eq:maxwell_SP}
+\end{equation}
+%
+Podemos agora utilizar a relação da Eq.~\eqref{eq:P} na condição de Maxwell,
+Eq.~\eqref{eq:maxwell_SP}. Para isso, calculamos
+%
+\begin{align}
+    S^2-2P
+    &=
+    S^2-2(S^2+4t)
+    \nonumber\\
+    &=
+    -S^2-8t.
+\end{align}
+%
+Substituindo na Eq.~\eqref{eq:maxwell_SP}, obtemos
+%
+\begin{align}
+    \pi
+    &=
+    4t-3tS
+    -\frac38S(-S^2-8t)
+    \nonumber\\
+    &=
+    4t-3tS
+    +\frac38S^3
+    +3tS.
+\end{align}
+%
+Os termos lineares em $S$ contendo $t$ se cancelam, resultando em
+%
+\begin{equation}
+    \pi
+    =
+    4t+\frac38S^3.
+\label{eq:pi_S}
+\end{equation}
+%
+%
+A condição de Maxwell, juntamente com a igualdade das pressões,
+permite obter uma segunda relação envolvendo $S$ e $P$. Como as
+pressões nas duas fases são iguais,
+%
+\begin{equation}
+    \pi(\omega_1)=\pi(\omega_2)=\pi,
+\end{equation}
+%
+podemos tomar a média das duas expressões para a pressão:
+%
+\begin{align}
+    \pi
+    &=
+    \frac{1}{2}
+    \left[
+    \pi(\omega_1)+\pi(\omega_2)
+    \right]
+    \nonumber\\
+    &=
+    \frac{1}{2}
+    \left[
+    4t-6t\omega_1-\frac32\omega_1^3
+    +
+    4t-6t\omega_2-\frac32\omega_2^3
+    \right].
+\end{align}
+%
+Usando $S=\omega_1+\omega_2$, obtemos
+%
+\begin{equation}
+    \pi
+    =
+    4t-3tS
+    -\frac34
+    \left(
+    \omega_1^3+\omega_2^3
+    \right).
+\end{equation}
+%
+A soma dos cubos pode ser escrita em termos de $S$ e $P$.
+De fato,
+%
+\begin{align}
+    \omega_1^3+\omega_2^3
+    &= \omega_1^3 + 3\omega_1^2\omega_2 + 3\omega_1\omega_2^2 + \omega_2^3 -3\omega_1\omega_2(\omega_1+\omega_2) \\
+    &=
+    (\omega_1+\omega_2)^3
+    -3\omega_1\omega_2(\omega_1+\omega_2)
+    \nonumber\\
+    &=
+    S^3-3PS.
+\end{align}
+%
+Consequentemente,
+%
+\begin{equation}
+    \pi
+    =
+    4t-3tS
+    -\frac34(S^3-3PS).
+\end{equation}
+%
+Ou, equivalentemente,
+%
+\begin{equation}
+    \pi
+    =
+    4t-3tS
+    -\frac34S^3
+    +\frac94PS.
+\label{eq:pi_SP}
+\end{equation}
+%
+Igualando as duas expressões Eqs.~\eqref{eq:pi_SP}
+e~\eqref{eq:pi_S},temos
+%
+\begin{equation}
+    4t-3tS
+    -\frac34S^3
+    +\frac94PS
+    =
+    4t+\frac38S^3.
+\end{equation}
+%
+Cancelando o termo $4t$ dos dois lados,
+%
+\begin{equation}
+    -3tS
+    -\frac34S^3
+    +\frac94PS
+    =
+    \frac38S^3.
+\end{equation}
+%
+Multiplicando toda a equação por $8$, obtemos
+%
+\begin{equation}
+    -24tS-6S^3+18PS=3S^3.
+\end{equation}
+%
+Reorganizando os termos,
+%
+\begin{equation}
+    -24tS-9S^3+18PS=0.
+\end{equation}
+%
+Colocando $S$ em evidência,
+%
+\begin{equation}
+    S\left(-24t-9S^2+18P\right)=0.
+\end{equation}
+%
+Agora utilizamos a relação obtida anteriormente,
+%
+\begin{equation}
+    P=S^2+4t.
+\end{equation}
+%
+Substituindo $P$ na equação acima,
+%
+\begin{align}
+    S\left[
+    -24t-9S^2+18(S^2+4t)
+    \right]
+    &=0,
+\end{align}
+%
+ou seja,
+%
+\begin{align}
+    S\left[
+    -24t-9S^2+18S^2+72t
+    \right]
+    &=0,
+    \nonumber\\
+    S\left[
+    48t+9S^2
+    \right]
+    &=0.
+\end{align}
+%
+Colocando um fator $3$ em evidência, finalmente obtemos
+%
+\begin{equation}
+    3S(3S^2+16t)=0.
+\end{equation}
+%
+Como o fator $3$ é diferente de zero, podemos escrever simplesmente
+%
+\begin{equation}
+    S(3S^2+16t)=0.
+\label{eq:S_condition}
+\end{equation}
+%
+A Eq.~\eqref{eq:S_condition} possui duas raízes:
+%
+\begin{equation}
+    S=0
+    \qquad\text{ou}\qquad
+    S^2=-\frac{16}{3}t.
+\end{equation}
+%
+Estamos interessados na solução física que descreve as duas fases
+coexistentes nas proximidades do ponto crítico. Nesse caso, a solução
+simétrica é
+%
+\begin{equation}
+    \boxed{S=0}.
+\end{equation}
+%
+Como $S=\omega_1+\omega_2$, segue imediatamente que
+%
+\begin{equation}
+    \omega_1+\omega_2=0,
+\end{equation}
+%
+e, portanto,
+%
+\begin{equation}
+    \omega_2=-\omega_1.
+\end{equation}
+%
+Podemos então introduzir uma única variável $q$ para descrever os
+deslocamentos das duas fases em relação ao ponto crítico:
+%
+\begin{equation}
+    \omega_2=q,
+    \qquad
+    \omega_1=-q.
+\end{equation}
+%
+Substituindo essas expressões na condição
+\eqref{eq:pressure_condition}, temos
+%
+\begin{align}
+    \omega_1^2+\omega_1\omega_2+\omega_2^2
+    &=
+    (-q)^2+(-q)(q)+q^2
+    \nonumber\\
+    &=
+    q^2-q^2+q^2
+    \nonumber\\
+    &=
+    q^2 = -4t.
+\end{align}
+%
+Logo,
+%
+\begin{equation}
+    q^2=-4t.
+\end{equation}
+%
+Assim, para a coexistência das duas fases, é necessário que
+$t<0$, isto é, que a temperatura esteja abaixo da temperatura crítica.
+Escolhendo $q>0$, obtemos
+%
+\begin{equation}
+    q=2\sqrt{-t}.
+\end{equation}
+%
+Consequentemente, os volumes reduzidos das duas fases coexistentes
+são dados por
+%
+\begin{equation}
+    \boxed{
+    \omega_1=-2\sqrt{-t},
+    \qquad
+    \omega_2=2\sqrt{-t}.
+    }
+\label{eq:omega_coexistence}
+\end{equation}
+%
+Portanto, a separação entre os volumes das fases líquida e gasosa
+próximas ao ponto crítico é
+%
+\begin{equation}
+    \omega_2-\omega_1
+    =
+    4\sqrt{-t},
+\end{equation}
+%
+mostrando explicitamente que a diferença entre os volumes das duas
+fases desaparece como
+%
+\begin{equation}
+    \boxed{
+    \omega_2-\omega_1\propto(-t)^{1/2}
+    }
+\end{equation}
+%
+quando $t\rightarrow0^{-}$. Esse resultado fornece diretamente o
+expoente crítico associado ao parâmetro de ordem da transição de fase
+de van der Waals:
+%
+\begin{equation}
+    \boxed{\beta=\frac12}.
+\end{equation}
+%
+Substituindo
+%
+\begin{equation}
+    \omega_1=-2\sqrt{-t}
+\end{equation}
+%
+na equação de estado,
+%
+\begin{equation}
+    \pi_{\mathrm{coex}}
+    =
+    4t
+    -6t\omega_1
+    -\frac32\omega_1^3.
+\end{equation}
+%
+Como
+%
+\begin{equation}
+    \omega_1^3 = \omega_1^2 \omega_1
+    = 
+    -4t\omega_1,
+\end{equation}
+%
+temos
+%
+\begin{align}
+    \pi_{\mathrm{coex}}
+    &=
+    4t
+    -6t\omega_1
+    +6t\omega_1
+    \\
+    &=
+    4t.
+\end{align}
+%
+Portanto, dentro da aproximação da expansão crítica considerada,
+%
+\begin{equation}
+    \boxed{
+    \pi_{\mathrm{coex}}=4t.
+    }
+    \label{eq:pcoex}
+\end{equation}
+%
+Como
+%
+\begin{equation}
+    p=p_c(1+\pi),
+\end{equation}
+%
+a pressão ao longo da curva de coexistência é dada por
+%
+\begin{equation}
+    \boxed{
+    p_{\mathrm{coex}}
+    =
+    p_c(1+4t).
+    }
+\end{equation}
+% ============================================================
+\section*{Problema (6) -- Curva de coexistência e o locus de $v=v_c$: tangência no diagrama $p$--$T$}
+%
+Como obtido no exercício anterior, para $t<0$, a curva de coexistência nas proximidades do ponto crítico é
+%
+\begin{equation}
+    \pi_{\mathrm{coex}}
+    =
+    4t.
+\end{equation}
+%
+Portanto, a derivada da pressão reduzida ao longo da curva de coexistência é simplesmente
+%
+\begin{equation}
+    \boxed{
+    \left.
+    \frac{\dd\pi_{\mathrm{coex}}}{\dd t}
+    \right|_{t\to0^-}
+    =4.
+    }
+\label{eq:derivative_coex}
+\end{equation}
+%
+Para $t>0$, consideremos o locus
+%
+\begin{equation}
+    v=v_c.
+\end{equation}
+%
+Nesse caso, $\omega=0$. Na equação crítica (Eq.~\ref{eq:critical_expansion}), fazendo $\omega = 0$, fornece imediatamente
+%
+\begin{equation}
+    \pi_{v=v_c}=4t.
+\end{equation}
+%
+Sendo assim, utilizando a relação $p=p_c(1+\pi)$, 
+%
+\begin{equation}
+    p_{v=v_c}
+    =
+    p_c(1+4t).
+    \label{eq:locus}
+\end{equation}
+%
+Por outro lado,
+%
+\begin{equation}
+    \boxed{
+    \left.
+    \frac{\dd\pi_{v=v_c}}{\dd t}
+    \right|_{t\to0^+}
+    =4.
+    }
+\label{eq:derivative_vc}
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+    \left.
+    \frac{\dd\pi_{\mathrm{coex}}}{\dd t}
+    \right|_{t\to0^-}
+    =
+    \left.
+    \frac{\dd\pi_{v=v_c}}{\dd t}
+    \right|_{t\to0^+}
+    =4.
+\end{equation}
+%
+Portanto, os coeficientes angulares das duas curvas coincidem no ponto crítico. Agora, lembramos que
+%
+\begin{equation}
+    T=T_c(1+t),
+    \qquad
+    p=p_c(1+\pi).
+\end{equation}
+%
+Diferenciando a primeira relação em relação a $t$, obtemos
+%
+\begin{equation}
+    \frac{\dd T}{\dd t}=T_c,
+\end{equation}
+%
+enquanto, da segunda,
+%
+\begin{equation}
+    \frac{\dd p}{\dd t}
+    =
+    p_c\frac{\dd\pi}{\dd t}.
+\end{equation}
+%
+Pela regra da cadeia,
+%
+\begin{equation}
+    \frac{\dd p}{\dd T}
+    =
+    \frac{\dd p/\dd t}{\dd T/\dd t},
+\end{equation}
+%
+e, portanto,
+%
+\begin{equation}
+    \frac{\dd p}{\dd T}
+    =
+    \frac{p_c}{T_c}
+    \frac{\dd\pi}{\dd t}.
+\end{equation}
+%
+Para a curva de coexistência, usando
+Eq.~\eqref{eq:derivative_coex}, temos
+%
+\begin{align}
+    \left(\frac{\dd p}{\dd T}\right)_{\mathrm{coex}}
+    &=
+    \frac{p_c}{T_c}
+    \left.
+    \frac{\dd\pi_{\mathrm{coex}}}{\dd t}
+    \right|_{t\to0^-}
+    \nonumber\\
+    &=
+    \frac{p_c}{T_c}(4).
+\end{align}
+%
+Assim,
+%
+\begin{equation}
+    \boxed{
+    \left(\frac{\dd p}{\dd T}\right)_{\mathrm{coex}}
+    \longrightarrow
+    \frac{4p_c}{T_c}
+    \qquad
+    (t\to0^-).
+    }
+\label{eq:slope_coex}
+\end{equation}
+%
+Analogamente, ao longo da isócora crítica,
+%
+\begin{align}
+    \left(\frac{\dd p}{\dd T}\right)_{v=v_c}
+    &=
+    \frac{p_c}{T_c}
+    \left.
+    \frac{\dd\pi_{v=v_c}}{\dd t}
+    \right|_{t\to0^+}
+    \nonumber\\
+    &=
+    \frac{p_c}{T_c}(4),
+\end{align}
+%
+de modo que
+%
+\begin{equation}
+    \boxed{
+    \left(\frac{\dd p}{\dd T}\right)_{v=v_c}
+    =
+    \frac{4p_c}{T_c}.
+    }
+\label{eq:slope_vc}
+\end{equation}
+%
+Finalmente, comparando as Eqs.~\eqref{eq:slope_coex}
+e~\eqref{eq:slope_vc}, encontramos
+%
+\begin{equation}
+    \boxed{
+    \left(\frac{\dd p}{\dd T}\right)_{\mathrm{coex}}
+    \longrightarrow
+    \frac{4p_c}{T_c}
+    =
+    \left(\frac{\dd p}{\dd T}\right)_{v=v_c}.
+    }
+\end{equation}
+%
+Portanto, embora a curva de coexistência exista somente para
+$T<T_c$, sua tangente aproxima-se continuamente da tangente da
+isócora crítica quando $T\to T_c$. As duas curvas, portanto,
+encontram-se \textbf{tangencialmente} no ponto crítico.
+% ============================================================
+\section*{Problema (7) -- Compressibilidade isotérmica de um fluido simples nas vizinhanças do ponto crítico}
+%
+A compressibilidade isotérmica de um fluido simples é definida por
+%
+\begin{equation}
+    \kappa_T (T,v) 
+    =
+    -\frac{1}{v}
+    \left(\pd{v}{p}\right)_T.
+    \label{eq:kappa}
+\end{equation}
+%
+Como a temperatura $T$ é mantida constante, podemos considerar
+$v=v(p,T)$ e, localmente, $p=p(v,T)$ como funções inversas uma da
+outra. Dessa forma, pela regra da função inversa para derivadas
+parciais,
+%
+\begin{equation}
+    \left(\pd{v}{p}\right)_T
+    =
+    \frac{1}{
+    \left(\pd{p}{v}\right)_T
+    }.
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+    \kappa_T
+    =
+    -\frac{1}{v}
+    \frac{1}{
+    \left(\pdv{p}{v}\right)_T
+    }.
+\label{eq:kappa_inverse}
+\end{equation}
+%
+Agora, vamos utilizar a equação de van der Waals para obter expressões assintóticas. O caminho $v=v_c$, $t\to0^+$, da expansão crítica, é dado por,
+%
+\begin{equation}
+    \pi
+    =
+    4t
+    -6t\omega
+    -\frac32\omega^3+\mathcal{O}(\omega^4, t\omega^2)
+\label{eq:critical_expansion_kappa}    
+\end{equation}
+%
+Para calcular $\left(\pdv{\pi}{\omega}\right)_t$, devemos derivar
+cada termo da Eq.~\eqref{eq:critical_expansion_kappa} em relação a
+$\omega$, mantendo $t$ constante:
+%
+\begin{align}
+    \left(\pdv{\pi}{\omega}\right)_t
+    &=
+    \pdv{}{\omega}
+    \left[
+    4t
+    -6t\omega
+    -\frac32\omega^3
+    +\mathcal{O}(\omega^4, t\omega^2)
+    \right]
+    \nonumber\\
+    &=
+    -6t
+    -\frac92\omega^2
+    +\mathcal{O}(\omega^3).
+\end{align}
+%
+Portanto, avaliando no ponto $\omega=0$ onde $v=v_c$, temos
+%
+\begin{equation}
+    \left.
+    \left(\pdv{\pi}{\omega}\right)_t
+    \right|_{\omega=0}
+    =
+    -6t.
+\label{eq:dpi_domega}
+\end{equation}
+%
+Para relacionar essa derivada com
+$\left(\pdv{p}{v}\right)_T$, utilizamos as definições das variáveis
+reduzidas,
+%
+\begin{equation}
+    p=p_c(1+\pi),
+    \qquad
+    v=v_c(1+\omega),
+    \qquad
+    T=T_c(1+t).
+\end{equation}
+%
+Como $p_c$ e $v_c$ são constantes, a derivada de $p$ em relação a $v$,
+mantendo $T$ constante, pode ser calculada diretamente pela regra da
+cadeia:
+%
+\begin{equation}
+    \left(\pdv{p}{v}\right)_T
+    =
+    \left(\pdv{p}{\pi}\right)_T
+    \left(\pdv{\pi}{\omega}\right)_t
+    \left(\pdv{\omega}{v}\right)_T.
+\end{equation}
+%
+Cada um dos fatores pode ser calculado explicitamente. Das relações
+$p=p_c(1+\pi)$ e $v=v_c(1+\omega)$, temos
+%
+\begin{equation}
+    \left(\pdv{p}{\pi}\right)_T=p_c.
+\end{equation}
+%
+e
+%
+\begin{equation}
+    \dv{v}{\omega}=v_c,
+\end{equation}
+%
+e, portanto,
+%
+\begin{equation}
+    \left(\pdv{\omega}{v}\right)_T
+    =
+    \frac{1}{v_c}.
+\end{equation}
+%
+Consequentemente,
+%
+\begin{align}
+    \left(\pdv{p}{v}\right)_T
+    &=
+    p_c
+    \left(\pdv{\pi}{\omega}\right)_t
+    \frac{1}{v_c}
+    \nonumber\\
+    &=
+    \frac{p_c}{v_c}
+    \left(\pdv{\pi}{\omega}\right)_t.
+\label{eq:p_and_pi_partial}    
+\end{align}
+%
+Utilizando a Eq.~\eqref{eq:dpi_domega}, segue que
+%
+\begin{align}
+    \left(\pdv{p}{v}\right)_{T,v=v_c}
+    &=
+    \frac{p_c}{v_c}
+    \left.
+    \left(\pdv{\pi}{\omega}\right)_t
+    \right|_{\omega=0}
+    \nonumber\\
+    &=
+    \frac{p_c}{v_c}(-6t).
+\end{align}
+%
+Finalmente,
+%
+\begin{equation}
+    \left(\pdv{p}{v}\right)_{T,v=v_c}
+    =
+    -\frac{6p_c}{v_c}t.
+\label{eq:dpdv_critical}
+\end{equation}
+%
+Consequentemente, substituindo esse resultado na expressão da compressibilidade isotérmica, obtemos
+%
+\begin{align}
+    \kappa_T
+    &=
+    -\frac{1}{v_c}
+    \frac{1}{
+    (-\frac{6p_c}{v_c}t)
+    }
+    \nonumber\\
+    &=
+    \frac{1}{6p_c\,t}.
+\end{align}
+%
+Portanto, a compressibilidade isotérmica diverge no ponto crítico como
+%
+\begin{equation}
+    \boxed{
+    \kappa_T(T,v_c)
+    \sim
+    \frac{1}{6p_c}t^{-1}.
+    }
+\end{equation}
+%
+Comparando com
+%
+\begin{equation}
+    \kappa_T(T, v=v_c) \sim Ct^{-\gamma},
+\end{equation}
+%
+nos permite identificar o expoente crítico e o prefator
+%
+\begin{equation}
+    \boxed{\gamma=1},
+    \qquad
+    \boxed{C=\frac{1}{6p_c}}.
+\end{equation}
+%
+Agora, para o caminho $T=T_c$, $p\to p_c^+$, implica que $t=0$.
+%
+Logo,
+%
+\begin{equation}
+    \pi
+    =
+    -\frac32\omega^3
+    +
+    +\mathcal{O}(\omega^4, t\omega^2).
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+    \omega
+    =
+    -\left(\frac{2\pi}{3}\right)^{1/3}.
+\end{equation}
+%
+Além disso,
+%
+\begin{equation}
+    \left.
+    \left(\pdv{\pi}{\omega}\right)_t
+    \right|_{t=0}
+    =
+    -\frac92\omega^2+\cdots.
+\end{equation}
+%
+Assim, utilizando novamente as equações~\ref{eq:kappa_inverse} e \ref{eq:p_and_pi_partial},
+%
+\begin{align}
+    \kappa_T(T=T_c, p)
+    &=
+    -\frac{1}{v_c}
+    \frac{v_c}{p_c}
+    \frac{1}{\left.
+    \left(\pdv{\pi}{\omega}\right)_t
+    \right|_{t=0}}
+    \\
+    &=
+    -\frac{1}{p_c}
+    \frac{1}{(-\frac92\omega^2)}
+    \\
+    &=
+    \frac{2}{9p_c\omega^2}.
+\end{align}
+%
+Como
+%
+\begin{equation}
+    \omega^2
+    =
+    \left(\frac{2\pi}{3}\right)^{2/3},
+\end{equation}
+%
+temos
+%
+\begin{align}
+    \kappa_T(T=T_c, p)
+    &=
+    \frac{2}{9p_c}
+    \left(\frac{3}{2}\right)^{2/3}
+    \pi^{-2/3}.
+\end{align}
+%
+Logo,
+%
+\begin{equation}
+    \boxed{
+    \kappa_T(T_c,p)
+    \sim
+    \bar C
+    \left(
+    \frac{p-p_c}{p_c}
+    \right)^{-\gamma_p},
+    }
+\end{equation}
+%
+com
+%
+\begin{equation}
+    \boxed{\gamma_p=\frac23}
+\end{equation}
+%
+e
+%
+\begin{equation}
+    \boxed{
+    \bar C
+    =
+    \frac{2}{9p_c}
+    \left(\frac32\right)^{2/3}.
+    }
+\end{equation}
+%
+quando $p\to p_c^+$. Portanto, os valores obtidos para os expoentes críticos são
+%
+\begin{equation}
+    \boxed{
+    \gamma=1,
+    \qquad
+    \gamma_p=\frac23.
+    }
+\end{equation}
+%
+O valor do expoente depende do caminho de aproximação ao ponto crítico, enquanto os valores dos expoentes críticos é universal dentro da classe de universalidade de campo médio de van der Waals.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Problema (8) -- Forma assintótica do calor específico a volume constante}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Neste problema queremos determinar o comportamento assintótico do calor
+específico a volume constante nas proximidades do ponto crítico do fluido de
+van der Waals, considerando o caminho
+%
+\begin{equation}
+    v=v_c.
+\end{equation}
+Em particular, devemos analisar separadamente os casos $t>0$ e $t<0$,
+mostrar que o calor específico permanece finito no ponto crítico e determinar
+a possível descontinuidade entre os limites $t\to0^+$ e $t\to0^-$.
+%
+Definimos a temperatura reduzida por
+\begin{equation}
+    t\equiv\frac{T-T_c}{T_c}.
+    \label{eq:t_reduced_cv}
+\end{equation}
+%
+Assim,
+%
+\begin{equation}
+    T=T_c(1+t),
+    \qquad
+    \frac{\dd t}{\dd T}=\frac{1}{T_c}.
+    \label{eq:t_derivative_cv}
+\end{equation}
+%
+Para o fluido de van der Waals, a energia livre específica pode ser escrita
+na forma
+%
+\begin{equation}
+    f_{\rm vdW}(T,v)
+    =
+    -RT\ln(v-b)-\frac{a}{v}+f_0(T),
+    \label{eq:vdw_free_energy_cv}
+\end{equation}
+%
+onde $f_0(T)$ é uma função exclusivamente da temperatura. Essa função não é determinada pela equação de estado de van der Waals e terá um papel importante na discussão do calor específico.
+%
+A entropia específica é obtida a partir da energia livre de Helmholtz através da relação termodinâmica
+%
+\begin{equation}
+    s
+    =
+    -\left(\pd{f}{T}\right)_v.
+    \label{eq:entropy_free_energy}
+\end{equation}
+%
+Aplicando essa relação à energia livre de van der Waals, obtemos
+%
+\begin{align}
+    s(T,v)
+    &=
+    -\left[
+    -R\ln(v-b)+f_0'(T)
+    \right]
+    \nonumber\\
+    &=
+    R\ln(v-b)-f_0'(T).
+    \label{eq:entropy_vdw}
+\end{align}
+%
+O calor específico a volume constante é definido por
+%
+\begin{equation}
+    c_V
+    =
+    T\left(\pd{s}{T}\right)_v.
+    \label{eq:cv_definition}
+\end{equation}
+%
+Portanto,
+%
+\begin{align}
+    c_V
+    &=
+    T
+    \left[
+    -f_0''(T)
+    \right]
+    \nonumber\\
+    &=
+    \boxed{
+    -T f_0''(T).
+    }
+    \label{eq:cv_f0_general}
+\end{align}
+%
+Para a análise crítica, escreveremos
+%
+\begin{equation}
+    c_V^+
+    \equiv
+    \lim_{t\to0^+}c_V,
+\end{equation}
+%
+representando o limite do calor específico quando o ponto crítico é
+aproximado pelo lado de temperaturas superiores.
+%
+Para estudar o comportamento crítico, introduzimos também a variável reduzida de volume
+%
+\begin{equation}
+    \omega
+    \equiv
+    \frac{v-v_c}{v_c},
+    \label{eq:omega_cv}
+\end{equation}
+%
+e a pressão reduzida
+%
+\begin{equation}
+    \pi
+    \equiv
+    \frac{p-p_c}{p_c}.
+    \label{eq:pi_cv}
+\end{equation}
+%
+Nas proximidades do ponto crítico, a equação de estado de van der Waals pode ser expandida na forma
+%
+\begin{equation}
+    \pi
+    =
+    4t-6t\omega-\frac{3}{2}\omega^3
+    +\mathcal{O}(t\omega^2,\omega^4).
+    \label{eq:critical_eos_cv}
+\end{equation}
+% 
+(ii) Consideremos inicialmente o caminho    $t>0$, $v=v_c$, onde $\omega=0$. Integrando em relação a $\omega$, obtemos uma função proporcional a energia livre, 
+%
+\begin{equation}
+    f(t,\omega)
+    =
+    4t\omega
+    -3t\omega^2
+    -\frac38\omega^4
+    + f_0(t)
+    +\cdots.
+    \label{eq:free_energy_critical}
+\end{equation}
+%
+Essa parte da energia livre se anula para o caminho considerado, somente restando a função arbitrária. 
+%
+\begin{equation}
+    f(t,\omega=0)=f_0(t).
+\end{equation}
+%
+Assim, para a equação de estado de van der Waals, o calor específico
+a volume constante permanece finito no ponto crítico. Em termos do
+expoente crítico $\alpha$, escrevemos
+%
+\begin{equation}
+    c_V(T,v=v_c)
+    \sim
+    t^{-\alpha},
+    \qquad
+    t\to0^+,
+\end{equation}
+%
+com
+%
+\begin{equation}
+    \boxed{\alpha=0}.
+    \label{eq:cv_plus}
+\end{equation}
+%
+(i) Agora, para determinar o comportamento abaixo de $T_c$ ($t < 0$), precisamos fazer uma construção de Maxwell para eliminar as alças de van der Waals restaurando a convexidade da energia livre. Sendo assim, temos que
+%
+\begin{equation}
+    \int_{v_l}^{v_g}
+    \left[
+    p(T,v)-p_{\mathrm{coex}}(T)
+    \right]\dd v
+    =
+    0,
+\end{equation}
+%
+onde $l$ e $g$ denotam, respectivamente, as fases líquida e gasosa na curva de coexistência. A condição de Maxwell garante que as duas fases possuem a mesma energia livre na coexistência. A energia livre de Helmholtz $f=f(T,v)$ deve obedecer à relação
+termodinâmica
+%
+\begin{equation}
+    p
+    =
+    -\left(\pd{f}{v}\right)_T.
+    \label{eq:p_free_energy_cv}
+\end{equation}
+%
+%
+Agora, abaixo da temperatura crítica, na região de coexistência, a energia livre corrigida é dada pela construção da tangente comum (obtida no problema (3)),
+%
+\begin{equation}
+    f_{\rm corr}(T,v)
+    =
+    f_{\rm vdW}(T,v_l)
+    +
+    \frac{v-v_l}{v_g-v_l}
+    \left[
+    f_{\rm vdW}(T,v_g)
+    -
+    f_{\rm vdW}(T,v_l)
+    \right].
+    \label{eq:maxwell_free_energy_cv}
+\end{equation}
+%
+em que $f_{\rm vdW}(T,v_l)$ e $f_{\rm vdW}(T,v_g)$ são as energias livres de van der Waals sem a construção de Maxwell, avaliadas nos volumes de coexistência. Então, fixando o volume $v = v_c$, temos
+%
+\begin{equation}
+    f_{\rm corr}(T,v=v_c)
+    =
+    f_{\rm vdW}(T,v_l)
+    +
+    \frac{v_c-v_l}{v_g-v_l}
+    \left[
+    f_{\rm vdW}(T,v_g)
+    -
+    f_{\rm vdW}(T,v_l)
+    \right].
+    \label{eq:maxwell_free_energy_cv_critical}
+\end{equation}
+%
+Nas proximidades do ponto crítico, os volumes de coexistência são (como obtido no problema (5))
+%
+\begin{equation}
+    \omega_l=-2\sqrt{-t},
+    \qquad
+    \omega_g=2\sqrt{-t},
+    \qquad
+    t<0,
+\end{equation}
+%
+de modo que
+%
+\begin{equation}
+    v_l=v_c(1+\omega_l),
+    \qquad
+    v_g=v_c(1+\omega_g).
+\end{equation}
+%
+Consequentemente,
+%
+\begin{align}
+    v_c-v_l
+    &=
+    -v_c\omega_l
+    =
+    2v_c\sqrt{-t},
+    \\
+    v_g-v_l
+    &=
+    v_c(\omega_g-\omega_l)
+    =
+    4v_c\sqrt{-t}.
+\end{align}
+%
+Portanto,
+%
+\begin{equation}
+    \frac{v_c-v_l}{v_g-v_l}
+    =
+    \frac12.
+\end{equation}
+%
+A Eq.~\eqref{eq:maxwell_free_energy_cv_critical} reduz-se, portanto,
+a
+%
+\begin{equation}
+    f_{\rm corr}(T,v_c)
+    =
+    \frac12
+    \left[
+    f_{\rm vdW}(T,v_l)
+    +
+    f_{\rm vdW}(T,v_g)
+    \right].
+    \label{eq:fcorr_average_cv}
+\end{equation}
+%
+Para obter o comportamento próximo ao ponto crítico, utilizamos a
+expansão da energia livre correspondente à equação de estado
+%
+\begin{equation}
+    f_{\rm vdW}(t,\omega)
+    =
+    f_0(t)
+    +
+    4t\omega
+    -3t\omega^2
+    -\frac38\omega^4
+    +\cdots.
+    \label{eq:fvdw_expansion_cv}
+\end{equation}
+%
+Substituindo $\omega_l=-2\sqrt{-t}$, obtemos
+%
+\begin{align}
+    f_{\rm vdW}(t,\omega_l)
+    &=
+    f_0(t)
+    +4t(-2\sqrt{-t})
+    -3t(-2\sqrt{-t})^2
+    -\frac38(-2\sqrt{-t})^4
+    +\cdots
+    \nonumber\\
+    &=
+    f_0(t)
+    -8t\sqrt{-t}
+    +6t^2
+    +\cdots.
+\end{align}
+%
+Analogamente, para $\omega_g=2\sqrt{-t}$,
+%
+\begin{align}
+    f_{\rm vdW}(t,\omega_g)
+    &=
+    f_0(t)
+    +4t(2\sqrt{-t})
+    -3t(2\sqrt{-t})^2
+    -\frac38(2\sqrt{-t})^4
+    +\cdots
+    \nonumber\\
+    &=
+    f_0(t)
+    +8t\sqrt{-t}
+    +6t^2
+    +\cdots.
+\end{align}
+%
+Substituindo essas expressões na Eq.~\eqref{eq:fcorr_average_cv},
+%
+\begin{align}
+    f_{\rm corr}(t,v_c)
+    &=
+    \frac12
+    \left[
+    f_0(t)
+    -8t\sqrt{-t}
+    +6t^2
+    +
+    f_0(t)
+    +8t\sqrt{-t}
+    +6t^2
+    \right]
+    +\cdots
+    \nonumber\\
+    &=
+    f_0(t)+6t^2+\cdots.
+\end{align}
+%
+Portanto,
+%
+\begin{equation}
+    f_{\rm corr}(t,v_c)
+    =
+    f_0(t)+6t^2+\mathcal{O}(|t|^{5/2}),
+    \qquad t\to0^-.
+    \label{eq:fcorr_negative_cv}
+\end{equation}
+%
+Observe que os termos não analíticos proporcionais a
+$t\sqrt{-t}$ das fases líquida e gasosa possuem sinais opostos e, portanto, cancelam-se na construção de Maxwell.
+%
+A entropia molar é dada por
+%
+\begin{equation}
+    s
+    =
+    -\left(\pd{f}{T}\right)_v.
+\end{equation}
+%
+Como
+%
+\begin{equation}
+    t=\frac{T-T_c}{T_c},
+    \qquad
+    \pdv{t}{T}=\frac{1}{T_c},
+\end{equation}
+%
+temos
+%
+\begin{equation}
+    \pdv{}{T}
+    =
+    \frac{1}{T_c}\pdv{}{t}.
+\end{equation}
+%
+Assim, para $t<0$,
+%
+\begin{align}
+    s_-(t)
+    &=
+    -\frac{1}{T_c}
+    \pdv{}{t}
+    \left[
+    f_0(t)+6t^2+\cdots
+    \right]
+    \nonumber\\
+    &=
+    -\frac{1}{T_c}
+    \left[
+    f_0'(t)+12t+\cdots
+    \right].
+\end{align}
+%
+Portanto,
+%
+\begin{equation}
+    \boxed{
+    s_-(t)
+    =
+    -\frac{f_0'(t)}{T_c}
+    -\frac{12}{T_c}t+\cdots.
+    }
+\end{equation}
+%
+Por outro lado, para $t>0$, ao longo do caminho $v=v_c$, temos
+%
+\begin{equation}
+    f(t,v_c)=f_0(t),
+\end{equation}
+%
+e, portanto,
+%
+\begin{equation}
+    \boxed{
+    s_+(t)
+    =
+    -\frac{f_0'(t)}{T_c}.
+    }
+\end{equation}
+%
+Consequentemente, a entropia permanece contínua no ponto crítico:
+%
+\begin{equation}
+    \lim_{t\to0^-}s(t)
+    =
+    \lim_{t\to0^+}s(t)
+    =
+    -\frac{f_0'(0)}{T_c}.
+\end{equation}
+%
+O calor específico a volume constante é
+%
+\begin{equation}
+    c_V
+    =
+    -T
+    \left(\pdv[2]{f}{T}\right)_v
+    =
+    -\frac{T}{T_c^2}
+    \left(\pdv[2]{f}{t}\right)_v.
+\end{equation}
+%
+Para $t<0$, segue da Eq.~\eqref{eq:fcorr_negative_cv} que
+%
+\begin{equation}
+    \left(\pdv[2]{f_{\rm corr}}{t}\right)_{v_c}
+    =
+    f_0''(t)+12+\cdots,
+\end{equation}
+%
+de modo que
+%
+\begin{equation}
+    c_V^{(-)}
+    =
+    -\frac{T}{T_c^2}
+    \left[
+    f_0''(t)+12+\cdots
+    \right].
+\end{equation}
+%
+No limite $t\to0^-$,
+%
+\begin{equation}
+    \boxed{
+    c_V^{(-)}
+    \longrightarrow
+    -\frac{1}{T_c}
+    \left[
+    f_0''(0)+12
+    \right].
+    }
+    \label{eq:cv_minus}
+\end{equation}
+%
+Enquanto, para $t\to0^+$,
+%
+\begin{equation}
+    \boxed{
+    c_V^{(+)}
+    \longrightarrow
+    -\frac{1}{T_c}f_0''(0).
+    }
+    \label{eq:cv_plus_final}
+\end{equation}
+%
+Assim, o calor específico permanece finito no ponto crítico, mas
+apresenta uma descontinuidade finita:
+%
+\begin{equation}
+    \boxed{
+    \Delta c_V
+    \equiv
+    c_V^{(-)}-c_V^{(+)}
+    =
+    -\frac{12}{T_c}.
+    }
+\end{equation}
+%
+Portanto, não há divergência do calor específico no ponto crítico.
+Seu comportamento assintótico é
+%
+\begin{equation}
+    \boxed{
+    c_V\sim |t|^{-\alpha},
+    \qquad
+    \alpha=0.
+    }
+\end{equation}
+%
+%Agora, fazendo uma expansão em termos da temperatura reduzida t e notando que os volumes $v_c, v_l, v_g$ estão fixos e que $f_{\rm corr}(T,v=v_c)$ depende apenas da temperatura, obtemos 
+%
+
+%
+%Ainda, fazendo expansões para $t \rightarrow0$ das energias livres de van der Waals, $f_{\rm vdW}(T,v_g)$ e $f_{\rm vdW}(T,v_l)$, chegamos em, 
+%
+%
+%Assim, os resultados assintóticos para a entropia e o calor específico são dados por,
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{thebibliography}{99}
+\bibitem{salinas} S. R. A. Salinas, \emph{Introdução à Física Estatística}, 2ª ed., 3ª reimpressão, Edusp, São Paulo, 2013.
+%\bibitem{gibbs} J. W. Gibbs, \emph{Elementary Principles in Statistical Mechanics}, Charles Scribner's Sons, 1902.
+%\bibitem{stanley} H. E. Stanley, \emph{Introduction to Phase Transitions and Critical Phenomena}, Oxford University Press.
+%\bibitem{yeomans} J. M. Yeomans, \emph{Statistical Mechanics of Phase Transitions}, Oxford University Press.
+%\bibitem{pathria} R. K. Pathria and P. D. Beale, \emph{Statistical Mechanics}, Academic Press.
+%\bibitem{huang} K. Huang, \emph{Statistical Mechanics}, Wiley.
+%\bibitem{goldenfeld} N. Goldenfeld, \emph{Lectures on Phase Transitions and the Renormalization Group}, CRC Press.
+\end{thebibliography}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
