@@ -1,28 +1,38 @@
+# =============================================================================
+# Código para gerar a isoterma H(M) da teoria de Landau
+# Problema 4, item (d) – Lista 2
+# Autor: Thiago Siqueira Domingues
+# =============================================================================
+
 import numpy as np
 import matplotlib.pyplot as plt
 
-def H_landau(M, tau, a=1, b=1):
+def H_landau(M, tau, a=1.0, b=1.0):
+    """
+    Equação de estado de Landau: H = 2 a tau M + 4 b M^3
+    """
     return 2 * a * tau * M + 4 * b * M**3
 
-# Parâmetros
+# Parâmetros da teoria de Landau
 a = 1.0
 b = 1.0
-tau = -0.5
+tau = -0.5   # temperatura abaixo de Tc (fase ferromagnética)
+
+# Vetor de magnetização
 M = np.linspace(-2, 2, 1000)
 
-# Equação de estado
+# Campo H correspondente
 H = H_landau(M, tau, a, b)
 
-# Pontos de coexistência
+# Magnetização de equilíbrio (mínimo da energia livre)
 M0 = np.sqrt(-a * tau / (2 * b))
-H_coex = 0
 
-# Plot
+# Criação da figura
 fig, ax = plt.subplots(figsize=(8, 6))
 
 ax.plot(M, H, 'b-', linewidth=2, label='$H = 2a\\tau M + 4b M^3$')
 ax.axhline(y=0, color='red', linestyle='--', linewidth=2, label='$H = 0$ (coexistência)')
-ax.scatter([-M0, M0], [0, 0], color='black', s=50, zorder=5)
+ax.scatter([-M0, M0], [0, 0], color='black', s=50, zorder=5, label='$\\pm M_0$')
 
 ax.set_xlabel('$M$', fontsize=14)
 ax.set_ylabel('$H$', fontsize=14)
