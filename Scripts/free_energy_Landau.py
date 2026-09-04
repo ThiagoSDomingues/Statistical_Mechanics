@@ -1,6 +1,6 @@
 # ===============================================================================================
-# Código para gerar a Energia interna por sítio vs temperatura reduzida para vários valores de d
-# Problema 4, item (c) – Lista 2
+# Código para gerar a energia livre da teoria de Landau (poço único e poço duplo)
+# Problema 4, item (a) – Lista 2
 # Autor: Thiago Siqueira Domingues
 # ===============================================================================================
 
