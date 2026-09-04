@@ -1,5 +1,4 @@
 \documentclass[11pt,a4paper]{article}
-
 % ============================================================
 % PACOTES
 % ============================================================
@@ -52,7 +51,8 @@
     {\Large \textbf{Segunda série de exercícios}}\\[0.6cm]
     {\large Tópicos de Mecânica Estatística -- Transições de Fases -- 2026}\\[0.2cm]
     {\large Modelo de Ising e teoria de Landau -- 25/8/2026}\\[0.4cm]
-    {\large Data de Entrega -- 01/9/2026}\\[0.2cm]
+    {\large Data de Entrega -- 04/9/2026}\\[0.2cm]
+    {\large Data Limite -- 04/9/2026}\\[0.2cm]
     {\Large \textbf{Autor:} Thiago Siqueira Domingues (Nº USP: 8942194)}
 \end{center}
 %
@@ -493,14 +493,7 @@ Substituindo \eqref{eq:trace_corr_reorganizado} e o denominador na expressão \e
 \label{eq:corr_final_passos}
 \end{equation}
 %
-Fatorando $\lambda_+^N$ no numerador e denominador, obtém-se a forma que depende apenas da distância $|l-k|$ no limite termodinâmico, como discutido anteriormente.
-%
-\begin{equation}
-\langle \sigma_k \sigma_l \rangle
-= \frac{ \lambda_+^{N-l+k} \lambda_-^{l-k} + \lambda_+^{l-k} \lambda_-^{N-l+k} }{ \lambda_+^N + \lambda_-^N }.
-\end{equation}
-%
-Fatorando $\lambda_+^N$ no numerador e denominador:
+Fatorando $\lambda_+^N$ no numerador e denominador, obtém-se a forma que depende apenas da distância $|l-k|$ no limite termodinâmico, como discutido anteriormente. Fatorando $\lambda_+^N$ no numerador e denominador:
 %
 \begin{equation}
 \langle \sigma_k \sigma_l \rangle
@@ -521,7 +514,7 @@ No limite termodinâmico ($N \to \infty$), o termo $\left( \frac{\lambda_-}{\lam
 %
 onde substituímos $l-k$ por $|l-k|$ para tornar a expressão válida para qualquer par de sítios.
 %
-Para $H = 0$ (isto é, $h = 0$), usando (\ref{eq:autovalores_h0}):
+Para $H = 0$ (isto é, $L = 0$), usando (\ref{eq:autovalores_h0}):
 %
 \begin{equation}
 \frac{\lambda_-}{\lambda_+}
@@ -540,7 +533,7 @@ Assim, a função de correlação de pares em campo nulo é
 \label{eq:correlacao_h0}
 \end{equation}
 %
-Alternativamente, podemos escrever
+Alternativamente~\cite{salinas}, podemos escrever
 %
 \begin{equation}
 \langle \sigma_k \sigma_l \rangle_{H=0}
@@ -723,39 +716,171 @@ A equação \eqref{eq:fluc_diss_expandida} mostra que a susceptibilidade magnét
 %
 \subsection*{(c) Susceptibilidade a campo nulo}
 %
-Em $H=0$ vale $\avg{\sigma_i}=0$ para todo $i$ (por simetria $\sigma\to-\sigma$ do hamiltoniano em campo nulo), de modo que
-%
+Neste item, calculamos a suscetibilidade magnética a campo nulo,
 \begin{equation}
-    \chi_0\equiv\chi(T,H\to0)=\frac\beta N\sum_{i,j}\avg{\sigma_i\sigma_j}.
+    \chi_0 \equiv \chi(T, H=0) = \left( \frac{\partial \langle M \rangle}{\partial H} \right)_{H=0},
+    \qquad M = \sum_{i=1}^N \sigma_i,
+\end{equation}
+para o modelo de Ising unidimensional com Hamiltoniano
+\begin{equation}
+    \mathcal H = -J \sum_{i=1}^N \sigma_i \sigma_{i+1} - H \sum_{i=1}^N \sigma_i,
+    \qquad \sigma_i = \pm 1.
 \end{equation}
 %
-Em um sistema com simetria translacional (invariante por translação), as médias de um único sítio são todas iguais: $\langle \sigma_i \rangle = m$ para todo $i$. Além disso, a correlação entre dois sítios depende apenas da distância $r = |i-j|$. Nesse caso, podemos escrever
+Do item anterior sabemos que,
 %
 \begin{equation}
-\sum_{i,j=1}^N \left[ \langle \sigma_i \sigma_j \rangle - \langle \sigma_i \rangle \langle \sigma_j \rangle \right]
-= N \sum_{r=-\infty}^{\infty} \left[ \langle \sigma_0 \sigma_r \rangle - m^2 \right],
+    \chi(T, H) = \beta \left( \langle M^2 \rangle - \langle M \rangle^2 \right),
 \end{equation}
 %
-de modo que a susceptibilidade por sítio se reduz a
+Para $H = 0$, por simetria $\sigma_i \to -\sigma_i$ do Hamiltoniano, temos $\langle M \rangle = 0$. Portanto,
+\begin{equation}
+    \chi_0 = \beta \langle M^2 \rangle_{H=0}.
+    \label{eq:chi_fluctuacao}
+\end{equation}
+%
+Expandindo o quadrado da magnetização:
 %
 \begin{equation}
-\chi = \beta \sum_{r} \left[ \langle \sigma_0 \sigma_r \rangle - m^2 \right],
+    \langle M^2 \rangle = \sum_{i=1}^N \sum_{j=1}^N \langle \sigma_i \sigma_j \rangle.
+    \label{eq:M2_soma}
 \end{equation}
 %
-usando invariância translacional, $\avg{\sigma_i\sigma_j}$ depende apenas de $r=j-i$, e a soma dupla se reduz a $N$ vezes a soma sobre $r$:
+O Hamiltoniano em campo nulo,
 %
 \begin{equation}
-    \chi_0=\beta\sum_{r=-\infty}^{\infty}\avg{\sigma_0\sigma_r}
-    =\beta\left[1+2\sum_{r=1}^\infty\left(\tanh\beta J\right)^{r}\right],
+    \mathcal H_0 = -J \sum_{i=1}^N \sigma_i \sigma_{i+1},
 \end{equation}
 %
-onde usamos o resultado \eqref{eq:correlacao_h0} do item (a) e o limite termodinâmico $N\to\infty$. A série geométrica com razão $x=\tanh\beta J<1$ fornece $\sum_{r=1}^\infty x^r=x/(1-x)$, logo
+é invariante por translações ao longo da cadeia (com condições periódicas de contorno $\sigma_{N+1} = \sigma_1$). Isso significa que o sistema é homogêneo: todos os sítios são equivalentes. Portanto, a média de qualquer função de um único sítio é independente de $i$:
 %
 \begin{equation}
-    \chi_0=\beta\,\frac{1+\tanh\beta J}{1-\tanh\beta J}.
+    \langle \sigma_i \rangle = m \quad \text{para todo } i.
 \end{equation}
 %
-Usando a identidade $\dfrac{1+\tanh y}{1-\tanh y}=\e{2y}$, obtemos finalmente
+Em $H=0$, por simetria $\sigma \to -\sigma$, temos $m = 0$.
+%
+Além disso, a correlação entre dois sítios $\langle \sigma_i \sigma_j \rangle$ depende apenas da \emph{distância} entre eles, e não das posições absolutas. Definindo $r = j - i$, temos
+%
+\begin{equation}
+    \langle \sigma_i \sigma_j \rangle = \langle \sigma_0 \sigma_{j-i} \rangle \equiv C(r),
+    \qquad r = j-i.
+\end{equation}
+%
+A invariância translacional implica que deslocar todos os índices por uma constante não altera a média:
+%
+\begin{equation}
+    \langle \sigma_i \sigma_j \rangle = \langle \sigma_{i+k} \sigma_{j+k} \rangle.
+\end{equation}
+%
+Escolhendo $k = -i$, obtemos
+\begin{equation}
+    \langle \sigma_i \sigma_j \rangle = \langle \sigma_0 \sigma_{j-i} \rangle.
+\end{equation}
+%
+Portanto, $C(r)$ depende apenas da diferença $r = j-i$.
+Usando a invariância translacional em \eqref{eq:M2_soma}:
+%
+\begin{align}
+    \langle M^2 \rangle &= \sum_{i=1}^N \sum_{j=1}^N C(j-i) \\
+    &= \sum_{i=1}^N \sum_{r = -i+1}^{N-i} C(r) \qquad (\text{com } r = j-i) \\
+    &= \sum_{r = -(N-1)}^{N-1} (N - |r|) C(r).
+\end{align}
+%
+No limite termodinâmico $N \to \infty$, podemos desprezar a correção $|r|$ em comparação com $N$ (para $|r|$ fixo ou mesmo para $|r|$ que cresce mais lentamente que $N$). A correção $|r|$ é de ordem $O(1)$ e a soma sobre $r$ converge (pois $C(r)$ decai exponencialmente, como veremos). Portanto,
+%
+\begin{equation}
+    \langle M^2 \rangle = N \sum_{r = -\infty}^{+\infty} C(r).
+\end{equation}
+%
+Substituindo em \eqref{eq:chi_fluctuacao}:
+%
+\begin{equation}
+    \chi_0 = \beta N \sum_{r = -\infty}^{+\infty} C(r).
+\end{equation}
+%
+A suscetibilidade por sítio é
+%
+\begin{equation}
+    \chi_0^{\text{sítio}} = \frac{\chi_0}{N} = \beta \sum_{r = -\infty}^{+\infty} C(r).
+    \label{eq:chi_soma}
+\end{equation}
+%
+Do item (a) da lista (ou da solução padrão da cadeia de Ising), a função de correlação de dois sítios a campo nulo é
+%
+\begin{equation}
+    \langle \sigma_0 \sigma_r \rangle = \left( \tanh(\beta J) \right)^{|r|}.
+    \label{eq:correlacao}
+\end{equation}
+%
+Substituindo \eqref{eq:correlacao} em \eqref{eq:chi_soma}:
+%
+\begin{align}
+    \chi_0^{\text{sítio}}
+    &= \beta \sum_{r=-\infty}^{+\infty} \left( \tanh(\beta J) \right)^{|r|} \\
+    &= \beta \left[ 1 + 2 \sum_{r=1}^{\infty} \left( \tanh(\beta J) \right)^r \right].
+    \label{eq:chi_serie}
+\end{align}
+%
+Definimos
+%
+\begin{equation}
+    x \equiv \tanh(\beta J).
+\end{equation}
+%
+Como $\beta J > 0$, temos $0 < x < 1$. A série geométrica infinita é
+%
+\begin{equation}
+    \sum_{r=1}^{\infty} x^r = \frac{x}{1-x}.
+    \label{eq:serie_geom}
+\end{equation}
+%
+Substituindo \eqref{eq:serie_geom} em \eqref{eq:chi_serie}:
+%
+\begin{align}
+    \chi_0^{\text{sítio}}
+    &= \beta \left[ 1 + 2 \frac{x}{1-x} \right] \\
+    &= \beta \left[ \frac{1-x + 2x}{1-x} \right] \\
+    &= \beta \left[ \frac{1+x}{1-x} \right].
+\end{align}
+%
+Portanto,
+%
+\begin{equation}
+    \chi_0^{\text{sítio}} = \beta \, \frac{1 + \tanh(\beta J)}{1 - \tanh(\beta J)}.
+    \label{eq:chi_tanh}
+\end{equation}
+%
+Agora, utilizando a identidade
+%
+\begin{equation}
+    \frac{1 + \tanh y}{1 - \tanh y} = e^{2y}.
+    \label{eq:identidade_tanh}
+\end{equation}
+%
+Onde,
+%
+\begin{equation}
+    \tanh y = \frac{e^y - e^{-y}}{e^y + e^{-y}}.
+\end{equation}
+Então,
+%
+\begin{align}
+    \frac{1 + \tanh y}{1 - \tanh y}
+    &= \frac{1 + \frac{e^y - e^{-y}}{e^y + e^{-y}}}
+           {1 - \frac{e^y - e^{-y}}{e^y + e^{-y}}} \\
+    &= \frac{\frac{e^y + e^{-y} + e^y - e^{-y}}{e^y + e^{-y}}}
+           {\frac{e^y + e^{-y} - e^y + e^{-y}}{e^y + e^{-y}}} \\
+    &= \frac{2 e^y}{2 e^{-y}} = e^{2y}.
+\end{align}
+%
+Aplicando com $y = \beta J$ em \eqref{eq:chi_tanh}:
+%
+\begin{equation}
+    \chi_0^{\text{sítio}} = \beta e^{2\beta J}.
+\end{equation}
+%
+Obtemos finalmente,
 %
 \begin{equation}
     \boxed{
@@ -1645,79 +1770,234 @@ Este resultado mostra que a energia interna tende a zero com uma correção \(\s
 %
 \subsection*{(iii) Estado fundamental e forma assintótica dos autovalores para $T\to0$}
 %
-No limite $T=0$ o sistema minimiza $\mathcal H$. Comparamos os dois candidatos naturais por sítio:
+No limite de baixas temperaturas ($K = \beta J \to \infty$), o sistema minimiza a energia ($\mathcal H$). A energia por sítio no estado fundamental é obtida comparando configurações uniformes (periódicas). Os dois candidatos naturais são:
 %
 \begin{itemize}
-    \item \textbf{Estado ferromagnético}, $S_i=+1$ (ou $-1$) para todo $i$: energia por sítio $\varepsilon_F/J=-1+d$.
-    \item \textbf{Estado ``quadrupolar''}, $S_i=0$ para todo $i$: energia por sítio $\varepsilon_0/J=0$.
+    \item  \textbf{Estado ferromagnético (F)}: $S_i = +1$ para todo $i$ (ou $S_i = -1$ para todo $i$, equivalente por simetria). Neste caso,
+    %
+    \begin{equation}
+        S_i S_{i+1} = (+1)(+1) = 1, \qquad S_i^2 = 1,
+    \end{equation}
+    %
+    de modo que a energia por sítio é
+    %
+    \begin{equation}
+        \varepsilon_F = \frac{1}{N} \langle \mathcal H \rangle
+        = -J \langle S_i S_{i+1} \rangle + D \langle S_i^2 \rangle
+        = -J(1) + D(1) = -J + D.
+    \end{equation}
+    %
+    Em unidades de $J$,
+    %
+    \begin{equation}
+        \frac{\varepsilon_F}{J} = -1 + d, \qquad d \equiv \frac{D}{J}.
+    \end{equation}
+    %
+    \item \textbf{Estado "quadrupolar" (Q)}: $S_i = 0$ para todo $i$. Neste caso,
+    %
+    \begin{equation}
+        S_i S_{i+1} = 0, \qquad S_i^2 = 0,
+    \end{equation}
+    %
+    e a energia por sítio é
+    %
+    \begin{equation}
+        \varepsilon_Q = 0,
+    \end{equation}
+    %
+    ou seja,
+    %
+    \begin{equation}
+        \frac{\varepsilon_Q}{J} = 0.
+    \end{equation}
+    %
 \end{itemize}
 %
-Comparando, $\varepsilon_F<\varepsilon_0 \iff -1+d<0\iff d<1$. Logo,
+Comparando as duas energias:
+%
+\begin{equation}
+    \varepsilon_F < \varepsilon_Q \iff -1 + d < 0 \iff d < 1.
+\end{equation}
+%
+Para $d < 1$, o estado ferromagnético é o de menor energia; para $d > 1$, o estado $S_i = 0$ é o de menor energia. Em $d = 1$, os dois estados têm a mesma energia, $\varepsilon_F = \varepsilon_Q = 0$. Além desses dois estados uniformes, em $d = 1$ há uma \emph{degenerescência macroscópica}: qualquer configuração que contenha apenas spins $0$ e $\pm 1$ com a restrição de que blocos de spins $\pm 1$ sejam seguidos por blocos de $0$ pode ter a mesma energia, desde que não haja custo adicional de fronteira. Por exemplo, uma configuração com um domínio de $S=+1$ e um domínio de $S=0$ tem a mesma energia que o estado uniforme, pois a energia de fronteira é nula (os termos de interação $S_i S_{i+1}$ envolvem produtos que podem ser zero). Essa degenerescência extra é uma característica importante do ponto $d=1$. Portanto, o estado fundamental é resumido por:
 %
 \begin{equation}
     \boxed{
     \text{Estado fundamental: }
     \begin{cases}
-        \text{ferromagnético }(S_i=\pm1\text{ uniforme}), & d<1,\\[4pt]
-        S_i=0\text{ uniforme (não-magnético)}, & d>1.
+        \text{Ferromagnético (F): } S_i = \pm 1 \text{ uniforme}, & d < 1, \\[4pt]
+        \text{Degenerescência entre F e Q} + \text{domínios}, & d = 1, \\[4pt]
+        \text{Quadrupolar (Q): } S_i = 0 \text{ uniforme}, & d > 1.
     \end{cases}
+    }
+    \label{eq:gs_BC}
+\end{equation}
+%
+Agora analisamos o comportamento dos autovalores no limite de baixas temperaturas, que reflete a estrutura do estado fundamental. Existem três regiões características no eixo $d$.
+%
+\paragraph{Região $d < 1$ (fundamental ferromagnético).}
+%
+Neste caso, $1 - d > 0$, de modo que
+%
+\begin{equation}
+    a = e^{K(1-d)} \to \infty \quad (K \to \infty),
+\end{equation}
+%
+enquanto
+%
+\begin{equation}
+    b = e^{-Kd/2} \to 0, \qquad c = e^{-K(1+d)} \to 0.
+\end{equation}
+%
+A expansão de $R$ é feita da seguinte forma:
+%
+\begin{equation}
+    R = \sqrt{(a - 1)^2 + 8b^2} = (a - 1) \sqrt{1 + \frac{8b^2}{(a-1)^2}}.
+\end{equation}
+%
+Para $a \gg 1$, $(a-1) \approx a$, e usando $\sqrt{1+x} \approx 1 + x/2$ para $x \ll 1$:
+%
+\begin{equation}
+    R \approx a \left( 1 + \frac{4b^2}{a^2} \right) = a + \frac{4b^2}{a}.
+\end{equation}
+%
+Portanto,
+%
+\begin{align}
+    \lambda_1 &= \frac{S + 1 + R}{2} \approx \frac{a + 1 + a + 4b^2/a}{2}
+    = a + \frac{1}{2} + \frac{2b^2}{a} \approx a + \frac{2b^2}{a}.
+\end{align}
+%
+Como $b^2 = e^{-Kd}$ e $a = e^{K(1-d)}$,
+%
+\begin{equation}
+    \frac{2b^2}{a} = 2 e^{-Kd} e^{-K(1-d)} = 2 e^{-K} = 2 e^{-1/t}.
+\end{equation}
+%
+Assim,
+%
+\begin{equation}
+    \lambda_1 \approx e^{K(1-d)} + 2 e^{-K} = e^{(1-d)/t} + 2 e^{-1/t}.
+\end{equation}
+%
+O autovalor $\lambda_3$ é
+%
+\begin{equation}
+    \lambda_3 = a - c \approx e^{K(1-d)} - e^{-K(1+d)} \approx e^{K(1-d)}.
+\end{equation}
+%
+Portanto, no limite $K \to \infty$,
+%
+\begin{equation}
+    \boxed{
+    \lambda_1 \sim \lambda_3 \sim e^{K(1-d)} = e^{(1-d)/t}.
     }
 \end{equation}
 %
-Em $d=1$ exatamente, $\varepsilon_F=\varepsilon_0=0$: esse é o célebre \emph{ponto de degenerescência} do modelo de Blume-Capel unidimensional a $T=0$, onde há uma degenerescência macroscópica adicional do estado fundamental (podem-se inserir domínios de $S=0$ dentro do estado ferromagnético sem custo de energia).
+Este comportamento é consistente com a energia do estado fundamental ferromagnético: como $\lambda_1 \sim e^{-\beta \varepsilon_F}$, temos $\varepsilon_F = -J(1-d) = -J + D$.
 %
-\medskip
+Além disso,
 %
-\noindent\textbf{Região $d<1$ (fundamental ferromagnético).} Quando $K\to\infty$, $a=\e{K(1-d)}\to\infty$ domina exponencialmente sobre $b=\e{-Kd/2}\to0$ e $c=\e{-K(1+d)}\to0$. Expandindo $R=\sqrt{(a-1)^2+8b^2+\cdots}\approx a-1+4b^2/a$ para $a\gg1$, obtemos
+\begin{equation}
+    \lambda_1 - \lambda_3 \approx 2 e^{-K} + e^{-K(1+d)} \to 0 \quad (K \to \infty),
+\end{equation}
+%
+mostrando que os dois autovalores $\lambda_1$ e $\lambda_3$ tornam-se degenerados no limite $T \to 0$. Essa degenerescência reflete a dupla degenerescência do estado fundamental ferromagnético ($S_i = +1$ ou $S_i = -1$). Em $T > 0$, a simetria é restaurada e a degenerescência é removida.
+%
+\paragraph{Região $d > 1$ (fundamental $S_i = 0$).}
+%
+Agora $d - 1 > 0$, de modo que
+%
+\begin{equation}
+    a = e^{-K(d-1)} \to 0, \qquad c = e^{-K(d+1)} \to 0, \qquad b = e^{-Kd/2} \to 0.
+\end{equation}
+%
+Como $a$ e $c$ são muito pequenos, $S = a + c \ll 1$. A expansão de $R$ é:
+%
+\begin{equation}
+    R = \sqrt{(S - 1)^2 + 8b^2}.
+\end{equation}
+%
+Escrevemos
+%
+\begin{equation}
+    R = \sqrt{1 - 2S + S^2 + 8b^2} \approx \sqrt{1 - 2S + 8b^2}.
+\end{equation}
+%
+Usando $\sqrt{1 + x} \approx 1 + x/2 - x^2/8 + \cdots$ com $x = -2S + 8b^2$:
+%
+\begin{equation}
+    R \approx 1 + \frac{1}{2}(-2S + 8b^2) - \frac{1}{8}(-2S)^2 + \cdots
+    = 1 - S + 4b^2.
+\end{equation}
+%
+(Os termos lineares em $S$ se cancelam na combinação com $S$ em $\lambda_1$, como veremos.)
+%
+Agora,
 %
 \begin{align}
-    \lambda_+&\approx a+\frac{2b^2}{a}=a+2\e{-K}=\e{K(1-d)}+2\e{-K}+\cdots,\\
-    \lambda_0&\approx 1-\frac{2b^2}{a}=1-2\e{-K}+\cdots,\\
-    \lambda_3&=a-c=\e{K(1-d)}-\e{-K(1+d)}\approx\e{K(1-d)}-\e{-K(1+d)}.
+    \lambda_1 &= \frac{S + 1 + R}{2}
+    \approx \frac{S + 1 + (1 - S + 4b^2)}{2}
+    = 1 + 2b^2.
 \end{align}
+%
+Como $b^2 = e^{-Kd}$,
+%
+\begin{equation}
+    \boxed{
+    \lambda_1 \approx 1 + 2 e^{-Kd} = 1 + 2 e^{-d/t}.
+    }
+\end{equation}
+%
+Este resultado é consistente com um estado fundamental não-degenerado ($S_i = 0$), onde $\lambda_1 \to 1$ quando $T \to 0$. A correção ativada $\sim e^{-d/t}$ reflete o gap de energia $\Delta \varepsilon = D$ para excitar um spin de $S=0$ para $S=\pm 1$.
+%
+Os outros autovalores são
+%
+\begin{align}
+    \lambda_2 &\approx a - 2b^2 \sim e^{-K(d-1)}, \\
+    \lambda_3 &= a - c \approx a \sim e^{-K(d-1)},
+\end{align}
+%
+que também vão a zero, refletindo gaps para excitações de ordem superior.
+%
+\paragraph{Ponto especial $d = 1$.}
+%
+Neste ponto, $a = e^{K(1-1)} = 1$ exatamente para todo $K$. Além disso,
+\begin{equation}
+    c = e^{-2K}, \qquad b = e^{-K/2}.
+\end{equation}
+%
+Temos
+%
+\begin{equation}
+    S = a + c = 1 + e^{-2K} \approx 1,
+\end{equation}
+%
+e
+%
+\begin{equation}
+    R = \sqrt{(S - 1)^2 + 8b^2}
+    = \sqrt{(e^{-2K})^2 + 8 e^{-K}}
+    \approx \sqrt{8} e^{-K/2} = 2\sqrt{2} e^{-K/2}.
+\end{equation}
 %
 Portanto,
 %
 \begin{equation}
-    \boxed{
-    \lambda_1\sim\lambda_3\sim\e{K(1-d)}=\e{(1-d)/t}
-    \qquad(t\to0^+,\ d<1),
-    }
+    \lambda_1 = \frac{S + 1 + R}{2}
+    \approx \frac{1 + 1 + 2\sqrt{2} e^{-K/2}}{2}
+    = 1 + \sqrt{2} e^{-K/2}.
 \end{equation}
 %
-consistente com $\varepsilon_F/J=-(1-d)$ (isto é, $\lambda_1\sim\e{-\beta N\varepsilon_F/N}=\e{-\beta\varepsilon_F}$). Além disso $\lambda_1-\lambda_3\approx2\e{-K}+\e{-K(1+d)}\to0$ exponencialmente: os dois autovalores tornam-se assintoticamente degenerados quando $T\to0$, refletindo a degenerescência dupla ($S=+1$ ou $S=-1$ uniforme) do estado fundamental ferromagnético -- a simetria só é restaurada dinamicamente no limite estrito $T\to0$, como esperado em uma dimensão (nenhuma quebra espontânea de simetria em $T>0$).
-%
-\medskip
-\noindent\textbf{Região $d>1$ (fundamental $S=0$).} Agora, quando $K\to\infty$, $a=\e{-K(d-1)}\to0$, $c=\e{-K(d+1)}\to0$ ainda mais rápido, e $b=\e{-Kd/2}\to0$. Expandindo cuidadosamente até segunda ordem (os termos lineares em $a$ se cancelam),
-%
-\begin{equation}
-    R=\sqrt{(a-1)^2+8b^2}\approx1-a+4b^2,
-    \qquad
-    \lambda_+=\frac{S+1+R}{2}\approx1+2b^2,
-\end{equation}
-%
-de modo que
+Assim,
 %
 \begin{equation}
     \boxed{
-    \lambda_+\approx1+2\e{-Kd}=1+2\e{-d/t}
-    \qquad(t\to0^+,\ d>1),
+    \lambda_1 \approx 1 + \sqrt{2} e^{-K/2} = 1 + \sqrt{2} e^{-1/(2t)}.
     }
 \end{equation}
 %
-consistente com $\varepsilon_0=0$ (fundamental não-degenerado, $\lambda_+\to1$), com uma correção ativada $\sim\e{-d/t}$ que reflete o ``gap'' de energia $\Delta\varepsilon\sim D$ para excitar um spin de $S=0$ para $S=\pm1$. Os outros dois autovalores, $\lambda_0\approx a-2b^2\sim\e{-K(d-1)}$ e $\lambda_3\approx a\sim\e{-K(d-1)}$, vão a zero, refletindo o gap para os estados excitados.
-%
-\medskip
-\noindent\textbf{Ponto especial $d=1$.} Aqui $a=\e{K(1-d)}=1$ exatamente para todo $K$, enquanto $c=\e{-2K}\to0$ e $b=\e{-K/2}\to0$ mais devagar que $c$. Logo $S\approx1$, $R\approx\sqrt{8}\,b=2\sqrt2\,\e{-K/2}$, e
-%
-\begin{equation}
-    \boxed{
-    \lambda_+\approx1+\sqrt2\,\e{-K/2}=1+\sqrt2\,\e{-1/(2t)}
-    \qquad(t\to0^+,\ d=1),
-    }
-\end{equation}
-%
-com correção $\sim\e{-1/(2t)}$, que decai \emph{mais devagar} que a correção $\e{-d/t}\big|_{d\to1}=\e{-1/t}$ obtida no limite $d\to1^+$ da região anterior. Isso é a assinatura, na matriz de transferência, da degenerescência extra do ponto $d=1$ mencionada acima: mais estados de baixa energia contribuem, dando uma aproximação mais lenta ao valor assintótico $\lambda_+\to1$~\cite{krinsky}.
+A correção $\sim e^{-K/2}$ decai mais lentamente do que a correção $e^{-K}$ obtida no limite $d \to 1^+$ da região $d > 1$. Isso é uma consequência direta da degenerescência extra do estado fundamental em $d = 1$: mais estados de baixa energia (combinações de $S = 0$ e $S = \pm 1$) contribuem para a função de partição, resultando em uma aproximação mais lenta ao valor assintótico $\lambda_1 \to 1$.
 % ============================================================
 \section*{Problema (3) -- Modelo ANNNI unidimensional}
 %
@@ -1918,17 +2198,7 @@ Com base nas comparações acima, o estado fundamental é determinado da seguint
 \begin{itemize}
     \item Para \(0 < p < 1/2\): a fase ferromagnética (F) é a de menor energia, pois \(\varepsilon_F < \varepsilon_{P4}\) e \(\varepsilon_F < \varepsilon_{P3}\).
     \item Para \(p = 1/2\): \(\varepsilon_F = \varepsilon_{P4} = -J/2\). Há uma degenerescência entre a fase ferromagnética e a fase de período 4. Este é o ponto de transição de primeira ordem entre as duas fases.
-    \item Para \(1/2 < p < 1\): a fase de período 4 (P4) é a de menor energia, pois \(\varepsilon_{P4} < \varepsilon_F\) e \(\varepsilon_{P4} < \varepsilon_{P3}\).
-    \item Para \(p = 1\): \(\varepsilon_{P4} = -J\) e \(\varepsilon_{P3} = 0\), então a fase P4 ainda é a de menor energia.
-    \item Para \(p > 1\): a fase de período 3 (P3) torna-se a de menor energia, pois \(\varepsilon_{P3} < \varepsilon_{P4}\) (visto que para \(p > 1\), \(\varepsilon_{P4} - \varepsilon_{P3} = J(-1 - 2p)/3 < 0\)? Cuidado: a comparação P4 vs P3 mostrou que P4 é sempre menor. Vamos reavaliar: de fato, \(\varepsilon_{P4} - \varepsilon_{P3} = J(-1 - 2p)/3\), que é sempre negativo para \(p>0\). Portanto, P4 é sempre mais estável que P3! Isso contradiz a intuição de que para p grande a fase de período 3 poderia ser favorecida. Vamos verificar os cálculos.
-
-    Refaçamos a comparação P4 vs P3:
-    \[
-    \varepsilon_{P4} = -pJ, \qquad \varepsilon_{P3} = \frac{J}{3}(1-p).
-    \]
-    Para \(p > 1\), temos \(\varepsilon_{P4} = -pJ\) e \(\varepsilon_{P3}\) é negativo, mas menos negativo? Por exemplo, para \(p = 2\): \(\varepsilon_{P4} = -2J\), \(\varepsilon_{P3} = -J/3\). Portanto, P4 é de fato menor (mais negativo). Então P4 sempre vence P3. Portanto, a fase P3 nunca é o estado fundamental para \(p>0\). Vamos verificar se há outras fases, como período 5, etc. Na verdade, para o modelo ANNNI unidimensional com interações de primeiro e segundo vizinhos, o estado fundamental é conhecido: para \(0 < p < 1/2\) é ferromagnético, para \(p > 1/2\) é a fase de período 4 (também chamada de fase "up-up-down-down" ou fase antiferro de segundo vizinho). Não há fase de período 3 no estado fundamental. Portanto, nossa análise está correta: P3 não compete.
-
-    Vamos também verificar a fase de período 6, etc. Mas, em geral, a competição entre \(J_1 = -J\) (ferro) e \(J_2 = pJ\) (anti-ferro) leva a uma fase com período 4 para \(p > 1/2\). Isso é um resultado conhecido para a cadeia de Ising com interações de primeira e segunda vizinhança.
+    \item Para \(p > 1/2\): a fase de período 4 (P4) é a de menor energia, pois \(\varepsilon_{P4} < \varepsilon_F\) (para \(p > 1/2\), \(-p < -1 + p\)) e \(\varepsilon_{P4} < \varepsilon_{P3}\) para todo \(p > 0\) (já que \(\varepsilon_{P4} - \varepsilon_{P3} = -J(1+2p)/3 < 0\)). Portanto, a fase P4 é estável para todo \(p > 1/2\), incluindo \(p \ge 1\). A fase de período 3 (P3) nunca é o estado fundamental para nenhum valor de \(p > 0\).
 \end{itemize}
 %
 \end{itemize}
@@ -1963,123 +2233,550 @@ A energia por sítio no estado fundamental é, portanto,
     \item Em \(p = 1/2\), há uma competição exata entre as duas fases, resultando em uma degenerescência macroscópica do estado fundamental.
 \end{itemize}
 %
-Este é um exemplo clássico de frustração geométrica em uma dimensão, onde a competição entre interações de diferentes alcances gera uma transição de fase de primeira ordem a \(T=0\).
-%
-No ponto \(p = 1/2\), ambas as expressões dão \(-1/2\), confirmando a degenerescência.
+Este é um exemplo de frustração geométrica em uma dimensão, onde a competição entre interações de diferentes alcances gera uma transição de fase de primeira ordem a \(T=0\). No ponto \(p = 1/2\), ambas as expressões dão \(-1/2\), confirmando a degenerescência.
 %
 \subsection*{(ii) Matriz de transferência, autovalores e possibilidade de anomalia termodinâmica}
 %
-Como a interação alcança segundos vizinhos, a matriz de transferência usual (baseada em um único spin) não é suficiente; usamos como variável de estado o \emph{par} $\mu_i=(\sigma_i,\sigma_{i+1})$, com $4$ estados possíveis, e escrevemos
+Como a interação alcança segundos vizinhos, a matriz de transferência usual (baseada em um único spin) não é suficiente. Precisamos usar como variável de estado o \emph{par} de spins consecutivos 
 %
 \begin{equation}
-    T_{(\sigma,\sigma'),(\sigma',\sigma'')}=\exp\left[K\,\sigma'\sigma''-pK\,\sigma\sigma''\right],
+    \mu_i = (\sigma_i, \sigma_{i+1}),
 \end{equation}
 %
-definida apenas quando o segundo índice do primeiro par coincide com o primeiro índice do segundo (condição de vizinhança). Na base ordenada $\{(+,+),(+,-),(-,+),(-,-)\}$, a matriz $4\times4$ resultante é
+que pode assumir \(2^2 = 4\) valores possíveis. A condição de vizinhança entre \(\mu_i = (\sigma_i, \sigma_{i+1})\) e \(\mu_{i+1} = (\sigma_{i+1}, \sigma_{i+2})\) é que o segundo spin do primeiro par coincida com o primeiro spin do segundo par (ou seja, \(\sigma_{i+1}\) é compartilhado). Definimos a matriz de transferência \(T\) com elementos
 %
 \begin{equation}
-    T=
+    T_{(\sigma,\sigma'),(\sigma',\sigma'')} = \exp\left[ K \sigma' \sigma'' - pK \sigma \sigma'' \right],
+    \qquad K = \beta J,
+    \label{eq:T_annni_element}
+\end{equation}
+%
+onde o termo \(K \sigma' \sigma''\) vem da interação entre primeiros vizinhos (elo entre \(\sigma'\) e \(\sigma''\)), e o termo \(-pK \sigma \sigma''\) vem da interação entre segundos vizinhos (elo entre \(\sigma\) e \(\sigma''\)). O fator \(1/2\) usual para interações de segundos vizinhos é incorporado na definição de \(p\).
+%
+Escolhemos a base ordenada de pares de spins:
+%
+\begin{equation}
+    \ket{1} = (+,+), \quad
+    \ket{2} = (+,-), \quad
+    \ket{3} = (-,+), \quad
+    \ket{4} = (-,-).
+\end{equation}
+%
+A matriz de transferência é \(4 \times 4\), com elementos \(T_{\mu,\nu}\) definidos apenas quando o segundo spin de \(\mu\) é igual ao primeiro spin de \(\nu\). Caso contrário, o elemento é zero. Vamos calcular todos os elementos \(T_{\mu,\nu}\) com \(\mu, \nu = 1,2,3,4\).
+%
+\paragraph{Linha 1: \(\mu = (+,+)\)}
+%
+Aqui \(\sigma = +\), \(\sigma' = +\). O segundo spin é \(+\), portanto apenas os pares \(\nu\) que começam com \(+\) são compatíveis: \(\nu = 1 = (+,+)\) e \(\nu = 2 = (+,-)\).
+%
+\begin{itemize}
+    \item \(\nu = 1 = (+,+)\): \(\sigma'' = +\). Então,
+    \begin{equation}
+        T_{1,1} = \exp\left[ K(+)(+) - pK(+)(+) \right] = e^{K(1-p)}.
+    \end{equation}
+    
+    \item \(\nu = 2 = (+,-)\): \(\sigma'' = -\). Então,
+    \begin{equation}
+        T_{1,2} = \exp\left[ K(+)(-) - pK(+)(-) \right] = e^{-K(1-p)} = e^{K(p-1)}.
+    \end{equation}
+    
+    \item \(\nu = 3 = (-,+)\): o primeiro spin é \(-\), não coincide com o segundo spin de \(\mu\) (\(+\)). Portanto,
+    \begin{equation}
+        T_{1,3} = 0.
+    \end{equation}
+    
+    \item \(\nu = 4 = (-,-)\): o primeiro spin é \(-\), não coincide. Portanto,
+    \begin{equation}
+        T_{1,4} = 0.
+    \end{equation}
+\end{itemize}
+%
+\paragraph{Linha 2: \(\mu = (+,-)\)}
+%
+Aqui \(\sigma = +\), \(\sigma' = -\). O segundo spin é \(-\), portanto apenas os pares \(\nu\) que começam com \(-\) são compatíveis: \(\nu = 3 = (-,+)\) e \(\nu = 4 = (-,-)\).
+%
+\begin{itemize}
+    \item \(\nu = 3 = (-,+)\): \(\sigma'' = +\). Então,
+    \begin{equation}
+        T_{2,3} = \exp\left[ K(-)(+) - pK(+)(+) \right] = e^{-K - pK} = e^{-K(1+p)}.
+    \end{equation}
+    
+    \item \(\nu = 4 = (-,-)\): \(\sigma'' = -\). Então,
+    \begin{equation}
+        T_{2,4} = \exp\left[ K(-)(-) - pK(+)(-) \right] = e^{K + pK} = e^{K(1+p)}.
+    \end{equation}
+    
+    \item \(\nu = 1 = (+,+)\): o primeiro spin é \(+\), não coincide com o segundo spin de \(\mu\) (\(-\)). Portanto,
+    \begin{equation}
+        T_{2,1} = 0.
+    \end{equation}
+    
+    \item \(\nu = 2 = (+,-)\): o primeiro spin é \(+\), não coincide. Portanto,
+    \begin{equation}
+        T_{2,2} = 0.
+    \end{equation}
+\end{itemize}
+%
+\paragraph{Linha 3: \(\mu = (-,+)\)}
+%
+Aqui \(\sigma = -\), \(\sigma' = +\). O segundo spin é \(+\), portanto apenas os pares \(\nu\) que começam com \(+\) são compatíveis: \(\nu = 1 = (+,+)\) e \(\nu = 2 = (+,-)\).
+%
+\begin{itemize}
+    \item \(\nu = 1 = (+,+)\): \(\sigma'' = +\). Então,
+    \begin{equation}
+        T_{3,1} = \exp\left[ K(+)(+) - pK(-)(+) \right] = e^{K + pK} = e^{K(1+p)}.
+    \end{equation}
+    
+    \item \(\nu = 2 = (+,-)\): \(\sigma'' = -\). Então,
+    \begin{equation}
+        T_{3,2} = \exp\left[ K(+)(-) - pK(-)(-) \right] = e^{-K - pK} = e^{-K(1+p)}.
+    \end{equation}
+    
+    \item \(\nu = 3 = (-,+)\): o primeiro spin é \(-\), não coincide com o segundo spin de \(\mu\) (\(+\)). Portanto,
+    \begin{equation}
+        T_{3,3} = 0.
+    \end{equation}
+    
+    \item \(\nu = 4 = (-,-)\): o primeiro spin é \(-\), não coincide. Portanto,
+    \begin{equation}
+        T_{3,4} = 0.
+    \end{equation}
+\end{itemize}
+%
+\paragraph{Linha 4: \(\mu = (-,-)\)}
+%
+Aqui \(\sigma = -\), \(\sigma' = -\). O segundo spin é \(-\), portanto apenas os pares \(\nu\) que começam com \(-\) são compatíveis: \(\nu = 3 = (-,+)\) e \(\nu = 4 = (-,-)\).
+%
+\begin{itemize}
+    \item \(\nu = 3 = (-,+)\): \(\sigma'' = +\). Então,
+    \begin{equation}
+        T_{4,3} = \exp\left[ K(-)(+) - pK(-)(+) \right] = e^{-K + pK} = e^{K(p-1)}.
+    \end{equation}
+    
+    \item \(\nu = 4 = (-,-)\): \(\sigma'' = -\). Então,
+    \begin{equation}
+        T_{4,4} = \exp\left[ K(-)(-) - pK(-)(-) \right] = e^{K - pK} = e^{K(1-p)}.
+    \end{equation}
+    
+    \item \(\nu = 1 = (+,+)\): o primeiro spin é \(+\), não coincide com o segundo spin de \(\mu\) (\(-\)). Portanto,
+    \begin{equation}
+        T_{4,1} = 0.
+    \end{equation}
+    
+    \item \(\nu = 2 = (+,-)\): o primeiro spin é \(+\), não coincide. Portanto,
+    \begin{equation}
+        T_{4,2} = 0.
+    \end{equation}
+\end{itemize}
+%
+Reunindo todos os elementos calculados, a matriz \(4 \times 4\) na base \(\{\ket{1}, \ket{2}, \ket{3}, \ket{4}\}\) é:
+%
+\begin{equation}
+    T =
     \begin{pmatrix}
-        \e{K(1-p)} & \e{K(p-1)} & 0 & 0\\
-        0 & 0 & \e{-K(1+p)} & \e{K(1+p)}\\
-        \e{K(1+p)} & \e{-K(1+p)} & 0 & 0\\
-        0 & 0 & \e{K(p-1)} & \e{K(1-p)}
+        e^{K(1-p)} & e^{K(p-1)} & 0 & 0 \\
+        0 & 0 & e^{-K(1+p)} & e^{K(1+p)} \\
+        e^{K(1+p)} & e^{-K(1+p)} & 0 & 0 \\
+        0 & 0 & e^{K(p-1)} & e^{K(1-p)}
     \end{pmatrix}.
-    \label{eq:T_annni}
+    \label{eq:T_annni_completa}
 \end{equation}
 %
-Essa matriz é invariante sob a simetria global $\sigma\to-\sigma$, que troca os estados $1\leftrightarrow4$ e $2\leftrightarrow3$. Nas combinações simétrica/antissimétrica $e_\pm=(\ket1\pm\ket4)/\sqrt2$, $f_\pm=(\ket2\pm\ket3)/\sqrt2$, a matriz $T$ bloco-diagonaliza em dois blocos $2\times2$ desacoplados,
-%
-\begin{align}
-    M_A&=
-    \begin{pmatrix}
-        \e{K(1-p)} & \e{K(1+p)}\\
-        \e{K(p-1)} & \e{-K(1+p)}
-    \end{pmatrix}
-    \quad\text{(setor }e_+,f_+\text{)},
-    \\[4pt]
-    M_B&=
-    \begin{pmatrix}
-        \e{K(1-p)} & -\e{K(1+p)}\\
-        \e{K(p-1)} & -\e{-K(1+p)}
-    \end{pmatrix}
-    \quad\text{(setor }e_-,f_-\text{)}.
-\end{align}
-%
-Os traços e determinantes são
-%
-\begin{align}
-    \Tr M_A&=\e{K(1-p)}+\e{-K(1+p)}, & \det M_A&=-2\sinh(2Kp),\\
-    \Tr M_B&=\e{K(1-p)}-\e{-K(1+p)}, & \det M_B&=+2\sinh(2Kp),
-\end{align}
-%
-de modo que os quatro autovalores de $T$ são
+Observamos que a matriz tem uma estrutura de blocos \(2 \times 2\):
 %
 \begin{equation}
-    \lambda_{A,\pm}=\frac{\Tr M_A\pm\sqrt{(\Tr M_A)^2+8\sinh(2Kp)}}{2},
-    \qquad
-    \lambda_{B,\pm}=\frac{\Tr M_B\pm\sqrt{(\Tr M_B)^2-8\sinh(2Kp)}}{2}.
+    T =
+    \begin{pmatrix}
+        B_1 & 0 \\
+        0 & B_2
+    \end{pmatrix},
 \end{equation}
 %
-Como $(\Tr M_A)^2+8\sinh(2Kp)>0$ sempre (para $p>0$), o setor $A$ tem autovalores reais garantidos. Pelo mesmo argumento de Perron-Frobenius do item anterior (a matriz~\eqref{eq:T_annni} tem entradas não negativas e é irredutível para $p>0$), o autovalor \emph{dominante} deve pertencer ao setor totalmente simétrico $e_+$:
+onde
+%
+\begin{equation}
+    B_1 =
+    \begin{pmatrix}
+        e^{K(1-p)} & e^{K(p-1)} \\
+        e^{K(1+p)} & e^{-K(1+p)}
+    \end{pmatrix},
+    \qquad
+    B_2 =
+    \begin{pmatrix}
+        e^{-K(1+p)} & e^{K(1+p)} \\
+        e^{K(p-1)} & e^{K(1-p)}
+    \end{pmatrix}.
+\end{equation}
+%
+Esta estrutura de blocos reflete o fato de que a paridade do número de spins \(-1\) é conservada pela dinâmica: os estados \(\ket{1}=(+,+)\) e \(\ket{4}=(-,-)\) têm paridade par (0 ou 2 spins negativos), enquanto \(\ket{2}=(+,-)\) e \(\ket{3}=(-,+)\) têm paridade ímpar (1 spin negativo). A matriz de transferência não mistura as duas paridades, o que facilita a diagonalização.
+%
+Além disso, a simetria global \(\sigma \to -\sigma\) troca \(\ket{1} \leftrightarrow \ket{4}\) e \(\ket{2} \leftrightarrow \ket{3}\). Essa simetria adicional permite uma bloco-diagonalização ainda mais refinada, resultando nos blocos \(M_A\) e \(M_B\). A matriz \eqref{eq:T_annni_completa} é invariante sob a simetria global \(\sigma \to -\sigma\), que troca os estados:
+%
+\begin{equation}
+    \ket{1} = (+,+) \leftrightarrow \ket{4} = (-,-), \qquad \ket{2} = (+,-) \leftrightarrow \ket{3} = (-,+).
+\end{equation}
+%
+Essa simetria permite bloco-diagonalizar \(T\) usando as combinações simétrica e antissimétrica:
+%
+\begin{align}
+    \ket{e_+} &= \frac{1}{\sqrt{2}} \left( \ket{1} + \ket{4} \right), &
+    \ket{e_-} &= \frac{1}{\sqrt{2}} \left( \ket{1} - \ket{4} \right), \\
+    \ket{f_+} &= \frac{1}{\sqrt{2}} \left( \ket{2} + \ket{3} \right), &
+    \ket{f_-} &= \frac{1}{\sqrt{2}} \left( \ket{2} - \ket{3} \right).
+\end{align}
+%
+O setor totalmente simétrico é gerado por \(\{ \ket{e_+}, \ket{f_+} \}\), e o setor antissimétrico por \(\{ \ket{e_-}, \ket{f_-} \}\).
+%
+\paragraph{Ação de \(T\) sobre os vetores simétricos:}
+%
+Primeiro, calculamos as imagens dos vetores da base:
+%
+\begin{align}
+    T\ket{1} &= T_{1,1}\ket{1} + T_{1,2}\ket{2} + 0\ket{3} + 0\ket{4}
+    = e^{K(1-p)}\ket{1} + e^{K(p-1)}\ket{2}, \\
+    T\ket{4} &= 0\ket{1} + 0\ket{2} + e^{K(p-1)}\ket{3} + e^{K(1-p)}\ket{4}, \\
+    T\ket{2} &= 0\ket{1} + 0\ket{2} + e^{-K(1+p)}\ket{3} + e^{K(1+p)}\ket{4}, \\
+    T\ket{3} &= e^{K(1+p)}\ket{1} + e^{-K(1+p)}\ket{2} + 0\ket{3} + 0\ket{4}.
+\end{align}
+%
+Agora, aplicamos ao vetor \(\ket{e_+}\):
+%
+\begin{align}
+    T\ket{e_+} &= \frac{1}{\sqrt{2}} \left( T\ket{1} + T\ket{4} \right) \\
+    &= \frac{1}{\sqrt{2}} \left[ e^{K(1-p)}\ket{1} + e^{K(p-1)}\ket{2} + e^{K(p-1)}\ket{3} + e^{K(1-p)}\ket{4} \right] \\
+    &= e^{K(1-p)} \frac{\ket{1} + \ket{4}}{\sqrt{2}} + e^{K(p-1)} \frac{\ket{2} + \ket{3}}{\sqrt{2}} \\
+    &= e^{K(1-p)} \ket{e_+} + e^{K(p-1)} \ket{f_+}.
+\end{align}
+%
+Aplicando a \(\ket{f_+}\):
+\begin{align}
+    T\ket{f_+} &= \frac{1}{\sqrt{2}} \left( T\ket{2} + T\ket{3} \right) \\
+    &= \frac{1}{\sqrt{2}} \left[ e^{K(1+p)}\ket{1} + e^{-K(1+p)}\ket{2} + e^{-K(1+p)}\ket{3} + e^{K(1+p)}\ket{4} \right] \\
+    &= e^{K(1+p)} \ket{e_+} + e^{-K(1+p)} \ket{f_+}.
+\end{align}
+%
+Portanto, no setor simétrico \(\{ \ket{e_+}, \ket{f_+} \}\), a matriz é
+%
+\begin{equation}
+    M_A =
+    \begin{pmatrix}
+        e^{K(1-p)} & e^{K(1+p)} \\
+        e^{K(p-1)} & e^{-K(1+p)}
+    \end{pmatrix}.
+    \label{eq:MA}
+\end{equation}
+%
+\paragraph{Ação de \(T\) sobre os vetores antissimétricos:}
+%
+Aplicando a \(\ket{e_-}\):
+\begin{align}
+    T\ket{e_-} &= \frac{1}{\sqrt{2}} \left( T\ket{1} - T\ket{4} \right) \\
+    &= \frac{1}{\sqrt{2}} \left[ e^{K(1-p)}\ket{1} + e^{K(p-1)}\ket{2} - e^{K(p-1)}\ket{3} - e^{K(1-p)}\ket{4} \right] \\
+    &= e^{K(1-p)} \frac{\ket{1} - \ket{4}}{\sqrt{2}} + e^{K(p-1)} \frac{\ket{2} - \ket{3}}{\sqrt{2}} \\
+    &= e^{K(1-p)} \ket{e_-} + e^{K(p-1)} \ket{f_-}.
+\end{align}
+%
+Aplicando a \(\ket{f_-}\):
+%
+\begin{align}
+    T\ket{f_-} &= \frac{1}{\sqrt{2}} \left( T\ket{2} - T\ket{3} \right) \\
+    &= \frac{1}{\sqrt{2}} \left[ - e^{K(1+p)}\ket{1} + e^{-K(1+p)}\ket{2} - e^{-K(1+p)}\ket{3} + e^{K(1+p)}\ket{4} \right] \\
+    &= -e^{K(1+p)} \frac{\ket{1} - \ket{4}}{\sqrt{2}} + e^{-K(1+p)} \frac{\ket{2} - \ket{3}}{\sqrt{2}} \\
+    &= -e^{K(1+p)} \ket{e_-} + e^{-K(1+p)} \ket{f_-}.
+\end{align}
+%
+Portanto, no setor antissimétrico \(\{ \ket{e_-}, \ket{f_-} \}\), a matriz é
+%
+\begin{equation}
+    M_B =
+    \begin{pmatrix}
+        e^{K(1-p)} & -e^{K(1+p)} \\
+        e^{K(p-1)} & -e^{-K(1+p)}
+    \end{pmatrix}.
+    \label{eq:MB}
+\end{equation}
+%
+\paragraph{Setor \(A\):} A matriz \(M_A\) tem traço e determinante:
+%
+\begin{align}
+    \Tr M_A &= e^{K(1-p)} + e^{-K(1+p)}, \\
+    \det M_A &= e^{K(1-p)} e^{-K(1+p)} - e^{K(1+p)} e^{K(p-1)} \\
+    &= e^{-2Kp} - e^{2Kp} = -2\sinh(2Kp).
+\end{align}
+%
+A equação secular é
+%
+\begin{equation}
+    \lambda^2 - (\Tr M_A) \lambda + \det M_A = 0,
+\end{equation}
+%
+ou seja,
+%
+\begin{equation}
+    \lambda^2 - \left( e^{K(1-p)} + e^{-K(1+p)} \right) \lambda - 2\sinh(2Kp) = 0.
+\end{equation}
+%
+As raízes são
+%
+\begin{equation}
+    \lambda_{A,\pm} = \frac{\Tr M_A \pm \sqrt{(\Tr M_A)^2 + 8\sinh(2Kp)}}{2}.
+    \label{eq:lambdas_A}
+\end{equation}
+%
+Como \(\sinh(2Kp) > 0\) para \(K>0, p>0\), o discriminante é sempre positivo, de modo que \(\lambda_{A,\pm}\) são reais e distintos.
+%
+\paragraph{Setor \(B\):} A matriz \(M_B\) tem traço e determinante:
+%
+\begin{align}
+    \Tr M_B &= e^{K(1-p)} - e^{-K(1+p)}, \\
+    \det M_B &= -e^{K(1-p)} e^{-K(1+p)} - \left( -e^{K(1+p)} \right) e^{K(p-1)} \\
+    &= -e^{-2Kp} + e^{2Kp} = 2\sinh(2Kp).
+\end{align}
+%
+A equação secular é
+%
+\begin{equation}
+    \lambda^2 - (\Tr M_B) \lambda + \det M_B = 0,
+\end{equation}
+ou seja,
+%
+\begin{equation}
+    \lambda^2 - \left( e^{K(1-p)} - e^{-K(1+p)} \right) \lambda + 2\sinh(2Kp) = 0.
+\end{equation}
+%
+As raízes são
+%
+\begin{equation}
+    \lambda_{B,\pm} = \frac{\Tr M_B \pm \sqrt{(\Tr M_B)^2 - 8\sinh(2Kp)}}{2}.
+    \label{eq:lambdas_B}
+\end{equation}
+%
+O discriminante do setor \(B\) é
+%
+\begin{equation}
+    \Delta_B \equiv (\Tr M_B)^2 - 8\sinh(2Kp).
+    \label{eq:Delta_B}
+\end{equation}
+%
+Pelo teorema de Perron–Frobenius, como a matriz \(T\) tem entradas não-negativas e é irredutível (para \(p>0\)), o autovalor dominante é único, real, positivo e possui um autovetor com componentes de mesmo sinal. Esse autovetor deve pertencer ao setor totalmente simétrico \(\{ \ket{e_+}, \ket{f_+} \}\), pois é o único setor que pode ter todas as componentes positivas. Portanto,
 %
 \begin{equation}
     \boxed{
-    \lambda_{\max}=\lambda_{A,+}
-    =\frac12\left[\e{K(1-p)}+\e{-K(1+p)}+\sqrt{\left(\e{K(1-p)}+\e{-K(1+p)}\right)^2+8\sinh(2Kp)}\right].
+    \lambda_{\max} = \lambda_{A,+}
+    = \frac{1}{2} \left[
+        e^{K(1-p)} + e^{-K(1+p)}
+        + \sqrt{ \left( e^{K(1-p)} + e^{-K(1+p)} \right)^2 + 8\sinh(2Kp) }
+    \right].
     }
     \label{eq:lambda_max_annni}
 \end{equation}
 %
-\noindent\textbf{Anomalia termodinâmica.} A energia livre por sítio é $f=-k_BT\ln\lambda_{\max}$, e a Eq.~\eqref{eq:lambda_max_annni} mostra que $\lambda_{\max}(K,p)$ é uma função \emph{analítica} de $K$ e $p$ para toda temperatura finita ($K<\infty$) -- não há nenhuma singularidade (zero do discriminante, cruzamento de níveis do autovalor dominante) em $T>0$. Isso é uma manifestação do teorema geral de ausência de transições de fase em $T>0$ para modelos unidimensionais com interações de alcance finito (argumento de Landau/van Hove): mesmo com a frustração introduzida pela competição $J$ vs.\ $pJ$, \emph{não há transição termodinâmica genuína em temperatura finita}.
+O discriminante do setor \(B\), dado por \eqref{eq:Delta_B}, pode tornar-se negativo para certos valores de \(K\) e \(p\). Quando \(\Delta_B < 0\), os autovalores \(\lambda_{B,\pm}\) formam um par complexo conjugado. A linha no plano \((p, t)\) onde \(\Delta_B = 0\) (com \(t = 1/K\)) é chamada de \textbf{linha de desordem} (ou \textit{disorder line}) do modelo ANNNI.
 %
-No entanto, há sim um fenômeno interessante ligado à competição: o discriminante do setor $B$, $(\Tr M_B)^2-8\sinh(2Kp)$, pode tornar-se \emph{negativo} em certas regiões de $(p,K)$, e nesse caso $\lambda_{B,\pm}$ formam um par complexo conjugado. Embora isso não afete $\lambda_{\max}$ (que continua real e analítico), afeta o autovalor \emph{subdominante} que controla o decaimento a longas distâncias da função de correlação -- ver item (iii). A linha no plano $(p,t)$ onde esse discriminante se anula é a chamada \emph{linha de desordem} (\textit{disorder line}) do modelo ANNNI: não é uma transição de fase (a energia livre permanece analítica), mas marca a mudança qualitativa entre correlações que decaem monotonicamente e correlações que decaem de forma oscilatória/modulada -- o precursor, em $T>0$, da ordem antifase que só se torna genuína (com degenerescência macroscópica) exatamente em $T=0$, $p=1/2$, como visto no item (i).
+Para encontrar a linha de desordem, impomos \(\Delta_B = 0\):
+%
+\begin{equation}
+    \left( e^{K(1-p)} - e^{-K(1+p)} \right)^2 = 8\sinh(2Kp).
+\end{equation}
+%
+Simplificando:
+%
+\begin{align}
+    e^{2K(1-p)} - 2e^{-2Kp} + e^{-2K(1+p)} &= 8 \frac{e^{2Kp} - e^{-2Kp}}{2} \\
+    &= 4\left( e^{2Kp} - e^{-2Kp} \right).
+\end{align}
+%
+Multiplicando por \(e^{2Kp}\):
+%
+\begin{equation}
+    e^{2K} - 2 + e^{-2K(1+2p)} = 4 e^{4Kp} - 4.
+\end{equation}
+%
+Esta equação pode ser resolvida numericamente para \(K\) em função de \(p\), ou vice-versa. A solução é a linha de desordem.
+%
+Embora a energia livre \(f = -k_B T \ln \lambda_{\max}\) seja uma função analítica de \(K\) e \(p\) (pois \(\lambda_{\max}\) é sempre real e positivo), a linha de desordem marca uma mudança qualitativa no comportamento das funções de correlação de dois pontos, como será visto no item (iii).
 %
 \subsection*{(iii) Função de correlação de pares}
 %
-A correlação $\avg{\sigma_k\sigma_{k+r}}$ é obtida inserindo, na base de pares, o operador diagonal $\hat O=\mathrm{diag}(+1,+1,-1,-1)$ que mede o primeiro spin do par:
+Para calcularmos função de correlação de dois pontos,
 %
 \begin{equation}
-    \avg{\sigma_k\sigma_{k+r}}=\frac{\Tr\left[\hat O\,T^r\,\hat O\,T^{N-r}\right]}{\Tr\left[T^N\right]}
-    \xrightarrow[N\to\infty]{}
-    \sum_{n=2}^4 c_n\left(\frac{\lambda_n}{\lambda_{\max}}\right)^r,
-    \label{eq:corr_annni_general}
+    C(r) \equiv \langle \sigma_k \sigma_{k+r} \rangle,
 \end{equation}
 %
-onde $\lambda_2,\lambda_3,\lambda_4$ são os autovalores subdominantes e $c_n$ são coeficientes (elementos de matriz de $\hat O$ entre autovetores à esquerda e à direita) fixados pela condição de normalização $\sum_n c_n=1$ (garantindo $\avg{\sigma_0\sigma_0}=1$). Diferentemente do problema (1), aqui $\hat O$ \emph{não} é diagonal na base que bloco-diagonaliza $T$ (ele troca $e_+\leftrightarrow e_-$ e $f_+\leftrightarrow f_-$), de modo que, em geral, todos os quatro autovalores contribuem para a soma em~\eqref{eq:corr_annni_general}. Ainda assim, o comportamento assintótico a longas distâncias é controlado apenas pelo autovalor de \emph{segunda maior norma}, $\lambda_2$:
+devemos utilizar a matriz de transferência \(4 \times 4\) construída no item (ii). A correlação entre spins separados por uma distância \(r\) é obtida inserindo, na base de pares, o operador diagonal que mede o primeiro spin do par:
 %
 \begin{equation}
-    \avg{\sigma_0\sigma_r}\underset{r\gg1}{\sim} c_2\left(\frac{\lambda_2}{\lambda_{\max}}\right)^r.
+    \hat O = \operatorname{diag}(+1, +1, -1, -1),
 \end{equation}
 %
-Há duas possibilidades, de acordo com a discussão do item (ii):
+na base \(\{\ket{1}=(+,+), \ket{2}=(+,-), \ket{3}=(-,+), \ket{4}=(-,-)\}\). Este operador atua sobre o primeiro spin de cada par, que corresponde ao spin \(\sigma_k\) no sítio \(k\). A função de partição é \(Z_N = \operatorname{Tr}(T^N)\), e a correlação é dada por,
+%
+\begin{equation}
+    \langle \sigma_k \sigma_{k+r} \rangle
+    = \frac{\operatorname{Tr}\left[ \hat O \, T^r \, \hat O \, T^{N-r} \right]}{\operatorname{Tr}\left[ T^N \right]},
+    \label{eq:corr_traco}
+\end{equation}
+%
+onde a periodicidade de contorno é assumida (\(k+r\) módulo \(N\)). Esta expressão é exata para qualquer \(N\). No limite termodinâmico \(N \to \infty\), a função de partição é dominada pelo maior autovalor \(\lambda_1 \equiv \lambda_{\max}\) da matriz de transferência. Escrevemos a decomposição espectral de \(T\):
+%
+\begin{equation}
+    T = \sum_{n=1}^4 \lambda_n \, \ket{R_n}\bra{L_n},
+\end{equation}
+%
+onde \(\ket{R_n}\) e \(\bra{L_n}\) são os autovetores à direita e à esquerda, normalizados de modo que \(\bra{L_n} \ket{R_m} = \delta_{nm}\). Então,
+%
+\begin{equation}
+    T^r = \sum_{n=1}^4 \lambda_n^r \, \ket{R_n}\bra{L_n}.
+\end{equation}
+%
+Substituindo em \eqref{eq:corr_traco} e tomando o limite \(N \to \infty\), obtemos
+%
+\begin{equation}
+    C(r) = \sum_{n=1}^4 c_n \left( \frac{\lambda_n}{\lambda_1} \right)^r,
+    \label{eq:corr_soma}
+\end{equation}
+%
+onde os coeficientes \(c_n\) são dados por
+%
+\begin{equation}
+    c_n = \bra{L_1} \hat O \ket{R_n} \, \bra{L_n} \hat O \ket{R_1}.
+    \label{eq:coeficientes}
+\end{equation}
+%
+A condição de normalização \(C(0) = 1\) implica \(\sum_n c_n = 1\), pois \(\langle \sigma_k^2 \rangle = 1\).
+%
+Na base de pares, o operador \(\hat O\) é diagonal. No entanto, na base simétrica/antissimétrica definida no item (ii),
+%
+\begin{align}
+    \ket{e_+} &= \frac{1}{\sqrt{2}}(\ket{1}+\ket{4}), &
+    \ket{e_-} &= \frac{1}{\sqrt{2}}(\ket{1}-\ket{4}), \\
+    \ket{f_+} &= \frac{1}{\sqrt{2}}(\ket{2}+\ket{3}), &
+    \ket{f_-} &= \frac{1}{\sqrt{2}}(\ket{2}-\ket{3}),
+\end{align}
+%
+o operador \(\hat O\) não é diagonal. De fato, calculando sua ação:
+%
+\begin{align}
+    \hat O \ket{e_+} &= \ket{f_+}, &
+    \hat O \ket{e_-} &= \ket{f_-}, \\
+    \hat O \ket{f_+} &= \ket{e_+}, &
+    \hat O \ket{f_-} &= \ket{e_-}.
+\end{align}
+%
+Portanto, \(\hat O\) troca os setores simétrico (\(e_+, f_+\)) e antissimétrico (\(e_-, f_-\)). Isso significa que os coeficientes \(c_n\) em \eqref{eq:coeficientes} envolvem produtos de elementos de matriz de \(\hat O\) entre diferentes setores. Consequentemente, \emph{todos os quatro autovalores} \(\lambda_1, \lambda_2, \lambda_3, \lambda_4\) contribuem para a correlação, e não apenas aqueles do setor simétrico.
+%
+Como obtido no item (ii), os autovalores de \(T\) são:
+%
+\begin{align}
+    \lambda_{A,\pm} &= \frac{\Tr M_A \pm \sqrt{(\Tr M_A)^2 + 8\sinh(2Kp)}}{2}, \\
+    \lambda_{B,\pm} &= \frac{\Tr M_B \pm \sqrt{(\Tr M_B)^2 - 8\sinh(2Kp)}}{2},
+\end{align}
+%
+onde
+%
+\begin{equation}
+    \Tr M_A = e^{K(1-p)} + e^{-K(1+p)}, \qquad
+    \Tr M_B = e^{K(1-p)} - e^{-K(1+p)}.
+\end{equation}
+%
+O autovalor dominante é \(\lambda_1 = \lambda_{A,+}\) (teorema de Perron–Frobenius). Os outros três autovalores são \(\lambda_2 = \lambda_{A,-}\), \(\lambda_3 = \lambda_{B,+}\), e \(\lambda_4 = \lambda_{B,-}\).
+%
+Para distâncias \(r \gg 1\), o termo com o autovalor de segunda maior \emph{norma} domina a soma \eqref{eq:corr_soma}. Definimos
+%
+\begin{equation}
+    \lambda_2 \equiv \max\{ |\lambda_{A,-}|, |\lambda_{B,+}|, |\lambda_{B,-}| \},
+\end{equation}
+%
+onde o máximo é tomado sobre os módulos. Então,
+%
+\begin{equation}
+    C(r) \sim c_2 \left( \frac{\lambda_2}{\lambda_1} \right)^r,
+\end{equation}
+%
+onde o coeficiente \(c_2\) é o correspondente ao autovalor \(\lambda_2\) (ou à combinação linear se houver degenerescência).
+%
+O discriminante do setor \(B\) é
+%
+\begin{equation}
+    \Delta_B \equiv (\Tr M_B)^2 - 8\sinh(2Kp).
+\end{equation}
 %
 \begin{itemize}
-    \item \textbf{Decaimento monotônico} (setor $B$ com discriminante positivo, tipicamente $p\lesssim\tfrac12$): $\lambda_2=\lambda_{A,-}$ ou $\lambda_{B,\pm}$ é real, e
+    \item \textbf{Caso 1:} \(\Delta_B > 0\). Neste caso, \(\lambda_{B,+}\) e \(\lambda_{B,-}\) são reais e distintos. O autovalor subdominante \(\lambda_2\) é real (podendo ser \(\lambda_{A,-}\) ou um dos \(\lambda_{B,\pm}\), dependendo dos parâmetros). A correlação decai monotonicamente:
+    %
     \begin{equation}
-        \boxed{
-        \avg{\sigma_0\sigma_r}\sim c_2\,\e{-r/\xi},
+        C(r) \sim c_2 \, e^{-r/\xi},
         \qquad
-        \xi^{-1}(p,t)=\ln\left|\frac{\lambda_{\max}}{\lambda_2}\right|.
-        }
+        \xi^{-1} = \ln\left( \frac{\lambda_1}{\lambda_2} \right).
+        \label{eq:xi_monot}
     \end{equation}
-    \item \textbf{Decaimento oscilatório} (setor $B$ com discriminante negativo, tipicamente $p\gtrsim\tfrac12$): $\lambda_{B,\pm}=|\lambda_2|\,\e{\pm iq}$ formam par complexo conjugado, e a combinação real correspondente dá
+    %
+    Este regime ocorre tipicamente para \(p \lesssim 1/2\) (ou para temperaturas suficientemente altas, onde o termo de competição é menos relevante).
+    %
+    \item \textbf{Caso 2:} \(\Delta_B < 0\). Neste caso, \(\lambda_{B,+}\) e \(\lambda_{B,-}\) formam um par complexo conjugado:
+    %
     \begin{equation}
-        \boxed{
-        \avg{\sigma_0\sigma_r}\sim A\left(\frac{|\lambda_2|}{\lambda_{\max}}\right)^r\cos(qr+\varphi),
+        \lambda_{B,\pm} = \rho \, e^{\pm i q},
         \qquad
-        q=\arg(\lambda_2),
-        }
+        \rho = \sqrt{\lambda_{B,+} \lambda_{B,-}} = \sqrt{2\sinh(2Kp)},
     \end{equation}
-    com uma modulação de período $2\pi/q$ que, para $p$ suficientemente acima de $1/2$, tende à modulação de período $4$ (antifase $\langle2\rangle$) característica do estado fundamental encontrado no item (i).
+    %
+    com
+    %
+    \begin{equation}
+        q = \arg(\lambda_{B,+}) = \arccos\left( \frac{\Tr M_B}{2\rho} \right).
+    \end{equation}
+    %
+    A contribuição desses dois autovalores para a correlação é real e assume a forma
+    %
+    \begin{equation}
+        C(r) \sim A \left( \frac{\rho}{\lambda_1} \right)^r \cos(q r + \varphi),
+        \label{eq:corr_osc}
+    \end{equation}
+    %
+    onde \(A\) e \(\varphi\) são constantes que dependem dos coeficientes \(c_n\). A correlação decai exponencialmente com um envelope \(\rho/\lambda_1\), mas oscila com período \(2\pi/q\). Este regime ocorre tipicamente para \(p \gtrsim 1/2\) (competição forte entre primeiros e segundos vizinhos), e a oscilação tende a ter período \(4\) quando \(p \to \infty\) (pois \(q \to \pi/2\)), refletindo a ordem antifase do estado fundamental (período 4) encontrada no item (i).
 \end{itemize}
 %
-A linha $q=0\leftrightarrow q\neq0$ no plano $(p,t)$ é exatamente a linha de desordem mencionada no item (ii). A Fig.~\ref{fig:annni_corr} mostra $\avg{\sigma_0\sigma_r}$ calculada numericamente, a partir da diagonalização exata da matriz $4\times4$~\eqref{eq:T_annni}, para $p=0{,}2<1/2$ (decaimento puramente exponencial) e $p=1{,}5>1/2$ (decaimento oscilatório com período $4$, sinal claro da tendência à ordem antifase). O acordo com a discussão acima é excelente.
+A linha no plano \((p, t)\), com \(t = 1/K\), onde \(\Delta_B = 0\) é chamada de \textbf{linha de desordem} (\textit{disorder line}). Nesta linha, os autovalores \(\lambda_{B,+}\) e \(\lambda_{B,-}\) tornam-se reais e coincidentes (ou seja, há uma degenerescência no setor \(B\)). A equação da linha de desordem é
+%
+\begin{equation}
+    \left( e^{K(1-p)} - e^{-K(1+p)} \right)^2 = 8\sinh(2Kp).
+    \label{eq:disorder_line}
+\end{equation}
+%
+Esta linha separa a região com decaimento monotônico (\(\Delta_B > 0\)) da região com decaimento oscilatório (\(\Delta_B < 0\)). Embora a energia livre seja analítica em toda parte (não há transição de fase em \(T>0\)), a linha de desordem marca uma mudança qualitativa no comportamento das correlações, que é o precursor, em \(T>0\), da ordem de período 4 que se torna exata em \(T=0\) para \(p > 1/2\).
+%
+A partir de \eqref{eq:xi_monot} e \eqref{eq:corr_osc}, podemos escrever:
+%
+\begin{itemize}
+    \item Na região monotônica (\(\Delta_B > 0\)):
+    %
+    \begin{equation}
+        \boxed{
+        \xi^{-1} = \ln\left( \frac{\lambda_1}{\lambda_2} \right),
+        \qquad \lambda_2 \in \mathbb{R}.
+        }
+    \end{equation}
+    %
+    \item Na região oscilatória (\(\Delta_B < 0\)):
+    %
+    \begin{equation}
+        \boxed{
+        \xi^{-1} = \ln\left( \frac{\lambda_1}{\rho} \right),
+        \qquad \rho = \sqrt{2\sinh(2Kp)},
+        \qquad q = \arg(\lambda_{B,+}).
+        }
+    \end{equation}
+    %
+O período de oscilação é \(L = 2\pi/q\), que tende a \(4\) quando \(p \to \infty\) (pois \(q \to \pi/2\)).
+\end{itemize}
+%
+A Figura~\ref{fig:annni_corr} mostra a função de correlação \(C(r)\) calculada numericamente pela diagonalização exata da matriz \(4 \times 4\), para \(K=1.2\) e dois valores de \(p\). Para \(p=0.2 < 1/2\), o decaimento é puramente exponencial (monotônico). Para \(p=1.5 > 1/2\), a correlação exibe oscilações de período 4, em excelente acordo com a discussão acima.
 %
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.68\linewidth]{Figures/statistical_mechanics/annni_correlation.png}
-    \caption{Função de correlação $\avg{\sigma_0\sigma_r}$ do modelo ANNNI, calculada por diagonalização exata da matriz de transferência~\eqref{eq:T_annni} para $K=\beta J=1{,}2$. Para $p<1/2$ o decaimento é puramente exponencial (monotônico); para $p>1/2$ surge uma modulação oscilatória de período $4$, precursora da ordem antifase do estado fundamental (item i).}
+    \includegraphics[width=0.8\linewidth]{Figures/statistical_mechanics/annni_correlation.png}
+    \caption{Função de correlação \(\langle \sigma_0 \sigma_r \rangle\) para o modelo ANNNI, calculada por diagonalização exata da matriz de transferência \(4 \times 4\) com \(K=1.2\). Para \(p=0.2\) (abaixo de \(1/2\)), o decaimento é monotônico exponencial. Para \(p=1.5\) (acima de \(1/2\)), a correlação oscila com período 4, precursora da ordem antifase do estado fundamental.}
     \label{fig:annni_corr}
 \end{figure}
 % ============================================================
