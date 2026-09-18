@@ -1,145 +1,96 @@
-# =============================================================================
-# Código para gerar o gráfico do parâmetro de ordem S vs temperatura
-# Problema 4, item (b) – Teoria de Landau-de Gennes
-# Autor: Thiago Siqueira Domingues
-# Data: 2026
-# =============================================================================
-
 import numpy as np
 import matplotlib.pyplot as plt
 
-# ============================================================
-# 1. Parâmetros do modelo (unidades adimensionais)
-# ============================================================
-a = 1.0        # coeficiente do termo quadrático A(T) = a(T - T*)
-C = 1.0        # coeficiente do termo quártico (estabilidade)
-T_star = 0.5   # temperatura "nua" (bare) da teoria de Landau
-
-B_second = 0.5   # B > 0 → transição de segunda ordem
-B_first  = -0.5  # B < 0 → transição de primeira ordem
-
-# ============================================================
-# 2. Funções que fornecem o parâmetro de ordem de equilíbrio
-# ============================================================
-def S_segunda_ordem(T, B, a, C, T_star):
-    """
-    Parâmetro de ordem para B > 0.
-    Transição de segunda ordem em T = T_star.
-    Para T >= T_star: S = 0.
-    Para T <  T_star: S = (-B + sqrt(B^2 + 24 a C (T_star - T))) / (6C).
-    """
-    if T >= T_star:
-        return 0.0
-    else:
-        disc = B**2 + 24.0 * a * C * (T_star - T)
-        return (-B + np.sqrt(disc)) / (6.0 * C)
-
-
-def S_primeira_ordem_equilibrio(T, B, a, C, T_star):
-    """
-    Parâmetro de ordem de equilíbrio (mínimo global) para B < 0.
-    Transição de primeira ordem em T_NI = T_star + B^2 / (27 a C).
-    Para T >= T_NI: S = 0 (fase isotrópica).
-    Para T <  T_NI: S = (-B + sqrt(B^2 + 24 a C (T_star - T))) / (6C).
-    """
-    T_NI = T_star + B**2 / (27.0 * a * C)
-    if T >= T_NI:
-        return 0.0
-    else:
-        disc = B**2 + 24.0 * a * C * (T_star - T)
-        return (-B + np.sqrt(disc)) / (6.0 * C)
-
-
-def S_primeira_ordem_metaestavel(T, B, a, C, T_star):
-    """
-    Ramo metaestável (mínimo local) para B < 0.
-    Existe para T < T_spinodal = T_star + B^2 / (24 a C).
-    Retorna nan fora desse intervalo.
-    """
-    T_spinodal = T_star + B**2 / (24.0 * a * C)
-    if T >= T_spinodal:
-        return np.nan
-    else:
-        disc = B**2 + 24.0 * a * C * (T_star - T)
-        if disc < 0:
-            return np.nan
-        return (-B + np.sqrt(disc)) / (6.0 * C)
-
-
-# ============================================================
-# 3. Varredura em temperatura
-# ============================================================
-T_vals = np.linspace(0.3, 1.0, 800)
-
-# Curva de segunda ordem (B > 0)
-S_2nd = np.array([S_segunda_ordem(T, B_second, a, C, T_star) for T in T_vals])
-
-# Curva de primeira ordem (B < 0): equilíbrio e metaestável
-S_1st_eq   = np.array([S_primeira_ordem_equilibrio(T, B_first, a, C, T_star) for T in T_vals])
-S_1st_meta = np.array([S_primeira_ordem_metaestavel(T, B_first, a, C, T_star) for T in T_vals])
-
-# ============================================================
-# 4. Temperaturas características e salto de S
-# ============================================================
-T_NI = T_star + B_first**2 / (27.0 * a * C)   # coexistência (1ª ordem)
-S0   = -2.0 * B_first / (9.0 * C)             # salto de S em T_NI
-
-# ============================================================
-# 5. Figura de alta qualidade
-# ============================================================
+# Configurações de estilo
 plt.rcParams.update({
-    'font.size': 13,
-    'axes.labelsize': 15,
-    'axes.titlesize': 15,
-    'legend.fontsize': 11,
-    'xtick.labelsize': 12,
-    'ytick.labelsize': 12,
-    'lines.linewidth': 2.5,
-    'figure.dpi': 120,
+    'font.size': 11,
+    'axes.labelsize': 12,
+    'axes.titlesize': 13,
+    'figure.dpi': 150
 })
 
-fig, ax = plt.subplots(figsize=(9, 6.5))
+# Parâmetros fenomenológicos da teoria de Landau-de Gennes
+a = 1.0
+C = 1.0
+T_star = 1.0
 
-# --- Curva de segunda ordem (B > 0) ---
-ax.plot(T_vals, S_2nd, color='#1f77b4', linewidth=2.8,
-        label=r'$B > 0$: transição de 2ª ordem')
+# Coeficientes do termo cúbico B
+B_1st = -1.5  # B < 0 (Transição de 1ª ordem)
+B_2nd = 1.0   # B > 0 (Transição contínua / 2ª ordem)
 
-# --- Curva de primeira ordem (B < 0): equilíbrio ---
-ax.plot(T_vals, S_1st_eq, color='#d62728', linewidth=2.8,
-        label=r'$B < 0$: transição de 1ª ordem')
+# Pontos notáveis para a transição de 1ª ordem
+T_NI = T_star + (B_1st**2) / (27.0 * a * C)
+T_spinodal = T_star + (B_1st**2) / (12.0 * a * C)
+S_0 = - (2.0 * B_1st) / (9.0 * C)
 
-# --- Ramo metaestável (tracejado) ---
-ax.plot(T_vals, S_1st_meta, color='#d62728', linewidth=1.8, linestyle='--',
-        alpha=0.6, label=r'$B < 0$: ramo metaestável')
+# Grades de temperatura
+T_low_1st = np.linspace(0.6, T_NI, 300)
+T_high_1st = np.linspace(T_NI, 1.35, 200)
+T_meta_1st = np.linspace(T_NI, T_spinodal, 100)
 
-# --- Linhas verticais nas temperaturas de transição ---
-ax.axvline(x=T_star, color='#1f77b4', linestyle=':', linewidth=1.5, alpha=0.7)
-ax.axvline(x=T_NI,   color='#d62728', linestyle=':', linewidth=1.5, alpha=0.7)
+T_low_2nd = np.linspace(0.6, T_star, 300)
+T_high_2nd = np.linspace(T_star, 1.35, 200)
 
-# --- Marcação do salto descontínuo em T_NI ---
-ax.plot([T_NI, T_NI], [0, S0], color='#d62728', linestyle='--',
-        linewidth=1.8, alpha=0.8)
-ax.plot(T_NI, S0, 'o', color='#d62728', markersize=9, zorder=5)
-ax.plot(T_NI, 0,  'o', color='#d62728', markersize=9,
-        markerfacecolor='white', zorder=5)
+# Solução física para o parâmetro de ordem uniaxial S(T)
+def S_branch(T, B):
+    disc = B**2 - 12.0 * a * C * (T - T_star)
+    disc = np.maximum(disc, 0)
+    return (-B + np.sqrt(disc)) / (6.0 * C)
 
-# --- Anotações ---
-ax.annotate(r'$T_*$', xy=(T_star, 0.02), xytext=(T_star - 0.07, 0.05),
-            fontsize=14, color='#1f77b4')
-ax.annotate(r'$T_{NI}$', xy=(T_NI, 0.02), xytext=(T_NI + 0.02, 0.05),
-            fontsize=14, color='#d62728')
-ax.annotate(r'$S_0$', xy=(T_NI, S0), xytext=(T_NI + 0.03, S0 + 0.015),
-            fontsize=14, color='#d62728')
+S_1st = S_branch(T_low_1st, B_1st)
+S_meta = S_branch(T_meta_1st, B_1st)
+S_2nd = S_branch(T_low_2nd, B_2nd)
 
-# --- Eixos e título ---
-ax.set_xlabel(r'$T$', fontsize=15)
-ax.set_ylabel(r'$S$', fontsize=15)
-ax.set_title(r'Parâmetro de ordem $S$ em função da temperatura', fontsize=15)
-ax.legend(fontsize=11, loc='upper right')
-ax.grid(True, alpha=0.3)
-ax.set_xlim(0.3, 1.0)
-ax.set_ylim(0, 0.5)
+# Figura
+fig, ax = plt.subplots(figsize=(8, 5.5))
+
+# Curva de 2ª ordem (B > 0)
+ax.plot(T_low_2nd, S_2nd, color='#1f77b4', linewidth=2.5, 
+        label=r'Transição de 2ª ordem ($B > 0$)')
+ax.plot(T_high_2nd, np.zeros_like(T_high_2nd), color='#1f77b4', linewidth=2.5)
+
+# Curva de 1ª ordem (B < 0)
+ax.plot(T_low_1st, S_1st, color='#d62728', linewidth=2.5, 
+        label=r'Transição de 1ª ordem ($B < 0$)')
+ax.plot(T_high_1st, np.zeros_like(T_high_1st), color='#d62728', linewidth=2.5)
+
+# Descontinuidade e Ramo Metaestável (superaquecimento)
+ax.plot([T_NI, T_NI], [0, S_0], color='#d62728', linestyle='--', linewidth=1.5, alpha=0.8)
+ax.plot(T_meta_1st, S_meta, color='#d62728', linestyle=':', linewidth=1.8, alpha=0.7, 
+        label=r'Ramo metaestável ($T_{NI} < T < T_{**}$)')
+
+# Pontos de destaque
+ax.plot(T_NI, S_0, 'o', color='#d62728', markersize=7, zorder=5)
+ax.plot(T_NI, 0, 'o', color='#d62728', markerfacecolor='white', markeredgewidth=1.8, markersize=7, zorder=5)
+ax.plot(T_star, 0, 's', color='#1f77b4', markersize=7, zorder=5)
+
+# Linhas auxiliares e anotações dos eixos
+ax.axvline(x=T_star, color='#1f77b4', linestyle=':', alpha=0.4)
+ax.axvline(x=T_NI, color='#d62728', linestyle=':', alpha=0.4)
+ax.axhline(y=S_0, color='#d62728', linestyle=':', alpha=0.4)
+
+ax.text(T_star, -0.05, r'$T_*$', ha='center', va='top', fontsize=12, color='#1f77b4', fontweight='bold')
+ax.text(T_NI, -0.05, r'$T_{NI}$', ha='center', va='top', fontsize=12, color='#d62728', fontweight='bold')
+ax.text(0.7, S_0, r'$S_0 = -\frac{2B}{9C}$', ha='right', va='center', fontsize=11, color='#d62728')
+
+# Identificação das fases
+ax.text(0.75, 0.52, 'Fase Nemática\n($S > 0$)', fontsize=11, color='#1f4e79', fontweight='bold', ha='center')
+ax.text(1.22, 0.12, 'Fase Isotrópica\n($S = 0$)', fontsize=11, color='#7a1f1f', fontweight='bold', ha='center')
+
+# Eixos e Legendas
+ax.set_xlabel(r'$T$')
+ax.set_ylabel(r'$S$')
+ax.set_title('Transição Nemático–Isotrópica (Teoria de Landau–de Gennes)', pad=12)
+
+ax.set_xlim(0.58, 1.35)
+ax.set_ylim(-0.08, 0.72)
+
+ax.grid(True, linestyle='--', alpha=0.35, color='#888888')
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+
+ax.legend(frameon=True, facecolor='white', framealpha=0.95, edgecolor='none', loc='upper right', fontsize=10)
 
 plt.tight_layout()
-plt.savefig('LdG_S_vs_T.png', dpi=300, bbox_inches='tight')
+plt.savefig('LdG_S_vs_T.png', dpi=300)
 plt.show()
