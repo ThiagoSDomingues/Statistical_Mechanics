@@ -1,1 +1,3133 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{subcaption}
 
+% ============================================================
+% PACOTES
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazilian]{babel}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usepackage{amsmath,amssymb,amsfonts,mathtools}
+\usepackage{bm}
+\usepackage{physics}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{tikz}
+
+\geometry{margin=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue
+}
+
+% ============================================================
+% COMANDOS
+% ============================================================
+\newcommand{\pdvT}[2]{\left(\frac{\partial #1}{\partial #2}\right)_T}
+\newcommand{\pdvP}[2]{\left(\frac{\partial #1}{\partial #2}\right)_p}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[2]{\frac{\partial^2 #1}{\partial #2^2}}
+\newcommand{\e}[1]{\mathrm{e}^{#1}}
+\newcommand{\avg}[1]{\left\langle #1\right\rangle}
+
+% ============================================================
+% DOCUMENTO
+% ============================================================
+\begin{document}
+
+\begin{center}
+    {\Large \textbf{Quarta Série de Exercícios}}\\[0.6cm]
+    {\large Tópicos de Mecânica Estatística -- Transições de Fases -- 2026}\\[0.2cm]
+    {\large Modelo de Ising, dualidade e teoria de escala -- 19/09/2026}\\[0.4cm]
+    {\large Data de Entrega -- 28/09/2026}\\[0.2cm]
+    {\Large \textbf{Autor:} Thiago Siqueira Domingues (Nº USP: 8942194)}
+\end{center}
+
+\vspace{0.3cm}
+
+% ============================================================
+\section*{Problema 1 -- Forma de escala da energia livre de Gibbs}
+% ============================================================
+
+Considere a parte singular da energia livre de Gibbs por partícula de um
+fluido, ligeiramente acima da temperatura crítica, na forma de escala
+\begin{equation}
+    g_s(t,\pi)
+    \sim
+    t^{2-\alpha}
+    F\!\left(\frac{\pi}{t^{\Delta}}\right),
+    \label{eq:g_scaling}
+\end{equation}
+onde
+\begin{equation}
+    t = \frac{T-T_c}{T_c},
+    \qquad
+    \pi = \frac{p-p_c}{p_c},
+    \qquad
+    t \to 0^+,
+    \label{eq:variables}
+\end{equation}
+e \(F\) é uma função bem comportada. Vamos determinar, no diagrama de fases $p-T$, ao longo do caminho crítico \(p=p_c\) (portanto, \(\pi=0\)), os comportamentos críticos das grandezas termodinâmicas:
+%
+\begin{enumerate}
+    \item entropia;
+    \item compressibilidade isotérmica;
+    \item calor específico a volume constante;
+    \item calor específico a pressão constante;
+    \item coeficiente de dilatação térmica.
+\end{enumerate}
+%
+Como estamos trabalhando com a energia livre de Gibbs, usamos as relações
+termodinâmicas
+%
+\begin{align}
+    s &= -\left(\frac{\partial g}{\partial T}\right)_p,
+    \label{eq:s}\\
+    v &= \left(\frac{\partial g}{\partial p}\right)_T,
+    \label{eq:v}\\
+    \kappa_T
+    &= -\frac{1}{v}
+    \left(\frac{\partial v}{\partial p}\right)_T,
+    \label{eq:kappa}\\
+    c_p
+    &= T\left(\frac{\partial s}{\partial T}\right)_p,
+    \label{eq:cp}\\
+    \alpha_T
+    &= \frac{1}{v}
+    \left(\frac{\partial v}{\partial T}\right)_p.
+    \label{eq:alphaT}
+\end{align}
+%
+Aqui usamos \(\alpha_T\) para o coeficiente de dilatação térmica, de modo a não
+confundi-lo com o expoente crítico \(\alpha\) que aparece em \eqref{eq:g_scaling}. Agora, definimos a variável de escala
+%
+\begin{equation}
+    x \equiv \frac{\pi}{t^{\Delta}},
+    \label{eq:x}
+\end{equation}
+%
+de modo que
+%
+\begin{equation}
+    g_s(t,\pi) \sim t^{2-\alpha}F(x).
+    \label{eq:gx}
+\end{equation}
+%
+Como
+%
+\begin{equation}
+    \frac{\partial t}{\partial T}=\frac{1}{T_c},
+    \qquad
+    \frac{\partial \pi}{\partial p}=\frac{1}{p_c},
+    \label{eq:dt_dT_dpi_dp}
+\end{equation}
+%
+precisamos calcular as derivadas de \(g_s\) em relação a \(T\) e \(p\). Primeiro,
+%
+\begin{align}
+    \pd{g_s}{t}
+    &\sim
+    \pd{}{t}\left[t^{2-\alpha}F(x)\right] \nonumber\\
+    &\sim
+    (2-\alpha)t^{1-\alpha}F(x)
+    + t^{2-\alpha}F'(x)\pd{x}{t}.
+\end{align}
+%
+Como
+%
+\begin{equation}
+    x=\pi t^{-\Delta}
+    \quad\Longrightarrow\quad
+    \left(\frac{\partial x}{\partial t}\right)_\pi
+    =-\Delta\frac{x}{t},
+\end{equation}
+%
+obtemos
+%
+\begin{equation}
+    \pd{g_s}{t}
+    \sim
+    t^{1-\alpha}
+    \left[(2-\alpha)F(x)-\Delta xF'(x)\right].
+    \label{eq:dgdt_general}
+\end{equation}
+%
+Ao longo de \(p=p_c\), temos \(\pi=0\) e, portanto, \(x=0\). Definindo
+%
+\begin{equation}
+    F_0\equiv F(0),
+    \qquad
+    F_1\equiv F'(0),
+    \qquad
+    F_2\equiv F''(0),
+    \label{eq:Fcoeff}
+\end{equation}
+%
+segue que
+%
+\begin{equation}
+    g_s(t,0)\sim F_0 t^{2-\alpha}
+\end{equation}
+%
+e
+%
+\begin{equation}
+    \left.\pd{g_s}{t}\right|_{\pi=0}
+    \sim
+    (2-\alpha)F_0 t^{1-\alpha}.
+    \label{eq:dgdt_pc}
+\end{equation}
+%
+Para as derivadas em \(p\), devemos lembrar que
+%
+\begin{equation}
+    \frac{\partial x}{\partial \pi}=t^{-\Delta}.
+\end{equation}
+%
+Para a primeira derivada em \(p\), aplicando a regra da cadeia,
+%
+\begin{align}
+    \pd{g_s}{p}
+    &=
+    \pd{}{p}\left[t^{2-\alpha}F(x)\right] \nonumber\\
+    &=
+    t^{2-\alpha}F'(x)\,\pd{x}{p} \nonumber\\
+    &=
+    t^{2-\alpha}F'(x)\,
+    \pd{x}{\pi}\,\pd{\pi}{p} \nonumber\\
+    &=
+    t^{2-\alpha}F'(x)\,
+    t^{-\Delta}\,\frac{1}{p_c} \nonumber\\
+    &=
+    \frac{1}{p_c}\,
+    t^{\,2-\alpha-\Delta}\,
+    F'(x).
+    \label{eq:dgp_general}
+\end{align}
+%
+Com a notação \(F_1\equiv F'(0)\), segue
+%
+\begin{equation}
+    \left.\pd{g_s}{p}\right|_{p=p_c}
+    \sim
+    \frac{F_1}{p_c}\,t^{\,2-\alpha-\Delta}.
+    \label{eq:dgp}
+\end{equation}
+%
+Para a segunda derivada em \(p\), derivando \eqref{eq:dgp_general} mais uma vez em relação a \(p\),
+%
+\begin{align}
+    \pdd{g_s}{p}
+    &=
+    \pd{}{p}\left[
+    \frac{1}{p_c}\,
+    t^{\,2-\alpha-\Delta}\,
+    F'(x)
+    \right] \nonumber\\
+    &=
+    \frac{1}{p_c}\,
+    t^{\,2-\alpha-\Delta}\,
+    F''(x)\,
+    \pd{x}{p} \nonumber\\
+    &=
+    \frac{1}{p_c}\,
+    t^{\,2-\alpha-\Delta}\,
+    F''(x)\,
+    \pd{x}{\pi}\,\pd{\pi}{p} \nonumber\\
+    &=
+    \frac{1}{p_c}\,
+    t^{\,2-\alpha-\Delta}\,
+    F''(x)\,
+    t^{-\Delta}\,
+    \frac{1}{p_c} \nonumber\\
+    &=
+    \frac{1}{p_c^{2}}\,
+    t^{\,2-\alpha-2\Delta}\,
+    F''(x).
+    \label{eq:d2gp_general}
+\end{align}
+%
+Ao longo de \(p=p_c\) (\(x=0\)), com \(F_2\equiv F''(0)\),
+%
+\begin{equation}
+    \left.\pdd{g_s}{p}\right|_{p=p_c}
+    \sim
+    \frac{F_2}{p_c^{2}}\,t^{\,2-\alpha-2\Delta}.
+    \label{eq:d2gp}
+\end{equation}
+%
+Agora, para a derivada mista \(\partial^{2} g_s/\partial p\,\partial T\), partimos da expressão geral \eqref{eq:dgp_general} e derivamos em relação a \(T\) (com \(p\), e portanto \(\pi\), fixos), e usando
+%
+\begin{equation}
+    \frac{\partial t}{\partial T}=\frac{1}{T_c},
+    \qquad
+    \left(\frac{\partial x}{\partial T}\right)_{\!\pi}
+    =
+    \pi\,\frac{\partial}{\partial T}\left(t^{-\Delta}\right)
+    =
+    -\Delta\,\pi\,t^{-\Delta-1}\,\frac{1}{T_c}
+    =
+    -\frac{\Delta}{T_c}\,\frac{x}{t},
+\end{equation}
+%
+obtemos
+%
+\begin{align}
+    \frac{\partial^{2} g_s}{\partial p\,\partial T}
+    &=
+    \frac{\partial^{2} g_s}{\partial T\partial p}
+    =
+    \frac{1}{p_c}
+    \frac{\partial}{\partial T}
+    \left[
+    t^{\,2-\alpha-\Delta}\,
+    F'(x)
+    \right] \nonumber\\
+    &=
+    \frac{1}{p_c}
+    \left[
+    \frac{\partial}{\partial T}
+    \left(t^{\,2-\alpha-\Delta}\right)
+    F'(x)
+    +
+    t^{\,2-\alpha-\Delta}\,
+    \frac{\partial F'(x)}{\partial T}
+    \right] \nonumber\\
+    &=
+    \frac{1}{p_c}
+    \left[
+    \frac{2-\alpha-\Delta}{T_c}\,
+    t^{\,1-\alpha-\Delta}\,
+    F'(x)
+    +
+    t^{\,2-\alpha-\Delta}\,
+    F''(x)\,
+    \left(-\frac{\Delta}{T_c}\,\frac{x}{t}\right)
+    \right] \nonumber\\
+    &=
+    \frac{t^{\,1-\alpha-\Delta}}{p_c\,T_c}
+    \left[
+    (2-\alpha-\Delta)\,F'(x)
+    -
+    \Delta\,x\,F''(x)
+    \right].
+    \label{eq:d2gpt_geral}
+\end{align}
+%
+Ao longo de \(p=p_c\) (\(x=0\)), o termo proporcional a \(x F''(x)\)
+desaparece e resta
+%
+\begin{equation}
+    \left.\frac{\partial^{2} g_s}{\partial p\,\partial T}\right|_{p=p_c}
+    \sim
+    \frac{2-\alpha-\Delta}{p_c\,T_c}\,
+    F_1\,t^{\,1-\alpha-\Delta}.
+    \label{eq:d2gpt}
+\end{equation}
+%
+\subsection*{(i) Expoente crítico associado a entropia}
+%
+Da definição \(s=-(\partial g/\partial T)_p\), a parte singular da entropia é
+%
+\begin{equation}
+    s_s
+    =-\left(\frac{\partial g_s}{\partial T}\right)_p
+    =-\frac{1}{T_c}\pd{g_s}{t}.
+\end{equation}
+%
+Usando \eqref{eq:dgdt_pc}, encontramos
+%
+\begin{equation}
+    s_s(p=p_c)
+    \sim
+    -\frac{2-\alpha}{T_c}F_0\,t^{1-\alpha}.
+    \label{eq:entropy_scaling}
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+    \boxed{s_s\sim t^{1-\alpha}}
+\end{equation}
+%
+\subsection*{(ii) Expoente crítico associado a compressibilidade isotérmica}
+% ------------------------------------------------------------
+A compressibilidade isotérmica é
+%
+\begin{equation}
+    \kappa_T
+    =-\frac{1}{v}
+    \left(\frac{\partial v}{\partial p}\right)_T
+    =-\frac{1}{v}\left(\frac{\partial^2 g}{\partial p^2}\right)_T.
+\end{equation}
+%
+usando \eqref{eq:d2gp} com \(v\to v_c\) no prefator,
+%
+\begin{equation}
+    \kappa_{T,s}
+    \sim
+    -\frac{F_2}{v_c p_c^2}
+    t^{2-\alpha-2\Delta}.
+\end{equation}
+%
+Definindo o expoente crítico \(\gamma\) por \(\kappa_T\sim t^{-\gamma}\),
+comparando as potências de \(t\),
+%
+\begin{equation}
+    -\gamma=2-\alpha-2\Delta,
+\end{equation}
+%
+e, portanto,
+%
+\begin{equation}
+    \boxed{
+    \gamma=2\Delta+\alpha-2.
+    }
+    \label{eq:gamma}
+\end{equation}
+%
+\subsection*{(iii) Expoente crítico associado ao calor específico a volume constante}
+% 
+A energia livre de Gibbs \(g(T,p)\) tem como variáveis naturais \((T,p)\).
+Por isso, derivadas segundas de \(g\) em relação a \(T\) a \(p\) fixo dão
+diretamente o calor específico a pressão constante, \(c_p\). Entretanto, o
+calor específico a volume constante,
+%
+\begin{equation}
+    c_v
+    =
+    T\left(\frac{\partial s}{\partial T}\right)_v,
+    \label{eq:cv_def_p1}
+\end{equation}
+%
+envolve uma derivada mantendo \(v\) fixo, e \(v\) \emph{não} é uma variável
+natural de \(g(T,p)\). Não podemos, portanto, obter \(c_v\) simplesmente
+tomando \(\partial^2 g/\partial T^2\) a \(v\) constante sem antes mudar de
+variáveis. Para contornar isso, usamos uma identidade termodinâmica que
+relaciona \(c_p\), \(c_v\), \(\alpha_T\) e \(\kappa_T\), grandezas que podem
+ser calculadas diretamente a partir de \(g(T,p)\). A diferença entre os calores específicos é dada por
+%
+\begin{equation}
+    c_p-c_v
+    =
+    \frac{T\,v\,\alpha_T^{2}}{\kappa_T},
+    \label{eq:cp_cv}
+\end{equation}
+%
+onde
+%
+\begin{equation}
+    \alpha_T
+    =
+    \frac{1}{v}\left(\frac{\partial v}{\partial T}\right)_p,
+    \qquad
+    \kappa_T
+    =
+    -\frac{1}{v}\left(\frac{\partial v}{\partial p}\right)_T.
+\end{equation}
+%
+Essa identidade é exata e vale para qualquer sistema termodinâmico simples.
+A vantagem é que \(c_p\), \(\alpha_T\) e \(\kappa_T\) são todos obtidos de
+derivadas de \(g(T,p)\), de modo que podemos inserir diretamente seus
+comportamentos críticos. Do item (iv), o calor específico a pressão constante escala como
+%
+\begin{equation}
+    c_p\sim t^{-\alpha}.
+    \label{eq:cp_iii_p1}
+\end{equation}
+%
+Do item (v), o coeficiente de dilatação térmica satisfaz
+%
+\begin{equation}
+    \alpha_T\sim t^{\,1-\alpha-\Delta}
+    \quad\Longrightarrow\quad
+    \alpha_T^{2}\sim t^{\,2-2\alpha-2\Delta}.
+    \label{eq:alphaT2_iii_p1}
+\end{equation}
+%
+Do item (ii), a compressibilidade isotérmica satisfaz
+%
+\begin{equation}
+    \kappa_T\sim t^{\,2-\alpha-2\Delta}.
+    \label{eq:kappa_iii_p1}
+\end{equation}
+%
+Dividindo \eqref{eq:alphaT2_iii_p1} por \eqref{eq:kappa_iii_p1},
+%
+\begin{align}
+    \frac{\alpha_T^{2}}{\kappa_T}
+    &\sim
+    \frac{t^{\,2-2\alpha-2\Delta}}{t^{\,2-\alpha-2\Delta}} \nonumber\\
+    &=
+    t^{\,(2-2\alpha-2\Delta)-(2-\alpha-2\Delta)} \nonumber\\
+    &=
+    t^{\,2-2\alpha-2\Delta-2+\alpha+2\Delta} \nonumber\\
+    &=
+    t^{\,-\alpha}.
+    \label{eq:razao_iii_p1}
+\end{align}
+%
+Substituindo \eqref{eq:razao_iii_p1} em \eqref{eq:cp_cv}, e observando que
+\(T\to T_c\) e \(v\to v_c\) são finitos e não nulos próximo ao ponto crítico,
+%
+\begin{equation}
+    c_p-c_v
+    =
+    \frac{T\,v\,\alpha_T^{2}}{\kappa_T}
+    \sim
+    T_c\,v_c\,
+    t^{-\alpha}
+    \;\propto\;
+    t^{-\alpha}.
+    \label{eq:cpminuscv_scaling}
+\end{equation}
+%
+Ou seja, a diferença entre os dois calores específicos tem a mesma potência
+crítica que \(c_p\).
+%
+\begin{equation}
+    c_v
+    =
+    c_p
+    -
+    \frac{T\,v\,\alpha_T^{2}}{\kappa_T}.
+    \label{eq:cv_from_cp_p1}
+\end{equation}
+%
+Ambos os termos do lado direito escalam como \(t^{-\alpha}\): o primeiro por
+\eqref{eq:cp_iii_p1}, o segundo por \eqref{eq:cpminuscv_scaling}. Assim, a
+contribuição singular dominante de \(c_v\) também escala como \(t^{-\alpha}\):
+%
+\begin{equation}
+    \boxed{
+    c_v
+    \sim
+    t^{\,-\alpha}.
+    }
+    \label{eq:cv_scaling}
+\end{equation}
+%
+Comparando com a forma canônica \(c_v\sim t^{-\alpha_{c_v}}\), identificamos
+%
+\begin{equation}
+    \boxed{
+    \alpha_{c_v}=\alpha.
+    }
+    \label{eq:expoente_cv_p1}
+\end{equation}
+%
+Esse resultado é
+consistente com a relação de Rushbrooke
+%
+\begin{equation}
+    \alpha+2\beta+\gamma=2,
+\end{equation}
+%
+\subsection*{(iv) Expoente crítico associado ao calor específico a pressão constante}
+%
+O calor específico a pressão constante é definido por
+%
+\begin{equation}
+    c_p
+    =T\left(\frac{\partial s}{\partial T}\right)_p
+    =-T\left(\frac{\partial^2 g}{\partial T^2}\right)_p.
+    \label{eq:cp_def_p1}
+\end{equation}
+%
+Como para uma função \(f(t)\) qualquer vale a regra da cadeia
+%
+\begin{equation}
+    \frac{\partial f}{\partial T}
+    =
+    f'(t)\,\frac{\partial t}{\partial T}
+    =
+    \frac{f'(t)}{T_c},
+    \label{eq:df_dT_p1}
+\end{equation}
+%
+e, derivando mais uma vez,
+%
+\begin{equation}
+    \frac{\partial^2 f}{\partial T^2}
+    =
+    \frac{1}{T_c}\,
+    \frac{\partial f'(t)}{\partial T}
+    =
+    \frac{1}{T_c}\,
+    f''(t)\,\frac{\partial t}{\partial T}
+    =
+    \frac{f''(t)}{T_c^{2}}.
+    \label{eq:d2f_dT2_p1}
+\end{equation}
+%
+Em particular, para \(f(t)=t^{\,2-\alpha}\), temos
+%
+\begin{align}
+    f'(t)
+    &=
+    (2-\alpha)\,t^{\,1-\alpha},
+    \label{eq:f1_p1}\\
+    f''(t)
+    &=
+    (2-\alpha)(1-\alpha)\,t^{\,-\alpha}.
+    \label{eq:f2_p1}
+\end{align}
+%
+Então, para a segunda derivada da energia livre singular ao longo de \(p=p_c\), a parte singular da energia livre de Gibbs é
+%
+\begin{equation}
+    g_s(t,0)\sim F_0\,t^{\,2-\alpha},
+    \label{eq:gs_pc_p1}
+\end{equation}
+%
+com \(F_0\equiv F(0)\). Aplicando \eqref{eq:d2f_dT2_p1} com
+\(f(t)=F_0\,t^{\,2-\alpha}\),
+%
+\begin{align}
+    \frac{\partial^2 g_s}{\partial T^2}
+    &\sim
+    \frac{1}{T_c^{2}}\,
+    \frac{d^{2}}{dt^{2}}
+    \left(F_0\,t^{\,2-\alpha}\right) \nonumber\\
+    &=
+    \frac{F_0}{T_c^{2}}\,
+    (2-\alpha)(1-\alpha)\,
+    t^{\,-\alpha}.
+    \label{eq:d2gs_dT2_p1}
+\end{align}
+%
+Então para o calor específico a pressão constante, substituindo \eqref{eq:d2gs_dT2_p1} em \eqref{eq:cp_def_p1},
+%
+\begin{align}
+    c_{p,s}
+    &\sim
+    -\,T\,
+    \frac{F_0}{T_c^{2}}\,
+    (2-\alpha)(1-\alpha)\,
+    t^{\,-\alpha} \nonumber\\
+    &=
+    -\,
+    \frac{T}{T_c^{2}}\,
+    (2-\alpha)(1-\alpha)\,F_0\,
+    t^{\,-\alpha}.
+    \label{eq:cps_prefator_p1}
+\end{align}
+%
+No limite crítico, \(T\to T_c\), de modo que o prefator
+%
+\begin{equation}
+    -\,
+    \frac{T}{T_c^{2}}\,
+    (2-\alpha)(1-\alpha)\,F_0
+    \;\xrightarrow[T\to T_c]{}\;
+    -\,
+    \frac{(2-\alpha)(1-\alpha)\,F_0}{T_c},
+    \label{eq:prefator_finito_p1}
+\end{equation}
+%
+é uma constante finita e não nula (desde que \(F_0\neq0\) e
+\(\alpha\neq1,2\)). Logo, a parte singular do calor específico a pressão
+constante escala como
+%
+\begin{equation}
+    \boxed{
+    c_p
+    \sim
+    t^{\,-\alpha}.
+    }
+    \label{eq:cp_scaling}
+\end{equation}
+%
+Comparando com a forma canônica \(c_p\sim t^{-\alpha_{c_p}}\), identificamos
+diretamente
+%
+\begin{equation}
+    \boxed{
+    \alpha_{c_p}=\alpha.
+    }
+    \label{eq:expoente_cp_p1}
+\end{equation}
+%
+Ou seja, o expoente crítico associado ao calor específico a pressão
+constante é justamente o expoente \(\alpha\) que aparece na hipótese de
+escala da energia livre \eqref{eq:g_scaling}.
+%
+\subsection*{(v) Expoente crítico associado ao coeficiente de dilatação térmica}
+% 
+Definimos o coeficiente de dilatação térmica por
+%
+\begin{equation}
+    \alpha_T
+    =\frac{1}{v}\left(\frac{\partial v}{\partial T}\right)_p
+    =\frac{1}{v}
+    \frac{\partial^2g}{\partial T\,\partial p}.
+\end{equation}
+Usando \eqref{eq:d2gpt}, obtemos no caminho \(p=p_c\)
+\begin{equation}
+    \alpha_{T,s}
+    \sim
+    \frac{2-\alpha-\Delta}{v_cp_cT_c}
+    F_1t^{1-\alpha-\Delta}.
+\end{equation}
+Portanto,
+\begin{equation}
+    \boxed{
+    \alpha_T\sim t^{1-\alpha-\Delta}.
+    }
+    \label{eq:alphaT_scaling}
+\end{equation}
+Se escrevermos como lei de potência divergente, \(\alpha_T\sim t^{-\phi}\),
+então
+\begin{equation}
+    \boxed{
+    \phi=\alpha+\Delta-1.
+    }
+    \label{eq:phi}
+\end{equation}
+Além disso, como \(v_s\sim t^{2-\alpha-\Delta}\), identificando a parte
+singular de \(v\) com o expoente de ordem \(\beta\),
+\begin{equation}
+    \boxed{
+    \beta=2-\alpha-\Delta.
+    }
+    \label{eq:beta}
+\end{equation}
+Assim, o resultado para a dilatação pode ser escrito também como
+\begin{equation}
+    \boxed{
+    \alpha_T\sim t^{\beta-1}=t^{-(1-\beta)}.
+    }
+\end{equation}
+% ------------------------------------------------------------
+%
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{>{\centering\arraybackslash}m{0.30\linewidth}
+                >{\centering\arraybackslash}m{0.28\linewidth}
+                >{\centering\arraybackslash}m{0.28\linewidth}}
+\toprule
+\textbf{Grandeza} & \textbf{Comportamento crítico} & \textbf{Expoente}\\
+\midrule
+Entropia 
+    & \(s_s\sim t^{1-\alpha}\)
+    & \(1-\alpha\) \\
+Compressibilidade isotérmica
+    & \(\kappa_T\sim t^{-\gamma}\)
+    & \(\boxed{\gamma=2\Delta+\alpha-2}\) \\
+Calor específico a \(v\) constante
+    & \(c_v\sim t^{-\alpha}\)
+    & \(\boxed{\alpha}\) \\
+Calor específico a \(p\) constante
+    & \(c_p\sim t^{-\alpha}\)
+    & \(\boxed{\alpha}\) \\
+Dilatação térmica
+    & \(\alpha_T\sim t^{1-\alpha-\Delta}\)
+    & \(\boxed{\phi=\alpha+\Delta-1}\) \\
+\bottomrule
+\end{tabular}
+\end{center}
+% ============================================================
+\section*{Problema 2 -- Verificação da forma de escala para o níquel}
+% ============================================================
+
+Os dados de Weiss e Forrer para a magnetização do níquel, analisados por
+Kouvel e colaboradores e corrigidos para efeitos de desmagnetização,
+podem ser testados à luz da hipótese de escala próxima do ponto crítico.
+O enunciado fornece os parâmetros críticos
+%
+\begin{equation}
+    T_c = 627.4\,\mathrm{K},
+    \qquad
+    \beta = 0.378(4),
+    \qquad
+    \gamma = 1.34(1),
+    \qquad
+    \delta = 4.58(5),
+\end{equation}
+%
+e propõe a forma de escala
+%
+\begin{equation}
+    m
+    =
+    |t|^\beta
+    Y_{\pm}
+    \left(
+        \frac{H}{|t|^\Delta}
+    \right),
+    \label{eq:escala_Ni}
+\end{equation}
+%
+onde
+%
+\begin{equation}
+    t
+    =
+    \frac{T-T_c}{T_c},
+    \qquad
+    \Delta=\beta+\gamma,
+    \label{eq:variaveis_Ni_1}
+\end{equation}
+%
+e $Y_-$ e $Y_+$ representam, respectivamente, as funções de escala
+abaixo e acima da temperatura crítica. O campo magnético que deve ser utilizado na análise é o campo corrigido pelos efeitos de
+desmagnetização,
+%
+\begin{equation}
+    H = H_0 - 39.3\,m.
+    \label{eq:H_corrigido_Ni}
+\end{equation}
+%
+A partir dos valores experimentais de $\beta$ e $\gamma$, obtemos
+%
+\begin{equation}
+    \Delta
+    =
+    \beta+\gamma
+    =
+    0.378+1.34
+    =
+    1.718.
+    \label{eq:Delta_Ni}
+\end{equation}
+%
+Se desejarmos propagar apenas as incertezas estatísticas fornecidas,
+assumindo-as independentes, temos
+%
+\begin{equation}
+    \sigma_\Delta
+    =
+    \sqrt{\sigma_\beta^2+\sigma_\gamma^2}
+    =
+    \sqrt{(0.004)^2+(0.01)^2}
+    \simeq0.011,
+\end{equation}
+%
+de modo que
+%
+\begin{equation}
+    \Delta=1.718(11).
+\end{equation}
+%
+Também podemos verificar a relação de escala de Widom,
+%
+\begin{equation}
+    \gamma=\beta(\delta-1).
+    \label{eq:Widom_Ni}
+\end{equation}
+%
+Usando os valores experimentais,
+%
+\begin{equation}
+    \beta(\delta-1)
+    =
+    0.378(4)\,[4.58(5)-1]
+    =
+    1.353.
+\end{equation}
+%
+A incerteza associada a esse valor é aproximadamente
+%
+\begin{equation}
+    \sigma_{\beta(\delta-1)}
+    =
+    \sqrt{
+        (\delta-1)^2\sigma_\beta^2
+        +
+        \beta^2\sigma_\delta^2
+    }
+    \simeq0.017,
+\end{equation}
+%
+resultando em
+%
+\begin{equation}
+    \beta(\delta-1)=1.353(17).
+\end{equation}
+%
+Esse resultado é compatível com o valor experimental $\gamma=1.34(1)$, dentro das incertezas. Definimos as duas variáveis adimensionais
+%
+\begin{equation}
+    x
+    \equiv
+    \frac{H}{|t|^\Delta},
+    \qquad
+    y
+    \equiv
+    \frac{m}{|t|^\beta}.
+    \label{eq:xy_Ni}
+\end{equation}
+%
+A Eq.~\eqref{eq:escala_Ni} pode então ser re-escrita simplesmente como
+%
+\begin{equation}
+    y=Y_{\pm}(x).
+    \label{eq:collapse_function_Ni}
+\end{equation}
+%
+Portanto, se a hipótese de escala for válida, medidas realizadas em
+diferentes temperaturas suficientemente próximas de $T_c$ devem,
+quando expressas em termos de $(x,y)$, colapsar em uma mesma função de
+escala para cada lado da transição. Para $T<T_c$, teremos a função $Y_-(x)$, enquanto para $T>T_c$ teremos
+a função $Y_+(x)$.
+%
+As temperaturas da tabela original são fornecidas em graus Celsius.
+Devemos convertê-las para Kelvin segundo
+%
+\begin{equation}
+    T(\mathrm{K})
+    =
+    T(^\circ\mathrm{C})+273.15.
+\end{equation}
+%
+Assim,
+%
+\begin{align}
+    348.78^\circ\mathrm{C}
+    &\longrightarrow
+    621.93\,\mathrm{K},
+    \\
+    350.66^\circ\mathrm{C}
+    &\longrightarrow
+    623.81\,\mathrm{K},
+    \\
+    352.53^\circ\mathrm{C}
+    &\longrightarrow
+    625.68\,\mathrm{K},
+    \\
+    358.18^\circ\mathrm{C}
+    &\longrightarrow
+    631.33\,\mathrm{K}.
+\end{align}
+%
+Usando $T_c=627.4\,\mathrm K$, encontramos
+%
+\begin{equation}
+    t=\frac{T-T_c}{T_c},
+\end{equation}
+%
+e, portanto,
+%
+\begin{align}
+    T=348.78^\circ\mathrm C:
+    &&t&=-0.008719,
+    \\
+    T=350.66^\circ\mathrm C:
+    &&t&=-0.005722,
+    \\
+    T=352.53^\circ\mathrm C:
+    &&t&=-0.002741,
+    \\
+    T=358.18^\circ\mathrm C:
+    &&t&=+0.006264.
+\end{align}
+%
+As três primeiras temperaturas estão abaixo de $T_c$, enquanto
+$358.18^\circ\mathrm C$ está acima de $T_c$.
+%
+Para cada ponto experimental, o campo que deve ser utilizado na
+hipótese de escala não é diretamente $H_0$, mas o campo corrigido dado pela equação~\eqref{eq:H_corrigido_Ni}.
+%
+Por exemplo, para
+$T=348.78^\circ\mathrm C$,
+$H_0=1355\,\mathrm G$ e $m=14.307$, temos
+%
+\begin{align}
+    H
+    &=
+    1355-39.3(14.307)
+    \nonumber\\
+    &=
+    792.735\,\mathrm G.
+\end{align}
+%
+Como
+%
+\begin{equation}
+    |t|^\Delta
+    =
+    |{-0.008719}|^{1.718}
+    \simeq2.895\times10^{-4},
+\end{equation}
+%
+segue que
+%
+\begin{equation}
+    x
+    =
+    \frac{792.735}{2.895\times10^{-4}}
+    \simeq2.738\times10^6.
+\end{equation}
+%
+Analogamente,
+%
+\begin{equation}
+    |t|^\beta
+    =
+    |{-0.008719}|^{0.378}
+    \simeq0.1665,
+\end{equation}
+%
+e portanto
+%
+\begin{equation}
+    y
+    =
+    \frac{14.307}{0.1665}
+    \simeq85.91.
+\end{equation}
+%
+Esse procedimento é aplicado a todos os pontos da tabela. A tabela abaixo apresenta os dados experimentais corrigidos e as correspondentes variáveis de escala.
+%
+\begin{table}[H]
+\centering
+\small
+\caption{
+Dados de magnetização do níquel corrigidos pelos efeitos de
+desmagnetização e variáveis de escala. Foram utilizados
+$T_c=627.4\,\mathrm K$, $\beta=0.378$ e $\Delta=1.718$.
+}
+\label{tab:dados_Ni}
+\begin{tabular}{@{}ccccc@{}}
+\toprule
+$H_0\,(\mathrm G)$
+&
+$m$
+&
+$H\,(\mathrm G)$
+&
+$x=H/|t|^\Delta$
+&
+$y=m/|t|^\beta$
+\\
+\midrule
+
+\multicolumn{5}{c}{
+$T=348.78^\circ\mathrm C$,
+$t=-0.008719$,
+$|t|^\beta=0.1665$,
+$|t|^\Delta=2.895\times10^{-4}$
+}
+\\
+
+430
+& 11.361
+& -16.487
+& $-5.695\times10^4$
+& 68.223
+\\
+
+890
+& 13.787
+& 348.171
+& $1.203\times10^6$
+& 82.791
+\\
+
+1355
+& 14.307
+& 792.735
+& $2.738\times10^6$
+& 85.913
+\\
+
+3230
+& 15.651
+& 2614.916
+& $9.032\times10^6$
+& 93.984
+\\
+
+6015
+& 16.938
+& 5349.337
+& $1.848\times10^7$
+& 101.713
+\\
+
+10070
+& 18.209
+& 9354.386
+& $3.231\times10^7$
+& 109.345
+\\
+
+14210
+& 19.212
+& 13454.968
+& $4.647\times10^7$
+& 115.368
+\\
+
+17775
+& 19.976
+& 16989.943
+& $5.868\times10^7$
+& 119.956
+\\
+
+\midrule
+
+\multicolumn{5}{c}{
+$T=350.66^\circ\mathrm C$,
+$t=-0.005722$,
+$|t|^\beta=0.1420$,
+$|t|^\Delta=1.404\times10^{-4}$
+}
+\\
+
+430
+& 10.452
+& 19.236
+& $1.370\times10^5$
+& 73.595
+\\
+
+1355
+& 12.646
+& 858.012
+& $6.110\times10^6$
+& 89.043
+\\
+
+3230
+& 14.322
+& 2667.145
+& $1.899\times10^7$
+& 100.844
+\\
+
+6015
+& 15.780
+& 5394.846
+& $3.842\times10^7$
+& 111.110
+\\
+
+10070
+& 17.271
+& 9391.250
+& $6.687\times10^7$
+& 121.608
+\\
+
+14210
+& 18.348
+& 13488.924
+& $9.605\times10^7$
+& 129.192
+\\
+
+17775
+& 19.141
+& 17022.759
+& $1.212\times10^8$
+& 134.775
+\\
+
+\midrule
+
+\multicolumn{5}{c}{
+$T=352.53^\circ\mathrm C$,
+$t=-0.002741$,
+$|t|^\beta=0.1075$,
+$|t|^\Delta=3.967\times10^{-5}$
+}
+\\
+
+430
+& 8.114
+& 111.120
+& $2.801\times10^6$
+& 75.453
+\\
+
+1355
+& 10.626
+& 937.398
+& $2.363\times10^7$
+& 98.812
+\\
+
+3230
+& 12.752
+& 2728.846
+& $6.879\times10^7$
+& 118.582
+\\
+
+6015
+& 14.519
+& 5444.403
+& $1.372\times10^8$
+& 135.014
+\\
+
+10070
+& 16.198
+& 9433.419
+& $2.378\times10^8$
+& 150.627
+\\
+
+14210
+& 17.395
+& 13526.377
+& $3.410\times10^8$
+& 161.758
+\\
+
+17775
+& 18.293
+& 17056.085
+& $4.300\times10^8$
+& 170.109
+\\
+
+\midrule
+
+\multicolumn{5}{c}{
+$T=358.18^\circ\mathrm C$,
+$t=+0.006264$,
+$|t|^\beta=0.1470$,
+$|t|^\Delta=1.641\times10^{-4}$
+}
+\\
+
+1355
+& 4.235
+& 1188.564
+& $7.245\times10^6$
+& 28.817
+\\
+
+3230
+& 7.567
+& 2932.617
+& $1.788\times10^7$
+& 51.489
+\\
+
+6015
+& 10.312
+& 5609.738
+& $3.419\times10^7$
+& 70.167
+\\
+
+10070
+& 12.775
+& 9567.942
+& $5.832\times10^7$
+& 86.927
+\\
+
+14210
+& 14.385
+& 13644.669
+& $8.317\times10^7$
+& 97.882
+\\
+
+17775
+& 15.504
+& 17165.693
+& $1.046\times10^8$
+& 105.496
+\\
+
+\bottomrule
+\end{tabular}
+\end{table}
+%
+Para testar a hipótese de escala, construímos o gráfico de
+%
+\begin{equation}
+    y=\frac{m}{|t|^\beta}
+\end{equation}
+%
+em função de
+%
+\begin{equation}
+    x=\frac{H}{|t|^\Delta}.
+\end{equation}
+%
+Para os três conjuntos de dados abaixo de $T_c$, esperamos que os
+pontos se aproximem de uma única função $Y_-(x)$. Para o conjunto acima
+de $T_c$, esperamos a função $Y_+(x)$. Há, entretanto, um detalhe importante. Para
+$T=348.78^\circ\mathrm C$ e $H_0=430\,\mathrm G$, a correção de
+desmagnetização fornece
+%
+\begin{equation}
+    H
+    =
+    430-39.3(11.361)
+    =
+    -16.487\,\mathrm G,
+\end{equation}
+%
+e, portanto,
+%
+\begin{equation}
+    x<0.
+\end{equation}
+%
+Esse ponto não pode ser representado em um gráfico log-log, uma vez que
+o logaritmo de $x$ não está definido para $x<0$. Portanto, esse único
+ponto será omitido da figura de colapso em escala log-log.
+%
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{loglogaxis}[
+    width=0.78\linewidth,
+    height=0.58\linewidth,
+    xlabel={\(x=H/|t|^{\Delta}\)},
+    ylabel={\(y=m/|t|^{\beta}\)},
+    grid=both,
+    legend style={
+        at={(0.02,0.98)},
+        anchor=north west,
+        font=\small
+    },
+    legend cell align=left,
+    mark size=1.7pt,
+    xmin=1e5,
+    xmax=5e8,
+    ymin=20,
+    ymax=200,
+]
+
+% ------------------------------------------------------------
+% T < Tc
+% ------------------------------------------------------------
+\addplot+[
+    only marks,
+    mark=*,
+    blue
+] coordinates {
+    (1.203e6,82.791)
+    (2.738e6,85.913)
+    (9.032e6,93.984)
+    (1.848e7,101.713)
+    (3.231e7,109.345)
+    (4.647e7,115.368)
+    (5.868e7,119.956)
+
+    (1.370e5,73.595)
+    (6.110e6,89.043)
+    (1.899e7,100.844)
+    (3.842e7,111.110)
+    (6.687e7,121.608)
+    (9.605e7,129.192)
+    (1.212e8,134.775)
+
+    (2.801e6,75.453)
+    (2.363e7,98.812)
+    (6.879e7,118.582)
+    (1.372e8,135.014)
+    (2.378e8,150.627)
+    (3.410e8,161.758)
+    (4.300e8,170.109)
+};
+\addlegendentry{\(T<T_c\) (\(Y_-\))}
+
+% ------------------------------------------------------------
+% T > Tc
+% ------------------------------------------------------------
+\addplot+[
+    only marks,
+    mark=square*,
+    red
+] coordinates {
+    (7.245e6,28.817)
+    (1.788e7,51.489)
+    (3.419e7,70.167)
+    (5.832e7,86.927)
+    (8.317e7,97.882)
+    (1.046e8,105.496)
+};
+\addlegendentry{\(T>T_c\) (\(Y_+\))}
+\end{loglogaxis}
+\end{tikzpicture}
+%
+\caption{
+Teste da forma de escala da magnetização do níquel.
+Os dados das três temperaturas abaixo de $T_c$ (pontos azuis) apresentam um colapso
+aproximado sobre uma única ramificação $Y_-(x)$ quando expressos nas
+variáveis reduzidas
+$x=H/|t|^\Delta$ e $y=m/|t|^\beta$.
+Os pontos disponíveis acima de $T_c$ (quadrados vermelhos) formam uma segunda ramificação
+$Y_+(x)$. O ponto correspondente a
+$T=348.78^\circ\mathrm C$ e $H_0=430\,\mathrm G$ possui $x<0$ e, por
+isso, não é mostrado na representação log-log.
+}
+\label{fig:colapso_Ni}
+\end{figure}
+%
+A figura mostra que os três conjuntos de dados obtidos para
+$T<T_c$ podem ser aproximadamente reunidos em uma mesma curva quando
+as variáveis originais são reescaladas. Podemos observar, por exemplo, que em regiões de valores semelhantes de $x$, os valores de $y$ obtidos em temperaturas diferentes tendem a se aproximar. Isso constitui evidência de que a dependência explícita em $t$ pode ser removida pela combinação de variáveis prevista pela teoria de escala. Os pontos obtidos para $T=358.18^\circ\mathrm C>T_c$ formam uma ramificação distinta, compatível com a existência de uma função
+$Y_+(x)$ diferente de $Y_-(x)$. Entretanto, é importante observar que há somente \emph{uma} temperatura acima de $T_c$ no conjunto de dados fornecido. Assim, esses pontos demonstram a forma de uma segunda ramificação, mas não permitem um teste independente de colapso de $Y_+$, pois não há uma segunda temperatura acima de $T_c$ com a qual realizar a comparação. Por outro lado, as três temperaturas abaixo de $T_c$ permitem um teste mais direto da hipótese de escala, pois diferentes valores de $t$
+devem produzir a mesma função $Y_-(x)$ após o reescalonamento. Os dados experimentais do níquel são compatíveis com a forma de escala
+% ============================================================
+\section*{Problema 3 -- Magnetização espontânea do modelo de Ising na rede quadrada}
+% ============================================================
+A magnetização espontânea do modelo de Ising ferromagnético com interações de
+primeiros vizinhos na rede quadrada é dada pela fórmula exata de Onsager,
+%
+\begin{equation}
+    m = \left\{1 - \left[\sinh(2K)\right]^{-4}\right\}^{1/8},
+    \qquad
+    K = \beta J = \frac{J}{k_B T}.
+    \label{eq:onsager_m}
+\end{equation}
+%
+Desejamos verificar a forma assintótica
+%
+\begin{equation}
+    m \sim B\,(-t)^{\beta},
+    \qquad
+    t = \frac{T-T_c}{T_c},
+    \label{eq:assint_m}
+\end{equation}
+%
+nas vizinhanças do ponto crítico, e determinar o prefator \(B\) e o expoente crítico \(\beta\). A transição de fase ocorre quando o argumento da raiz se anula, isto é,
+%
+\begin{equation}
+    \sinh(2K_c) = 1.
+    \label{eq:critical_condition}
+\end{equation}
+%
+A função $\operatorname{arcsinh}(x)$ pode ser escrita usando logaritmos naturais com a fórmula:
+%
+\[
+\operatorname{arcsinh}(x) = \ln \left(x + \sqrt{x^{2} + 1}\right)
+\]
+%
+Substituindo $x = 1$:
+%
+\[
+\operatorname{arcsinh}(1) = \ln \left(1 + \sqrt{1^{2} + 1}\right) = \ln (1 + \sqrt{2})
+\]
+%
+de modo que, resolvendo para \(K_c\),
+%
+\begin{equation}
+    2K_c = \operatorname{arcsinh}(1) = \ln(1+\sqrt{2}),
+\end{equation}
+%
+\begin{equation}
+    K_c = \frac{J}{k_B T_c}
+    = \frac{1}{2}\ln(1+\sqrt{2})
+    \approx 0.4406868.
+    \label{eq:Kc}
+\end{equation}
+% 
+Escrevemos a temperatura como
+%
+\begin{equation}
+    T = T_c(1+t),
+    \qquad
+    t = \frac{T-T_c}{T_c}.
+\end{equation}
+%
+Como \(K = J/(k_B T)\), temos
+%
+\begin{equation}
+    K = \frac{J}{k_B T_c(1+t)}
+    = \frac{K_c}{1+t}
+    \approx K_c\left(1 - t + \mathcal O(t^2)\right).
+    \label{eq:K_expansion}
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+    K - K_c \approx -K_c\,t.
+    \label{eq:K_difference}
+\end{equation}
+%
+Definimos
+%
+\begin{equation}
+    f(K) \equiv \sinh(2K).
+\end{equation}
+%
+No ponto crítico,
+%
+\begin{equation}
+    f(K_c) = \sinh(2K_c) = 1.
+\end{equation}
+%
+A derivada é
+%
+\begin{equation}
+    f'(K) = 2\cosh(2K).
+\end{equation}
+%
+Usando \(\cosh^2(2K_c) = 1 + \sinh^2(2K_c) = 2\), obtemos
+%
+\begin{equation}
+    f'(K_c) = 2\sqrt{2}.
+\end{equation}
+%
+Assim, a expansão de Taylor de \(f(K)\) em torno de \(K_c\) fornece
+%
+\begin{align}
+    \sinh(2K)
+    &= f(K_c) + f'(K_c)(K-K_c) + \mathcal O\big((K-K_c)^2\big) \nonumber\\
+    &\approx 1 + 2\sqrt{2}\,(K-K_c) \nonumber\\
+    &\approx 1 - 2\sqrt{2}\,K_c\,t.
+    \label{eq:sinh_expansion}
+\end{align}
+%
+Definimos a constante auxiliar
+%
+\begin{equation}
+    a \equiv 2\sqrt{2}\,K_c,
+    \label{eq:a_def}
+\end{equation}
+%
+de modo que
+%
+\begin{equation}
+    \sinh(2K) \approx 1 - a\,t.
+    \label{eq:sinh_linear}
+\end{equation}
+%
+Substituindo \eqref{eq:sinh_linear} na fórmula de Onsager \eqref{eq:onsager_m},
+\begin{equation}
+    \left[\sinh(2K)\right]^{-4}
+    \approx (1 - a\,t)^{-4}
+    \approx 1 + 4a\,t + \mathcal O(t^2),
+    \label{eq:sinh_power}
+\end{equation}
+%
+onde usamos a expansão binomial \((1-x)^{-4} \approx 1 + 4x\) para \(x \ll 1\). Portanto,
+%
+\begin{equation}
+    1 - \left[\sinh(2K)\right]^{-4}
+    \approx -4a\,t
+    = 4a\,(-t).
+    \label{eq:argument_m}
+\end{equation}
+%
+Como a magnetização espontânea é não nula apenas para \(T < T_c\), isto é,
+\(t < 0\), temos \(-t = |t| > 0\). Assim,
+%
+\begin{equation}
+    m = \left\{1 - \left[\sinh(2K)\right]^{-4}\right\}^{1/8}
+    \approx \left[4a\,(-t)\right]^{1/8}
+    = (4a)^{1/8}\,(-t)^{1/8}.
+    \label{eq:m_scaling}
+\end{equation}
+%
+Comparando com a forma assintótica \eqref{eq:assint_m}, identificamos
+%
+\begin{equation}
+    \boxed{
+    \beta = \frac{1}{8}
+    }
+    \label{eq:beta_onsager}
+\end{equation}
+%
+O prefator \(B\) é
+%
+\begin{equation}
+    B = (4a)^{1/8} = \left(8\sqrt{2}\,K_c\right)^{1/8}.
+    \label{eq:B_Kc}
+\end{equation}
+%
+Usando o valor explícito de \(K_c\) dado em \eqref{eq:Kc},
+%
+\begin{equation}
+    \boxed{
+    B = \left[8\sqrt{2}\cdot \frac{1}{2}\ln(1+\sqrt{2})\right]^{1/8}
+    = \left[4\sqrt{2}\,\ln(1+\sqrt{2})\right]^{1/8}
+    \approx 1.222.
+    }
+    \label{eq:B_final}
+\end{equation}
+%
+Nas vizinhanças do ponto crítico, a magnetização espontânea do modelo de Ising na rede quadrada obedece à forma assintótica
+%
+\begin{equation}
+    \boxed{
+    m \sim B\,(-t)^{\beta},
+    \qquad
+    \beta = \frac{1}{8},
+    \qquad
+    B = \left[4\sqrt{2}\,\ln(1+\sqrt{2})\right]^{1/8} \approx 1.222,
+    }
+    \label{eq:resultado_final}
+\end{equation}
+%
+para \(t < 0\). Para \(t > 0\), a magnetização espontânea é nula, \(m = 0\). O expoente \(\beta = 1/8\) é o valor exato da classe de universalidade do modelo de Ising bidimensional, diferindo substancialmente do valor clássico de campo médio \(\beta = 1/2\) que calculamos na primeira série de exercícios.
+% ============================================================
+\section*{Problema 4 -- Expansão de altas temperaturas do modelo de Ising na rede quadrada}
+% 
+Considere o modelo de Ising ferromagnético na rede quadrada simples, com interações de primeiros vizinhos e campo externo nulo. Adotamos o hamiltoniano
+com o sinal que torna a interação ferromagnética,
+%
+\begin{equation}
+    \mathcal H = -J \sum_{\langle i,j\rangle} \sigma_i \sigma_j,
+    \qquad J>0,\quad \sigma_i=\pm1,
+    \label{eq:H_ising_square}
+\end{equation}
+%
+onde a soma percorre todos os pares de primeiros vizinhos. A função canônica de partição é
+%
+\begin{equation}
+    Z = \sum_{\{\sigma_i\}} \e{-\beta \mathcal H}
+    = \sum_{\{\sigma_i\}} \exp\left(K \sum_{\langle i,j\rangle} \sigma_i \sigma_j\right),
+    \qquad K=\beta J.
+    \label{eq:Z_def}
+\end{equation}
+%
+Na rede quadrada com $N$ sítios e condições periódicas de contorno, o número de
+ligações (pares de primeiros vizinhos) é $2N$.
+% ------------------------------------------------------------
+\subsection*{(a) Expansão de altas temperaturas e grafos associados}
+% ------------------------------------------------------------
+A variável $x \equiv \sigma_i \sigma_j$ assume apenas dois valores discretos possíveis (para um sistema de spin-$1/2$), $x \in \{-1, +1\}$, dado que $\sigma_i = \pm 1$ e $\sigma_j = \pm 1$. Por conseguinte, para qualquer número inteiro $n \ge 0$, vale a propriedade binária:
+%
+\begin{equation}
+    x^n = 
+    \begin{cases} 
+    1, & \text{se } n \text{ é par}, \\
+    x, & \text{se } n \text{ é ímpar}.
+    \end{cases}
+\end{equation}
+%
+Expandindo a função exponencial $\e{K x}$ em série de Taylor em torno de $x=0$:
+%
+\begin{equation}
+    \e{K x} = \sum_{n=0}^{\infty} \frac{(K x)^n}{n!} = \sum_{n \text{ par}} \frac{K^n x^n}{n!} + \sum_{n \text{ ímpar}} \frac{K^n x^n}{n!}.
+\end{equation}
+%
+Aplicando a propriedade das potências de $x$, escrevemos $x^{2m} = 1$ para termos pares e $x^{2m+1} = x$ para termos ímpares, colocando $x$ em evidência no segundo somatório:
+%
+\begin{equation}
+    \e{K x} = \left( \sum_{m=0}^{\infty} \frac{K^{2m}}{(2m)!} \right) + x \left( \sum_{m=0}^{\infty} \frac{K^{2m+1}}{(2m+1)!} \right).
+\end{equation}
+%
+Reconhecendo as definições em série de Taylor do cosseno hiperbólico e do seno hiperbólico:
+%
+\begin{equation}
+    \cosh K = \sum_{m=0}^{\infty} \frac{K^{2m}}{(2m)!}, \qquad \sinh K = \sum_{m=0}^{\infty} \frac{K^{2m+1}}{(2m+1)!},
+\end{equation}
+%
+obtemos a identidade linear em $x$:
+%
+\begin{equation}
+    \e{K \sigma_i \sigma_j} = \cosh K + \sigma_i \sigma_j \sinh K.
+\end{equation}
+%
+Fatorando $\cosh K$ da expressão obtida:
+%
+\begin{equation}
+    \e{K \sigma_i \sigma_j} = \cosh K \left( 1 + \frac{\sinh K}{\cosh K} \sigma_i \sigma_j \right) = \cosh K \left(1 + t\, \sigma_i \sigma_j\right),
+    \label{eq:identity}
+\end{equation}
+%
+onde definiu-se a variável de expansão de altas temperaturas $t \equiv \tanh K$. Agora, como a função de partição canônica do sistema é definida por \eqref{eq:Z_def}, usamos a propriedade fundamental da exponencial que converte somas em produtos:
+%
+\begin{equation}
+    Z = \sum_{\{\sigma_i\}} \prod_{\langle i,j\rangle} \e{K \sigma_i \sigma_j}.
+\end{equation}
+%
+Substituindo a identidade \eqref{eq:identity} derivada anteriormente para cada ligação $\langle i,j \rangle$:
+%
+\begin{equation}
+    Z = \sum_{\{\sigma_i\}} \prod_{\langle i,j\rangle} \left[ \cosh K \left(1 + t\, \sigma_i \sigma_j\right) \right].
+\end{equation}
+%
+Como o produto opera sobre todas as ligações de primeiros vizinhos, o termo escalar $\cosh K$ é multiplicado tantas vezes quanto o número total de ligações da rede. Na rede quadrada simples com $N$ sítios e número de coordenação $z=4$ com condições periódicas de contorno, o número total de pares de primeiros vizinhos $N_{\text{ligações}}$ é:
+%
+\begin{equation}
+    N_{\text{ligações}} = \frac{z N}{2} = \frac{4 N}{2} = 2N.
+\end{equation}
+%
+Logo:
+%
+\begin{equation}
+    \prod_{\langle i,j\rangle} \cosh K = (\cosh K)^{2N}.
+\end{equation}
+%
+Como $(\cosh K)^{2N}$ não depende das configurações das variáveis de spin $\{\sigma_i\}$, ele pode ser fatorado para fora do somatório sobre as configurações de spin:
+%
+\begin{equation}
+    Z = (\cosh K)^{2N} \sum_{\{\sigma_i\}} \prod_{\langle i,j\rangle} \left(1 + t\, \sigma_i \sigma_j\right),
+    \label{eq:Z_prod}
+\end{equation}
+%
+Expandindo o produto,
+%
+\begin{equation}
+    \prod_{\langle i,j\rangle} \left(1 + t\, \sigma_i \sigma_j\right)
+    = \sum_{A \subseteq \mathcal B} t^{|A|}
+    \prod_{\langle i,j\rangle \in A} \sigma_i \sigma_j,
+\end{equation}
+%
+onde $\mathcal B$ é o conjunto de todas as $2N$ ligações e $A$ é um subconjunto de ligações. Portanto,
+%
+\begin{equation}
+    Z = (\cosh K)^{2N} \sum_{A \subseteq \mathcal B} t^{|A|}
+    \sum_{\{\sigma_i\}} \prod_{\langle i,j\rangle \in A} \sigma_i \sigma_j.
+    \label{eq:Z_sum_A}
+\end{equation}
+%
+A soma sobre os spins é não nula somente se cada vértice da rede aparece um número par de vezes no subconjunto $A$, isto é, se todos os vértices têm grau par. Nesse caso, a soma vale $2^N$. Logo,
+%
+\begin{equation}
+    Z = (\cosh K)^{2N} 2^N
+    \sum_{\substack{A \subseteq \mathcal B \\ \text{grau par}}} t^{|A|}.
+    \label{eq:Z_even}
+\end{equation}
+%
+Assim, os coeficientes da expansão em $t$ são dados pelo número de subgrafos com todos os vértices de grau par (subgrafos de Euler) na rede quadrada.
+
+\noindent\textbf{Ordem $t^4$:} O único subgrafo conexo com $4$ ligações e todos os vértices de grau par é um quadrado elementar (plaqueta). Há $N$ quadrados elementares na rede quadrada. Portanto, o coeficiente de $t^4$ é $N$. Ver Figura~\ref{fig:ordem_t4}.
+
+\noindent\textbf{Ordem $t^6$:} O único subgrafo conexo com $6$ ligações e graus pares é um ciclo de comprimento $6$, que na rede quadrada corresponde a um retângulo $1\times 2$ (ou $2\times 1$). Há $N$ retângulos horizontais e $N$ verticais, totalizando $2N$. Logo, o coeficiente de $t^6$ é $2N$. Ver Figura~\ref{fig:ordem_t6_h} e \ref{fig:ordem_t6_v}.
+%
+\begin{figure}[htbp]
+    \centering
+    % -------------------------------------------------------------
+    % SUBFIGURA (a): ORDEM t^4
+    % -------------------------------------------------------------
+    \begin{subfigure}[b]{0.31\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.75]
+            % Rede quadrada de fundo
+            \draw[gray!40, thin, dashed] (-0.3,-0.3) grid (2.3,2.3);
+            \foreach \x in {0,...,2} {
+                \foreach \y in {0,...,2} {
+                    \fill[gray!50] (\x,\y) circle (2pt);
+                }
+            }
+            
+            % Plaqueta elementar (ordem t^4)
+            \draw[blue!80!black, line width=1.6pt, line join=round] (0,0) -- (1,0) -- (1,1) -- (0,1) -- cycle;
+            
+            % Vértices ativos
+            \foreach \x/\y in {0/0, 1/0, 1/1, 0/1} {
+                \fill[blue!80!black] (\x,\y) circle (3pt);
+            }
+            
+            \node at (0.5,0.5) [scale=0.8, font=\bfseries, color=blue!80!black] {Plaqueta};
+        \end{tikzpicture}
+        \caption{Ordem $t^4$: plaqueta $1\times 1$ ($N$ posições).}
+        \label{fig:ordem_t4}
+    \end{subfigure}
+    \hfill
+    % -------------------------------------------------------------
+    % SUBFIGURA (b): ORDEM t^6 HORIZONTAL
+    % -------------------------------------------------------------
+    \begin{subfigure}[b]{0.33\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.75]
+            % Rede quadrada de fundo
+            \draw[gray!40, thin, dashed] (-0.3,-0.3) grid (3.3,2.3);
+            \foreach \x in {0,...,3} {
+                \foreach \y in {0,...,2} {
+                    \fill[gray!50] (\x,\y) circle (2pt);
+                }
+            }
+            
+            % Retângulo horizontal 1x2 (ordem t^6)
+            \draw[red!80!black, line width=1.6pt, line join=round] (0,0) -- (2,0) -- (2,1) -- (0,1) -- cycle;
+            
+            % Vértices ativos
+            \foreach \x/\y in {0/0, 1/0, 2/0, 2/1, 1/1, 0/1} {
+                \fill[red!80!black] (\x,\y) circle (3pt);
+            }
+            
+            \node at (1,0.5) [scale=0.8, font=\bfseries, color=red!80!black] {Horizontal $1\times 2$};
+        \end{tikzpicture}
+        \caption{Ordem $t^6$: $1\times 2$ ($N$ posições).}
+        \label{fig:ordem_t6_h}
+    \end{subfigure}
+    \hfill
+    % -------------------------------------------------------------
+    % SUBFIGURA (c): ORDEM t^6 VERTICAL
+    % -------------------------------------------------------------
+    \begin{subfigure}[b]{0.31\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.75]
+            % Rede quadrada de fundo
+            \draw[gray!40, thin, dashed] (-0.3,-0.3) grid (2.3,3.3);
+            \foreach \x in {0,...,2} {
+                \foreach \y in {0,...,3} {
+                    \fill[gray!50] (\x,\y) circle (2pt);
+                }
+            }
+            
+            % Retângulo vertical 2x1 (ordem t^6)
+            \draw[red!80!black, line width=1.6pt, line join=round] (0,0) -- (1,0) -- (1,2) -- (0,2) -- cycle;
+            
+            % Vértices ativos
+            \foreach \x/\y in {0/0, 1/0, 1/1, 1/2, 0/2, 0/1} {
+                \fill[red!80!black] (\x,\y) circle (3pt);
+            }
+            
+            \node at (0.5,1) [scale=0.8, font=\bfseries, color=red!80!black, rotate=90] {Vertical $2\times 1$};
+        \end{tikzpicture}
+        \caption{Ordem $t^6$: $2\times 1$ ($N$ posições).}
+        \label{fig:ordem_t6_v}
+    \end{subfigure}
+
+    \caption{Subgrafos de Euler permitidos na expansão de alta temperatura: (a) laço de 4 arestas ($N$ combinações) e (b, c) laços de 6 arestas em ambas as orientações ($N + N = 2N$ combinações).}
+    \label{fig:subgrafos_euler}
+\end{figure}
+
+\medskip
+\noindent\textbf{Ordem $t^8$:} Os subgrafos com $8$ ligações e graus pares podem ser:
+%
+\begin{itemize}
+    \item \textbf{Dois quadrados disjuntos} (dois ciclos de comprimento $4$ sem
+    vértices em comum). O número de pares não ordenados de quadrados disjuntos é
+    \begin{equation}
+        \binom{N}{2} - 4N
+        = \frac{N(N-1)}{2} - 4N
+        = \frac{N^2}{2} - \frac{9N}{2},
+    \end{equation}
+    onde subtraímos os $4N$ pares de quadrados que compartilham pelo menos um
+    vértice.
+    \item \textbf{Ciclos de comprimento $8$}: há $7$ tipos distintos de ciclos de
+    comprimento $8$ na rede quadrada, cada um ocorrendo em $N$ posições,
+    totalizando $7N$.
+    \item \textbf{Dois quadrados que compartilham um único vértice}: em cada
+    vértice, há $2$ pares de quadrados que se tocam apenas naquele vértice,
+    totalizando $2N$ configurações. Ver Figura~\ref{fig:ordem_t8_completo}.
+\end{itemize}
+%
+\begin{figure}[htbp]
+    \centering
+    % -------------------------------------------------------------
+    % LINHA 1: GRAFOS DESCONECTADOS / TOCANTES
+    % -------------------------------------------------------------
+    \begin{subfigure}[b]{0.46\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.7]
+            % Rede de fundo
+            \draw[gray!40, thin, dashed] (-0.3,-0.3) grid (3.3,2.3);
+            \foreach \x in {0,...,3} {
+                \foreach \y in {0,...,2} {
+                    \fill[gray!50] (\x,\y) circle (2pt);
+                }
+            }
+            % Quadrado 1
+            \draw[teal!80!black, line width=1.5pt, line join=round] (0,0) rectangle (1,1);
+            \foreach \x/\y in {0/0, 1/0, 1/1, 0/1} { \fill[teal!80!black] (\x,\y) circle (2.8pt); }
+            % Quadrado 2 (disjunto)
+            \draw[teal!80!black, line width=1.5pt, line join=round] (2,1) rectangle (3,2);
+            \foreach \x/\y in {2/1, 3/1, 3/2, 2/2} { \fill[teal!80!black] (\x,\y) circle (2.8pt); }
+        \end{tikzpicture}
+        \caption{Dois quadrados disjuntos ($\frac{N^2}{2} - \frac{9N}{2}$).}
+        \label{fig:t8_disjuntos}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.46\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.7]
+            % Rede de fundo
+            \draw[gray!40, thin, dashed] (-0.3,-0.3) grid (2.3,2.3);
+            \foreach \x in {0,...,2} {
+                \foreach \y in {0,...,2} {
+                    \fill[gray!50] (\x,\y) circle (2pt);
+                }
+            }
+            % Quadrados tocantes no vértice (1,1)
+            \draw[violet!80!black, line width=1.5pt, line join=round] (0,0) rectangle (1,1);
+            \draw[violet!80!black, line width=1.5pt, line join=round] (1,1) rectangle (2,2);
+            \foreach \x/\y in {0/0, 1/0, 0/1, 1/1, 2/1, 2/2, 1/2} { \fill[violet!80!black] (\x,\y) circle (2.8pt); }
+            % Destaque no vértice compartilhado (grau 4)
+            \draw[violet!80!black, fill=white, line width=1.2pt] (1,1) circle (3.5pt);
+        \end{tikzpicture}
+        \caption{Tocantes por $1$ vértice ($2N$).}
+        \label{fig:t8_vertice}
+    \end{subfigure}
+
+    \vspace{12pt}
+
+    % -------------------------------------------------------------
+    % LINHA 2: POLÍGONOS SIMPLES (LAÇOS DE COMPRIMENTO 8)
+    % -------------------------------------------------------------
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.65]
+            % Rede de fundo
+            \draw[gray!40, thin, dashed] (-0.3,-0.3) grid (3.3,1.3);
+            \foreach \x in {0,...,3} {
+                \foreach \y in {0,...,1} {
+                    \fill[gray!50] (\x,\y) circle (2pt);
+                }
+            }
+            % Retângulo 1x3
+            \draw[orange!90!black, line width=1.5pt, line join=round] (0,0) -- (3,0) -- (3,1) -- (0,1) -- cycle;
+            \foreach \x in {0,...,3} {
+                \fill[orange!90!black] (\x,0) circle (2.8pt);
+                \fill[orange!90!black] (\x,1) circle (2.8pt);
+            }
+        \end{tikzpicture}
+        \caption{Retângulo $1\times 3$ ($2N$).}
+        \label{fig:t8_1x3}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.31\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.65]
+            % Rede de fundo
+            \draw[gray!40, thin, dashed] (-0.3,-0.3) grid (2.3,2.3);
+            \foreach \x in {0,...,2} {
+                \foreach \y in {0,...,2} {
+                    \fill[gray!50] (\x,\y) circle (2pt);
+                }
+            }
+            % Quadrado 2x2
+            \draw[blue!80!black, line width=1.5pt, line join=round] (0,0) -- (2,0) -- (2,2) -- (0,2) -- cycle;
+            \foreach \x/\y in {0/0, 1/0, 2/0, 2/1, 2/2, 1/2, 0/2, 0/1} {
+                \fill[blue!80!black] (\x,\y) circle (2.8pt);
+            }
+        \end{tikzpicture}
+        \caption{Quadrado $2\times 2$ ($1N$).}
+        \label{fig:t8_2x2}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.65]
+            % Rede de fundo
+            \draw[gray!40, thin, dashed] (-0.3,-0.3) grid (2.3,2.3);
+            \foreach \x in {0,...,2} {
+                \foreach \y in {0,...,2} {
+                    \fill[gray!50] (\x,\y) circle (2pt);
+                }
+            }
+            % Polígono em L (3 plaquetas)
+            \draw[magenta!80!black, line width=1.5pt, line join=round] (0,0) -- (2,0) -- (2,1) -- (1,1) -- (1,2) -- (0,2) -- cycle;
+            \foreach \x/\y in {0/0, 1/0, 2/0, 2/1, 1/1, 1/2, 0/2, 0/1} {
+                \fill[magenta!80!black] (\x,\y) circle (2.8pt);
+            }
+        \end{tikzpicture}
+        \caption{Polígono em "L" ($4N$).}
+        \label{fig:t8_L}
+    \end{subfigure}
+
+    \caption{Classificação dos subgrafos eulerianos de ordem $t^8$ ($8$ arestas): (a) pares disjuntos, (b) pares tocantes e (c, d, e) laços simples de 8 arestas ($2N + 1N + 4N = 7N$). Somando todas as contribuições, obtém-se o coeficiente total de $\frac{N^2}{2} + \frac{9N}{2}$.}
+    \label{fig:ordem_t8_completo}
+\end{figure}
+%
+Somando todas as contribuições,
+%
+\begin{equation}
+    \frac{N^2}{2} - \frac{9N}{2} + 7N + 2N
+    = \frac{N^2}{2} + \frac{9N}{2}.
+\end{equation}
+%
+Portanto, a expansão da função de partição até $t^8$ é
+%
+\begin{equation}
+    \boxed{
+    Z = (\cosh K)^{2N} 2^N
+    \left[
+    1 + N t^4 + 2N t^6
+    + \left(\frac{N^2}{2} + \frac{9N}{2}\right) t^8
+    + \mathcal O(t^{10})
+    \right].
+    }
+    \label{eq:Z_expansion}
+\end{equation}
+% ------------------------------------------------------------
+\subsection*{(b) Expansão da energia livre por spin}
+% ------------------------------------------------------------
+A energia livre por spin é
+%
+\begin{equation}
+    g = \lim_{N\to\infty} \left(-\frac{1}{\beta N} \ln Z\right).
+\end{equation}
+%
+Substituindo \eqref{eq:Z_expansion},
+%
+\begin{align}
+    -\beta g
+    &= \lim_{N\to\infty} \frac{1}{N} \ln Z \nonumber\\
+    &= 2 \ln \cosh K + \ln 2
+    + \lim_{N\to\infty} \frac{1}{N} \ln S,
+\end{align}
+%
+onde
+%
+\begin{equation}
+    S = 1 + N t^4 + 2N t^6
+    + \left(\frac{N^2}{2} + \frac{9N}{2}\right) t^8
+    + \mathcal O(t^{10}).
+\end{equation}
+%
+Para expandir $\ln S$, utilizamos a série de Taylor genérica da função $\ln(1+x)$ em torno de $x = 0$:
+\begin{equation}
+    \ln(1 + x) = \sum_{k=1}^{\infty} \frac{(-1)^{k-1}}{k} x^k = x - \frac{1}{2} x^2 + \frac{1}{3} x^3 - \frac{1}{4} x^4 + \mathcal{O}(x^5),
+    \label{eq:ln_taylor_generic}
+\end{equation}
+a qual é válida para $|x| < 1$. No nosso caso, escrevemos a soma sobre os grafos fechados $S$ na forma $S = 1 + x$, identificando a variável $x$ como a contribuição de todos os grafos não triviais:
+%
+\begin{equation}
+    x \equiv N t^4 + 2N t^6 + \left(\frac{N^2}{2} + \frac{9N}{2}\right) t^8 + \mathcal{O}(t^{10}).
+\end{equation}
+%
+Como queremos a expansão de $\ln S$ truncada até a ordem $t^8$, calculamos as potências de $x$ necessárias mantendo apenas os termos de ordem menor ou igual a $t^8$:
+%
+\begin{itemize}
+    \item \textbf{Termo de ordem $x^1$:}
+    %
+    \begin{equation}
+        x = N t^4 + 2N t^6 + \left(\frac{N^2}{2} + \frac{9N}{2}\right) t^8 + \mathcal{O}(t^{10}).
+    \end{equation}
+    %
+    \item \textbf{Termo de ordem $x^2$:}
+    %
+    \begin{align}
+        x^2 &= \left[ N t^4 + 2N t^6 + \left(\frac{N^2}{2} + \frac{9N}{2}\right) t^8 + \mathcal{O}(t^{10}) \right]^2 \nonumber\\
+            &= \left(N t^4\right)^2 + 2(N t^4)(2N t^6) + \mathcal{O}(t^{10}) \nonumber\\
+            &= N^2 t^8 + \mathcal{O}(t^{10}).
+    \end{align}
+    %
+    \item \textbf{Termos de ordem $x^3, x^4, \dots$:}
+    Como a menor potência em $x$ é $t^4$, temos $x^3 \sim \mathcal{O}(t^{12})$, de modo que todas as potências $x^k$ com $k \ge 3$ contribuem apenas com ordens superiores a $t^8$. 
+\end{itemize}
+%
+Substituindo as potências $x$ e $x^2$ na expansão genérica \eqref{eq:ln_taylor_generic}:
+%
+\begin{align}
+    \ln S &= \ln(1 + x) = x - \frac{1}{2}x^2 + \mathcal{O}(t^{10}) \nonumber\\[6pt]
+          &= \left[ N t^4 + 2N t^6 + \left(\frac{N^2}{2} + \frac{9N}{2}\right) t^8 \right] - \frac{1}{2} \left[ N^2 t^8 \right] + \mathcal{O}(t^{10}) \nonumber\\[6pt]
+          &= N t^4 + 2N t^6 + \left( \frac{N^2}{2} - \frac{N^2}{2} + \frac{9N}{2} \right) t^8 + \mathcal{O}(t^{10}) \nonumber\\[6pt]
+          &= N t^4 + 2N t^6 + \frac{9N}{2} t^8 + \mathcal{O}(t^{10}).
+\end{align}
+%
+O cancelamento exato do termo proporcional a $N^2$ no coeficiente de $t^8$ garante que a energia livre seja uma grandeza puramente extensiva (proporcional a $N$), permitindo um limite termodinâmico bem-definido e finito:
+%
+\begin{equation}
+    \lim_{N\to\infty} \frac{1}{N} \ln S = t^4 + 2 t^6 + \frac{9}{2} t^8 + \mathcal{O}(t^{10}).
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+    \boxed{
+    -\beta g
+    = 2 \ln \cosh K + \ln 2
+    + t^4 + 2 t^6 + \frac{9}{2} t^8 + \mathcal O(t^{10}),
+    }
+    \label{eq:free_energy_expansion}
+\end{equation}
+%
+que é exatamente o resultado fornecido no enunciado. Isso verifica os coeficientes da expansão de altas temperaturas da energia livre por spin.
+% ============================================================
+\section*{Problema 5 -- Método da Razão}
+% ============================================================
+A série fornecida para a função $f(x)$ é
+%
+\begin{equation}
+    f(x)
+    =
+    4+16x+37x^2+67x^3+106x^4+154x^5
+    +211x^6+277x^7+352x^8+436x^9+529x^{10}.
+    \label{eq:f_series_p5}
+\end{equation}
+%
+Supõe-se que, nas vizinhanças do ponto singular $x_c$, a função
+apresente o comportamento assintótico
+%
+\begin{equation}
+    f(x)\sim A(x_c-x)^{-\gamma}.
+    \label{eq:singular_form_p5}
+\end{equation}
+%
+O objetivo é utilizar o método da razão para obter estimativas para
+$x_c$ e $\gamma$ e comparar os resultados com a solução analítica da
+série. Consideremos inicialmente a expansão em série de potências
+%
+\begin{equation}
+    (a-x)^b
+    =
+    \sum_{n=0}^{\infty} A_n x^n.
+    \label{eq:binomial_p5}
+\end{equation}
+%
+Escrevendo
+%
+\begin{equation}
+    (a-x)^b
+    =
+    a^b
+    \left(1-\frac{x}{a}\right)^b,
+\end{equation}
+%
+e utilizando o teorema binomial generalizado,
+%
+\begin{equation}
+    (1-z)^b
+    =
+    \sum_{n=0}^{\infty}
+    (-1)^n
+    \binom{b}{n}z^n,
+\end{equation}
+%
+obtemos
+%
+\begin{equation}
+    A_n
+    =
+    \frac{(-1)^n}{n!}
+    b(b-1)(b-2)\cdots(b-n+1)
+    a^{b-n}.
+    \label{eq:An_p5}
+\end{equation}
+%
+Consideremos agora a razão entre coeficientes consecutivos:
+%
+\begin{align}
+    \frac{A_n}{A_{n-1}}
+    &=
+    \frac{
+    \dfrac{(-1)^n}{n!}
+    b(b-1)\cdots(b-n+1)a^{b-n}
+    }{
+    \dfrac{(-1)^{n-1}}{(n-1)!}
+    b(b-1)\cdots(b-n+2)a^{b-n+1}
+    }
+    \nonumber\\
+    &=
+    -\frac{b-n+1}{an}
+    \nonumber\\
+    &=
+    \frac{n-b-1}{an}
+    \nonumber\\
+    &=
+    \frac{1}{a}
+    \left[
+        1-\frac{b+1}{n}
+    \right].
+\end{align}
+%
+Portanto,
+%
+\begin{equation}
+    \frac{A_n}{A_{n-1}}
+    =
+    \frac{1}{a}
+    \left[
+        1-\frac{b+1}{n}
+    \right].
+    \label{eq:ratio_ab_p5}
+\end{equation}
+%
+Para a singularidade considerada no problema,
+%
+\begin{equation}
+    f(x)\sim A(x_c-x)^{-\gamma},
+\end{equation}
+%
+fazemos a identificação
+%
+\begin{equation}
+    a=x_c,
+    \qquad
+    b=-\gamma.
+\end{equation}
+%
+Substituindo essas relações em \eqref{eq:ratio_ab_p5}, temos
+%
+\begin{equation}
+    \frac{A_n}{A_{n-1}}
+    =
+    \frac{1}{x_c}
+    \left[
+        1+\frac{\gamma-1}{n}
+    \right].
+    \label{eq:ratio_final_p5}
+\end{equation}
+%
+Assim, no limite assintótico $n\to\infty$,
+%
+\begin{equation}
+    \frac{A_n}{A_{n-1}}
+    =
+    \frac{1}{x_c}
+    +
+    \frac{\gamma-1}{x_c}\frac{1}{n}
+    +
+    \mathcal O\left(\frac{1}{n^2}\right).
+    \label{eq:ratio_asymptotic_p5}
+\end{equation}
+%
+Essa expressão mostra que um gráfico de
+%
+\begin{equation}
+    R_n\equiv\frac{A_n}{A_{n-1}}
+\end{equation}
+%
+em função de $1/n$ deve se aproximar assintoticamente de uma reta. Seu
+intercepto fornece $1/x_c$, enquanto sua inclinação fornece
+$(\gamma-1)/x_c$. A partir da série \eqref{eq:f_series_p5}, identificamos
+%
+\begin{align}
+    &A_0=4,\qquad
+    A_1=16,\qquad
+    A_2=37,\qquad
+    A_3=67,\qquad
+    A_4=106,
+    \nonumber\\
+    &A_5=154,\qquad
+    A_6=211,\qquad
+    A_7=277,\qquad
+    A_8=352,
+    \nonumber\\
+    &A_9=436,\qquad
+    A_{10}=529.
+\end{align}
+%
+Uma característica importante da sequência é que suas diferenças
+sucessivas são particularmente simples:
+%
+\begin{align}
+    A_1-A_0 &=16-4=12,\\
+    A_2-A_1 &=37-16=21,\\
+    A_3-A_2 &=67-37=30,\\
+    A_4-A_3 &=106-67=39.
+\end{align}
+%
+Continuando,
+%
+\begin{equation}
+    A_n-A_{n-1}=9n+3.
+    \label{eq:difference_An_p5}
+\end{equation}
+%
+Somando telescopicamente de $k=1$ até $n$,
+%
+\begin{align}
+    A_n-A_0
+    &=
+    \sum_{k=1}^{n}(A_k-A_{k-1})
+    \nonumber\\
+    &=
+    \sum_{k=1}^{n}(9k+3)
+    \nonumber\\
+    &=
+    9\sum_{k=1}^{n}k
+    +
+    3\sum_{k=1}^{n}1.
+\end{align}
+%
+Utilizando
+%
+\begin{equation}
+    \sum_{k=1}^{n}k=\frac{n(n+1)}{2},
+\end{equation}
+%
+obtemos
+%
+\begin{align}
+    A_n-4
+    &=
+    9\frac{n(n+1)}{2}+3n
+    \nonumber\\
+    &=
+    \frac{9n^2+9n+6n}{2}.
+\end{align}
+%
+Logo,
+%
+\begin{align}
+    A_n
+    &=
+    4+\frac{9n^2+15n}{2}
+    \nonumber\\
+    &=
+    \frac{9n^2+15n+8}{2}.
+\end{align}
+%
+Portanto, temos a expressão fechada
+%
+\begin{equation}
+    A_n=\frac{9n^2+15n+8}{2}.
+    \label{eq:An_closed_p5}
+\end{equation}
+%
+Como
+%
+\begin{equation}
+    f(x)
+    =
+    \sum_{n=0}^{\infty}A_nx^n,
+\end{equation}
+%
+substituímos \eqref{eq:An_closed_p5}:
+%
+\begin{equation}
+    f(x)
+    =
+    \sum_{n=0}^{\infty}
+    \left(
+        \frac{9n^2+15n+8}{2}
+    \right)x^n.
+\end{equation}
+%
+Separando os termos,
+%
+\begin{equation}
+    f(x)
+    =
+    \frac{9}{2}\sum_{n=0}^{\infty}n^2x^n
+    +
+    \frac{15}{2}\sum_{n=0}^{\infty}nx^n
+    +
+    4\sum_{n=0}^{\infty}x^n.
+    \label{eq:f_split_p5}
+\end{equation}
+%
+Para $|x|<1$, temos as identidades
+%
+\begin{equation}
+    \sum_{n=0}^{\infty}x^n
+    =
+    \frac{1}{1-x},
+    \label{eq:sum0_p5}
+\end{equation}
+%
+\begin{equation}
+    \sum_{n=0}^{\infty}nx^n
+    =
+    \frac{x}{(1-x)^2},
+    \label{eq:sum1_p5}
+\end{equation}
+%
+e
+%
+\begin{equation}
+    \sum_{n=0}^{\infty}n^2x^n
+    =
+    \frac{x(1+x)}{(1-x)^3}.
+    \label{eq:sum2_p5}
+\end{equation}
+%
+Substituindo essas expressões em \eqref{eq:f_split_p5},
+%
+\begin{equation}
+    f(x)
+    =
+    \frac{9}{2}
+    \frac{x(1+x)}{(1-x)^3}
+    +
+    \frac{15}{2}
+    \frac{x}{(1-x)^2}
+    +
+    \frac{4}{1-x}.
+\end{equation}
+%
+Colocando os três termos sobre o denominador comum $2(1-x)^3$,
+%
+\begin{align}
+    f(x)
+    &=
+    \frac{
+        9x(1+x)
+        +
+        15x(1-x)
+        +
+        8(1-x)^2
+    }
+    {2(1-x)^3}
+    \nonumber\\
+    &=
+    \frac{
+        9x+9x^2
+        +
+        15x-15x^2
+        +
+        8-16x+8x^2
+    }
+    {2(1-x)^3}
+    \nonumber\\
+    &=
+    \frac{
+        2x^2+8x+8
+    }
+    {2(1-x)^3}
+    \nonumber\\
+    &=
+    \frac{
+        x^2+4x+4
+    }
+    {(1-x)^3}.
+\end{align}
+%
+Como
+%
+\begin{equation}
+    x^2+4x+4=(x+2)^2,
+\end{equation}
+%
+a função geradora exata é
+%
+\begin{equation}
+    f(x)=\frac{(x+2)^2}{(1-x)^3}.    \label{eq:exact_generating_p5}
+\end{equation}
+%
+A função \eqref{eq:exact_generating_p5} possui uma singularidade em
+%
+\begin{equation}
+    x_c=1.
+\end{equation}
+%
+Além disso, nas vizinhanças de $x=1$,
+%
+\begin{equation}
+    (x+2)^2\longrightarrow9.
+\end{equation}
+%
+Assim,
+%
+\begin{equation}
+    f(x)
+    \sim
+    9(1-x)^{-3},
+    \qquad
+    x\to1.
+\end{equation}
+%
+Comparando com a forma assumida
+%
+\begin{equation}
+    f(x)\sim A(x_c-x)^{-\gamma},
+\end{equation}
+%
+obtemos exatamente
+%
+\begin{equation}
+    \boxed{
+    x_c=1,
+    \qquad
+    \gamma=3,
+    \qquad
+    A=9.
+    }
+    \label{eq:exact_results_p5}
+\end{equation}
+%
+Portanto, neste problema, os valores exatos de $x_c$ e $\gamma$ podem
+ser determinados diretamente porque conhecemos a função geradora
+fechada. A partir da expressão fechada para $A_n$, a razão consecutiva é
+%
+\begin{equation}
+    R_n
+    =
+    \frac{A_n}{A_{n-1}}
+    =
+    \frac{
+        9n^2+15n+8
+    }{
+        9(n-1)^2+15(n-1)+8
+    }.
+\end{equation}
+%
+Expandindo o denominador,
+%
+\begin{equation}
+    9(n-1)^2+15(n-1)+8
+    =
+    9n^2-3n+2,
+\end{equation}
+%
+e, portanto,
+%
+\begin{equation}
+    R_n
+    =
+    \frac{9n^2+15n+8}
+         {9n^2-3n+2}.
+    \label{eq:R_exact_p5}
+\end{equation}
+%
+Dividindo numerador e denominador por $9n^2$,
+%
+\begin{equation}
+    R_n
+    =
+    \frac{
+        1+\dfrac{5}{3n}+\dfrac{8}{9n^2}
+    }{
+        1-\dfrac{1}{3n}+\dfrac{2}{9n^2}
+    }.
+\end{equation}
+%
+Expandindo em potências de $1/n$, encontramos
+%
+\begin{equation}
+    R_n
+    =
+    1
+    +
+    \frac{2}{n}
+    +
+    \frac{4}{3n^2}
+    -
+    \frac{8}{27n^4}
+    +
+    \mathcal O\left(\frac{1}{n^5}\right).    \label{eq:R_exact_asympt_p5}
+\end{equation}
+%
+Em particular, mantendo apenas os termos dominantes,
+%
+\begin{equation}
+    R_n
+    =
+    1+\frac{2}{n}
+    +
+    \mathcal O\left(\frac{1}{n^2}\right).
+    \label{eq:R_dominant_p5}
+\end{equation}
+%
+Comparando com a forma assintótica geral
+%
+\begin{equation}
+    R_n
+    =
+    \frac{1}{x_c}
+    +
+    \frac{\gamma-1}{x_c}\frac{1}{n}
+    +
+    \mathcal O\left(\frac{1}{n^2}\right),
+\end{equation}
+%
+segue que
+%
+\begin{align}
+    \frac{1}{x_c}&=1,
+    \\
+    \frac{\gamma-1}{x_c}&=2.
+\end{align}
+%
+Consequentemente,
+%
+\begin{equation}
+    \boxed{
+    x_c=1,
+    \qquad
+    \gamma=3,
+    }
+\end{equation}
+%
+em perfeito acordo com o resultado obtido diretamente da função
+geradora. Vamos agora aplicar o método da razão apenas aos dez primeiros termos da série fornecida. Definimos
+%
+\begin{equation}
+    R_n\equiv\frac{A_n}{A_{n-1}},
+    \qquad
+    n=1,\ldots,10.
+\end{equation}
+%
+Os valores são apresentados na Tabela~\ref{tab:ratio_p5}.
+%
+\begin{table}[htbp]
+    \centering
+    \caption{
+        Coeficientes $A_n$, variável $1/n$ e razões consecutivas
+        $R_n=A_n/A_{n-1}$.
+    }
+    \label{tab:ratio_p5}
+    \begin{tabular}{cccc}
+        \toprule
+        $n$ & $A_n$ & $1/n$ & $R_n$ \\
+        \midrule
+        1  & 16  & 1.0000 & 4.0000 \\
+        2  & 37  & 0.5000 & 2.3125 \\
+        3  & 67  & 0.3333 & 1.8108 \\
+        4  & 106 & 0.2500 & 1.5821 \\
+        5  & 154 & 0.2000 & 1.4528 \\
+        6  & 211 & 0.1667 & 1.3701 \\
+        7  & 277 & 0.1429 & 1.3128 \\
+        8  & 352 & 0.1250 & 1.2708 \\
+        9  & 436 & 0.1111 & 1.2386 \\
+        10 & 529 & 0.1000 & 1.2133 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+%
+Consideremos inicialmente a forma assintótica linear
+%
+\begin{equation}
+    R_n
+    \simeq
+    c_0+c_1\frac{1}{n}.
+    \label{eq:fit_linear_p5}
+\end{equation}
+%
+Um ajuste linear utilizando todos os dez pontos, $n=1,\ldots,10$,
+fornece
+%
+\begin{equation}
+    \boxed{
+    R_n
+    \simeq
+    0.8525
+    +
+    3.0861\frac{1}{n}.
+    }
+\end{equation}
+%
+Como o intercepto é aproximadamente $1/x_c$,
+%
+\begin{equation}
+    x_c^{\rm (lin)}
+    =
+    \frac{1}{0.8525}
+    \simeq
+    1.1731.
+\end{equation}
+%
+Da inclinação,
+%
+\begin{equation}
+    \gamma^{\rm (lin)}
+    =
+    1+\frac{3.0861}{0.8525}
+    \simeq
+    4.6202.
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+    \boxed{
+    x_c^{\rm (lin)}=1.1731,
+    \qquad
+    \gamma^{\rm (lin)}=4.6202.
+    }
+    \label{eq:linear_results_p5}
+\end{equation}
+%
+Esses valores diferem dos resultados exatos. A razão é que a fórmula
+linear em $1/n$ é apenas uma aproximação assintótica, enquanto os
+primeiros pontos, especialmente aqueles com $n$ pequeno, ainda possuem
+correções importantes de ordem $1/n^2$ e ordens superiores. Para levar explicitamente em consideração a primeira correção
+subdominante, consideramos
+%
+\begin{equation}
+    R_n
+    =
+    c_0
+    +
+    c_1\frac{1}{n}
+    +
+    c_2\frac{1}{n^2}.
+    \label{eq:fit_quad_p5}
+\end{equation}
+%
+O ajuste aos dez pontos fornece
+%
+\begin{equation}
+    \boxed{
+    R_n
+    \simeq
+    0.9708
+    +
+    2.2904\frac{1}{n}
+    +
+    0.7404\frac{1}{n^2}.
+    }
+\end{equation}
+%
+Nesse caso,
+%
+\begin{equation}
+    x_c^{\rm (quad)}
+    =
+    \frac{1}{0.9708}
+    \simeq
+    1.0301,
+\end{equation}
+%
+e
+%
+\begin{equation}
+    \gamma^{\rm (quad)}
+    =
+    1+\frac{2.2904}{0.9708}
+    \simeq
+    3.3593.
+\end{equation}
+%
+Logo,
+%
+\begin{equation}
+    \boxed{
+    x_c^{\rm (quad)}=1.0301,
+    \qquad
+    \gamma^{\rm (quad)}=3.3593.
+    }
+    \label{eq:quad_results_p5}
+\end{equation}
+%
+O ajuste quadrático produz estimativas consideravelmente mais próximas
+dos valores exatos. Isso mostra que as correções de ordem $1/n^2$
+desempenham um papel importante quando a série possui apenas alguns
+termos. A análise anterior pode ser visualizada no gráfico de Domb--Sykes, que representa $R_n=\frac{A_n}{A_{n-1}}$ em função de $1/n$. A Fig.~\ref{fig:domb_sykes_p5} mostra os dados da série, os ajustes linear e quadrático e o comportamento assintótico exato
+%
+\begin{equation}
+    R_n^{\rm ass}
+    =
+    1+\frac{2}{n}.
+\end{equation}
+%
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.88\linewidth]{Figures/statistical_mechanics/domb_sykes_problema5.pdf}
+    \caption{
+        Gráfico de Domb--Sykes para a série do Problema~5,
+        mostrando as razões consecutivas
+        $R_n=A_n/A_{n-1}$ em função de $1/n$.
+        A linha tracejada (laranja) representa o ajuste linear
+        $R_n=0.8525+3.0861/n$, que fornece
+        $x_c^{\rm(lin)}=1.1731$ e $\gamma^{\rm(lin)}=4.6202$.
+        A linha contínua (verde) corresponde ao ajuste quadrático
+        $R_n=0.9708+2.2904/n+0.7404/n^2$, resultando em
+        $x_c^{\rm(quad)}=1.0301$ e $\gamma^{\rm(quad)}=3.3593$.
+        A linha pontilhada (vermelha) mostra o comportamento assintótico exato
+        $R_n=1+2/n$, correspondente a $x_c=1$ e $\gamma=3$.
+    }
+    \label{fig:domb_sykes_p5}
+\end{figure}
+%
+A figura evidencia que o ajuste linear aos pontos de baixa ordem ainda
+apresenta um desvio significativo do comportamento assintótico. A
+inclusão do termo em $1/n^2$ produz uma descrição mais próxima dos
+dados e leva as estimativas para mais perto dos valores exatos. É importante destacar que a linha $1+2/n$ representa o comportamento
+assintótico da razão, e não os valores exatos de $R_n$ para $n$ finito. A expressão exata contém as correções subdominantes mostradas em \eqref{eq:R_exact_asympt_p5}. Os resultados podem ser resumidos na Tabela~\ref{tab:fit_results_p5}.
+%
+\begin{table}[htbp]
+    \centering
+    \caption{
+        Comparação entre as estimativas obtidas pelo método da razão e
+        os valores exatos determinados pela função geradora.
+    }
+    \label{tab:fit_results_p5}
+    \begin{tabular}{lcc}
+        \toprule
+        Método & $x_c$ & $\gamma$ \\
+        \midrule
+        Ajuste linear
+        & $1.1731$
+        & $4.6202$
+        \\
+        Ajuste quadrático
+        & $1.0301$
+        & $3.3593$
+        \\
+        Resultado exato
+        & $1.0000$
+        & $3.0000$
+        \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+%
+A comparação mostra claramente a diferença entre uma análise
+assintótica aplicada a uma série curta e a determinação exata dos
+parâmetros. O ajuste linear fornece uma aproximação relativamente pobre para os valores de $x_c$ e $\gamma$, pois os termos de baixa ordem ainda contêm contribuições importantes das correções em potências de $1/n$. Ao incluir um termo quadrático, as estimativas melhoram.
+% ============================================================
+\section*{Problema 6 -- Modelo autodual}
+% ============================================================
+Consideremos o modelo de Ising ferromagnético na rede quadrada, em campo externo nulo, com hamiltoniano
+%
+\begin{equation}
+    \mathcal H
+    =
+    -J\sum_{\langle ij\rangle}\sigma_i\sigma_j,
+    \qquad
+    J>0,
+    \qquad
+    \sigma_i=\pm1.
+    \label{eq:H_ising_2d_dual}
+\end{equation}
+%
+Definimos, como usual,
+%
+\begin{equation}
+    K\equiv\beta J=\frac{J}{k_BT}.
+    \label{eq:K_def}
+\end{equation}
+%
+O objetivo é mostrar a correspondência um-a-um entre as expansões de altas e
+baixas temperaturas e obter a temperatura crítica pelo argumento de
+autodualidade. A função de partição é
+%
+\begin{equation}
+    Z(K)
+    =
+    \sum_{\{\sigma\}}
+    \exp\left(
+        K\sum_{\langle ij\rangle}
+        \sigma_i\sigma_j
+    \right).
+    \label{eq:Z_high_start}
+\end{equation}
+%
+Para cada ligação, usamos a identidade, já derivada no problema 4,
+%
+\begin{equation}
+    e^{K\sigma_i\sigma_j}
+    =
+    \cosh K
+    \left(
+        1+\sigma_i\sigma_j\tanh K
+    \right).
+    \label{eq:high_temp_identity}
+\end{equation}
+%
+Definindo
+%
+\begin{equation}
+    t\equiv\tanh K,
+    \label{eq:t_def}
+\end{equation}
+%
+podemos escrever
+%
+\begin{equation}
+    Z(K)
+    =
+    (\cosh K)^E
+    \sum_{\{\sigma\}}
+    \prod_{\langle ij\rangle}
+    \left(
+        1+t\,\sigma_i\sigma_j
+    \right),
+    \label{eq:high_temp_expansion}
+\end{equation}
+%
+onde \(E\) é o número total de ligações da rede. Ao expandir o produto, aparecem produtos de spins associados a subconjuntos de ligações. A soma sobre cada variável de spin \(\sigma_i\) se anula se \(\sigma_i\) aparecer com potência ímpar, pois
+%
+\begin{equation}
+    \sum_{\sigma_i=\pm1}\sigma_i=0,
+    \qquad
+    \sum_{\sigma_i=\pm1}1=2.
+\end{equation}
+%
+Portanto, somente sobrevivem os subconjuntos de ligações nos quais cada sítio tem número par de ligações selecionadas. Na linguagem gráfica, esses subconjuntos formam \textbf{laços fechados} (subgrafos de Euler) na rede original. Assim,
+%
+\begin{equation}
+    Z(K)
+    =
+    2^N
+    (\cosh K)^E
+    \sum_{\mathcal G}
+    (\tanh K)^{\ell(\mathcal G)},
+    \label{eq:Z_high_loops}
+\end{equation}
+%
+onde \(N\) é o número de sítios, \(\mathcal G\) representa uma configuração de laços fechados e \(\ell(\mathcal G)\) é o número de ligações dessa configuração. Para a rede quadrada $E=2N$. Consideremos agora o modelo dual com acoplamento \(K^*\), a baixas temperaturas. No estado fundamental, todos os spins estão alinhados e cada ligação contribui com \(-J\). Existem dois estados fundamentais globalmente degenerados,
+%
+\begin{equation}
+    \sigma_i=+1
+    \qquad\text{ou}\qquad
+    \sigma_i=-1.
+\end{equation}
+%
+Uma excitação é produzida quando alguns spins são invertidos. Cada ligação que separa spins alinhados de spins antiparalelos passa de \(-J\) para \(+J\), resultando em um custo de energia
+%
+\begin{equation}
+    \Delta E=2J.
+\end{equation}
+%
+Portanto, uma configuração com \(\ell\) ligações de domínio tem fator de Boltzmann
+%
+\begin{equation}
+    e^{-2K^*\ell}.
+\end{equation}
+%
+As paredes de domínio formam caminhos fechados na \textbf{rede dual}. Assim, para o modelo dual,
+%
+\begin{equation}
+    Z^*(K^*)
+    =
+    2\,e^{K^* E}
+    \sum_{\mathcal G^*}
+    e^{-2K^*\ell(\mathcal G^*)},
+    \label{eq:low_temp_expansion}
+\end{equation}
+%
+onde \(\mathcal G^*\) representa uma configuração de paredes de domínio na rede dual. O fator \(2\) corresponde aos dois estados fundamentais relacionados pela simetria global \(\sigma_i\to-\sigma_i\). Na rede quadrada, a rede dual é também uma rede quadrada. Existe uma correspondência um-a-um entre os laços fechados da expansão de altas temperaturas da rede original e as paredes de domínio da expansão de baixas temperaturas da rede dual. Os mesmos objetos geométricos aparecem nas duas expansões, mas com pesos diferentes:
+%
+\begin{equation}
+    (\tanh K)^{\ell}
+    \qquad\longleftrightarrow\qquad
+    e^{-2K^*\ell}.
+\end{equation}
+%
+Para que os termos correspondentes tenham o mesmo peso, impomos
+%
+\begin{equation}
+    \tanh K=e^{-2K^*}.
+    \label{eq:duality_relation_1}
+\end{equation}
+%
+Como a transformação deve ser invertível, também vale
+%
+\begin{equation}
+    \tanh K^*=e^{-2K}.
+    \label{eq:duality_relation_2}
+\end{equation}
+%
+Essas relações definem a transformação de dualidade \(K\leftrightarrow K^*\). Uma forma simétrica útil é
+%
+\begin{equation}
+    \sinh(2K)\,\sinh(2K^*)=1.
+    \label{eq:sinh_duality}
+\end{equation}
+%
+Essa é a transformação de dualidade de Kramers--Wannier. Na rede quadrada, a rede dual tem a mesma estrutura da rede original; o
+modelo é \textbf{autodual}. Se houver uma única temperatura crítica bem definida, ela deve ser invariante sob a dualidade. No ponto crítico,
+%
+\begin{equation}
+    K^*=K=K_c.
+    \label{eq:self_dual_condition}
+\end{equation}
+%
+Substituindo em \eqref{eq:duality_relation_1},
+%
+\begin{equation}
+    e^{-2K_c}=\tanh K_c.
+    \label{eq:critical_duality}
+\end{equation}
+%
+Como \(K_c=J/(k_BT_c)\), segue
+%
+\begin{equation}
+    \boxed{
+    \exp\left(
+        -\frac{2J}{k_BT_c}
+    \right)
+    =
+    \tanh\left(
+        \frac{J}{k_BT_c}
+    \right),
+    }
+    \label{eq:Tc_equation}
+\end{equation}
+%
+que é exatamente a relação pedida. Definimos
+%
+\begin{equation}
+    x\equiv e^{2K_c}.
+\end{equation}
+%
+Então
+%
+\begin{equation}
+    e^{-2K_c}=\frac1x,
+    \qquad
+    \tanh K_c
+    =
+    \frac{\sinh K_c}{\cosh K_c}
+    =
+    \frac{e^{K_c}-e^{-K_c}}{e^{K_c}+e^{-K_c}}
+    =
+    \frac{e^{2K_c}-1}{e^{2K_c}+1}
+    =
+    \frac{x-1}{x+1}.
+\end{equation}
+%
+A condição crítica torna-se
+%
+\begin{equation}
+    \frac1x
+    =
+    \frac{x-1}{x+1}.
+\end{equation}
+%
+Multiplicando por \(x(x+1)\),
+%
+\begin{equation}
+    x+1=x(x-1)
+    \quad\Longrightarrow\quad
+    x^2-2x-1=0.
+\end{equation}
+%
+As soluções são \(x=1\pm\sqrt2\). Como \(x=e^{2K_c}>0\), escolhemos
+%
+\begin{equation}
+    x=1+\sqrt2.
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+    e^{2K_c}=1+\sqrt2,
+\end{equation}
+%
+e finalmente
+%
+\begin{equation}
+    K_c
+    =
+    \frac12\ln(1+\sqrt2).
+    \label{eq:Kc_exact}
+\end{equation}
+%
+Como \(K_c=J/(k_BT_c)\),
+%
+\begin{equation}
+    \frac{J}{k_BT_c}
+    =
+    \frac12\ln(1+\sqrt2).
+    \label{eq:critical_temperature_dimensionless}
+\end{equation}
+%
+Equivalentemente,
+%
+\begin{equation}
+    \frac{k_BT_c}{J}
+    =
+    \frac{2}{\ln(1+\sqrt2)}
+    \simeq 2.269185.
+    \label{eq:Tc_exact_dimensionless}
+\end{equation}
+%
+Numericamente,
+%
+\begin{equation}
+    K_c\simeq0.440687.
+\end{equation}
+%
+A solução exata de Onsager para a rede quadrada em campo nulo fornece
+%
+\begin{equation}
+    \sinh(2K_c)=1.
+    \label{eq:onsager_condition}
+\end{equation}
+%
+Tomando a função inversa,
+%
+\begin{equation}
+    2K_c=\operatorname{arsinh}(1).
+\end{equation}
+%
+Como
+%
+\begin{equation}
+    \operatorname{arsinh}(1)
+    =
+    \ln(1+\sqrt2),
+\end{equation}
+%
+obtemos
+%
+\begin{equation}
+    K_c=\frac12\ln(1+\sqrt2),
+\end{equation}
+%
+exatamente o mesmo resultado obtido pelo argumento de dualidade. Portanto, para o modelo de Ising bidimensional na rede quadrada, o ponto autodual coincide com a temperatura crítica exata:
+%
+\begin{equation}
+    \boxed{
+    \left(\frac{k_BT_c}{J}\right)_{\rm dualidade}
+    =
+    \left(\frac{k_BT_c}{J}\right)_{\rm Onsager}
+    =
+    \frac{2}{\ln(1+\sqrt2)}
+    \simeq2.269185.
+    }
+\end{equation}
+%
+Na aproximação de campo médio, cada spin sente um campo efetivo produzido
+pelos seus \(z\) primeiros vizinhos. Para a rede quadrada, \(z=4\). A equação de autoconsistência para a magnetização é
+%
+\begin{equation}
+    m
+    =
+    \tanh(\beta zJm).
+    \label{eq:mf_self_consistency}
+\end{equation}
+%
+Próximo da transição, \(m\) é pequeno e
+%
+\begin{equation}
+    \tanh x=x-\frac{x^3}{3}+\cdots.
+\end{equation}
+%
+Mantendo apenas o termo linear,
+%
+\begin{equation}
+    m\simeq\beta zJm.
+\end{equation}
+%
+Para surgir uma solução não trivial \(m\neq0\), devemos ter
+\begin{equation}
+    1=\beta_c zJ.
+\end{equation}
+%
+Logo,
+%
+\begin{equation}
+    K_c^{\rm MF}
+    =
+    \beta_cJ
+    =
+    \frac1z.
+\end{equation}
+%
+Para a rede quadrada,
+%
+\begin{equation}
+    \boxed{
+    K_c^{\rm MF}=\frac14.
+    }
+\end{equation}
+%
+Consequentemente,
+%
+\begin{equation}
+    \left(\frac{k_BT_c}{J}\right)_{\rm MF}
+    =4.
+    \label{eq:Tc_MF}
+\end{equation}
+%
+\begin{table}[H]
+    \centering
+    \caption{Temperatura crítica do modelo de Ising na rede quadrada em
+    diferentes aproximações.}
+    \label{tab:Tc_comparison}
+    \begin{tabular}{c c c}
+        \toprule
+        Método & \(K_c=J/(k_BT_c)\) & \(k_BT_c/J\) \\
+        \midrule
+        Dualidade / Onsager
+        & \(\dfrac12\ln(1+\sqrt2)\)
+        & \(2.269185\) \\[0.3cm]
+
+        Campo médio
+        & \(\dfrac14\)
+        & \(4\) \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+%
+A aproximação de campo médio fornece uma temperatura crítica diferente da
+obtida pela solução exata. A origem dessa diferença está no fato de que a
+aproximação de campo médio substitui as correlações entre os spins por um
+campo efetivo médio, enquanto a solução exata bidimensional incorpora as flutuações e correlações espaciais do sistema. A expansão de altas temperaturas do modelo de Ising pode ser representada por configurações de laços fechados na rede original. A expansão de baixas temperaturas pode ser representada pelas paredes de domínio, que formam os mesmos tipos de laços na rede dual. 
+% ============================================================
+\end{document}
