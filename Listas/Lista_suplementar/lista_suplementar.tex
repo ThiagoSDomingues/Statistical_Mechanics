@@ -1,0 +1,758 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{hyperref}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+
+\title{Lista Suplementar\\[2pt]
+{\large Tópicos de Mecânica Estatística -- Transições de Fases -- 2026}\\[0.2cm]
+\large Modelo de Ising: matriz de transferência, dualidade e energia livre de Onsager}
+\author{\textbf{Autor:} Thiago Siqueira Domingues}
+\date{\today}
+
+\begin{document}
+\maketitle
+% ============================================================
+\section*{Problema S1 --- Modelo de Ising em $M=3$ linhas e dualidade}
+%
+Considere o modelo de Ising em campo nulo numa rede cilíndrica de $N$ colunas ($N \to \infty$) e $M=3$ linhas com condições periódicas ao longo das colunas ($\sigma_{i,N+1} = \sigma_{i,1}$) e condições de contorno abertas na direção transversal. O hamiltoniano do sistema é dado por:
+%
+\begin{equation}
+    \mathcal{H} = -J_1 \sum_{i=1}^{3} \sum_{j=1}^{N} \sigma_{i,j} \sigma_{i,j+1} - J_2 \sum_{i=1}^{2} \sum_{j=1}^{N} \sigma_{i,j} \sigma_{i+1,j},
+    \label{eq:H_M3}
+\end{equation}
+%
+com $\sigma_{i,j} = \pm 1$, $K_1 = \beta J_1$, $K_2 = \beta J_2$ e o acoplamento dual $K_1^*$ definido por:
+%
+\begin{equation}
+    \sinh(2K_1) \sinh(2K_1^*) = 1.
+    \label{eq:dual_K1}
+\end{equation}
+%
+\subsection*{(a) Construção da Matriz de Transferência e Identidade de Dualidade}
+%
+Desejamos demonstrar que a função de partição $Z = \sum_{\{\sigma\}} e^{-\beta \mathcal{H}}$ pode ser escrita na forma de traço:
+%
+\begin{equation}
+    Z = \operatorname{Tr}\left[ \left(\mathbf{V}_2^{1/2} \mathbf{V}_1^{1/2}\right)^N \right],
+\end{equation}
+%
+com
+%
+\begin{equation}
+    \mathbf{V}_1 = (2\sinh 2K_1)^{3/2} \exp\left( K_1^* \sum_{m=1}^{3} \tau_m^x \right),
+\end{equation}
+%
+\begin{equation}
+    \mathbf{V}_2 = \exp\left( K_2 \sum_{m=1}^{2} \tau_m^z \tau_{m+1}^z \right).
+\end{equation}
+%
+Definimos o estado da coluna $j$ por $|\sigma_j\rangle = |\sigma_{1,j}, \sigma_{2,j}, \sigma_{3,j}\rangle$ na base dos autovetores de $\tau_m^z$. O espaço de Hilbert de cada coluna possui dimensão $2^3 = 8$. Fatoramos os pesos de Boltzmann horizontais e verticais:
+%
+\begin{equation}
+    Z = \sum_{\{\sigma_1\}\dots\{\sigma_N\}} \prod_{j=1}^N \exp\left( K_1 \sum_{i=1}^3 \sigma_{i,j}\sigma_{i,j+1} \right) \exp\left( \frac{K_2}{2}\sum_{i=1}^2 \bigl(\sigma_{i,j}\sigma_{i+1,j} + \sigma_{i,j+1}\sigma_{i+1,j+1}\bigr) \right),
+\end{equation}
+%
+onde o peso vertical $K_2$ foi distribuído simetricamente entre as colunas $j$ e $j+1$. Para cada par de spins horizontais vizinhos $\sigma \equiv \sigma_{i,j}$ e $\sigma' \equiv \sigma_{i,j+1}$, queremos provar que:
+%
+\begin{equation}
+    e^{K_1 \sigma \sigma'} = \sqrt{2\sinh 2K_1} \, \langle \sigma' | e^{K_1^* \tau^x} | \sigma \rangle.
+    \label{eq:dual_id_proof}
+\end{equation}
+%
+Sabendo que $\tau^x = \begin{pmatrix} 0 & 1 \\ 1 & 0 \end{pmatrix}$, a expansão da matriz exponencial dá:
+%
+\begin{equation}
+    e^{K_1^* \tau^x} = \cosh K_1^* \, \mathbb{1} + \sinh K_1^* \, \tau^x \implies \langle \sigma' | e^{K_1^* \tau^x} | \sigma \rangle = \cosh K_1^* \delta_{\sigma,\sigma'} + \sinh K_1^* \delta_{\sigma,-\sigma'}.
+\end{equation}
+%
+Avaliamos os dois casos possíveis de $\sigma \sigma'$:
+%
+\begin{itemize}
+    \item \textbf{Para $\sigma = \sigma'$ ($\sigma \sigma' = +1$):}
+ %
+    \begin{equation}
+        \text{Lado Esquerdo} = e^{K_1}, \qquad \text{Lado Direito} = \sqrt{2\sinh 2K_1} \cosh K_1^*.
+    \end{equation}
+%    
+    Usando a relação dual $\sinh(2K_1^*) = \frac{1}{\sinh 2K_1}$, temos $\cosh(2K_1^*) = \sqrt{1+\sinh^2 2K_1^*} = \coth(2K_1)$. 
+    Aplica-se a identidade de meio-ângulo para o cosseno hiperbólico:
+    \begin{equation}
+        \cosh^2 K_1^* = \frac{\cosh 2K_1^* + 1}{2} = \frac{\coth 2K_1 + 1}{2} = \frac{\cosh 2K_1 + \sinh 2K_1}{2\sinh 2K_1} = \frac{e^{2K_1}}{2\sinh 2K_1}.
+    \end{equation}
+ %   
+    Tomando a raiz quadrada (com $K_1 > 0$):
+%    
+    \begin{equation}
+        \cosh K_1^* = \frac{e^{K_1}}{\sqrt{2\sinh 2K_1}} \implies \sqrt{2\sinh 2K_1} \cosh K_1^* = e^{K_1}.
+    \end{equation}
+%
+    \item \textbf{Para $\sigma = -\sigma'$ ($\sigma \sigma' = -1$):}
+ %   
+    \begin{equation}
+        \text{Lado Esquerdo} = e^{-K_1}, \qquad \text{Lado Direito} = \sqrt{2\sinh 2K_1} \sinh K_1^*.
+    \end{equation}
+%    
+    Da mesma forma:
+%    
+    \begin{equation}
+        \sinh^2 K_1^* = \frac{\cosh 2K_1^* - 1}{2} = \frac{\coth 2K_1 - 1}{2} = \frac{\cosh 2K_1 - \sinh 2K_1}{2\sinh 2K_1} = \frac{e^{-2K_1}}{2\sinh 2K_1}.
+    \end{equation}
+%    
+    Tomando a raiz quadrada:
+    \begin{equation}
+        \sinh K_1^* = \frac{e^{-K_1}}{\sqrt{2\sinh 2K_1}} \implies \sqrt{2\sinh 2K_1} \sinh K_1^* = e^{-K_1}.
+    \end{equation}
+\end{itemize}
+%
+Assim, a identidade \eqref{eq:dual_id_proof} está demonstrada. Aplicando a identidade às 3 linhas de spins da coluna $j$, obtemos um fator $(2\sinh 2K_1)^{1/2}$ por linha, gerando o pré-fator $(2\sinh 2K_1)^{3/2}$. Definindo o operador intra-coluna $\mathbf{V}_2 = \exp\left( K_2 \sum_{m=1}^2 \tau_m^z \tau_{m+1}^z \right)$ e o operador inter-coluna $\mathbf{V}_1 = (2\sinh 2K_1)^{3/2} \exp\left( K_1^* \sum_{m=1}^3 \tau_m^x \right)$, o produto ao longo das $N$ colunas resulta em:
+%
+\begin{equation}
+    \boxed{Z = \operatorname{Tr}\left[ \left(\mathbf{V}_2^{1/2} \mathbf{V}_1 \mathbf{V}_2^{1/2}\right)^N \right] = \operatorname{Tr}\left[ \left(\mathbf{V}_2^{1/2} \mathbf{V}_1^{1/2}\right)^N \right]},
+\end{equation}
+%
+pela propriedade cíclica do traço.
+%
+\subsection*{(b) Transformação Canônica de Pauli e Representação de Spin $\sigma^\pm$}
+%
+Aplicamos a rotação unitária no espaço de spin de cada sítio:
+%
+\begin{equation}
+    \tau_m^x \to -\sigma_m^z, \qquad \tau_m^z \to -\sigma_m^x.
+    \label{eq:rot_pauli}
+\end{equation}
+%
+Esta transformação preserva a álgebra de comutação de Pauli $[\sigma_m^a, \sigma_m^b] = 2i\epsilon_{abc}\sigma_m^c$. Substituindo $\tau_m^x = -\sigma_m^z$:
+%
+\begin{equation}
+    \mathbf{V}_1 = (2\sinh 2K_1)^{3/2} \exp\left( -K_1^* \sum_{m=1}^{3} \sigma_m^z \right).
+\end{equation}
+%
+Usando a relação entre $\sigma_m^z$ e o operador de número de ocupação $n_m = \sigma_m^+ \sigma_m^-$:
+%
+\begin{equation}
+    \sigma_m^z = \mathbb{1} - 2\sigma_m^+ \sigma_m^- \implies -K_1^* \sigma_m^z = -K_1^* + 2K_1^* \sigma_m^+ \sigma_m^-.
+\end{equation}
+%
+Somando sobre os $M=3$ sítios:
+%
+\begin{equation}
+    \exp\left( -K_1^* \sum_{m=1}^3 \sigma_m^z \right) = \exp\left( -3K_1^* \right) \exp\left( 2K_1^* \sum_{m=1}^3 \sigma_m^+ \sigma_m^- \right).
+\end{equation}
+%
+Logo:
+%
+\begin{equation}
+    \boxed{\mathbf{V}_1 = (2\sinh 2K_1)^{3/2} e^{-3K_1^*} \exp\left( 2K_1^* \sum_{m=1}^{3} \sigma_m^+ \sigma_m^- \right).}
+\end{equation}
+%
+Substituindo $\tau_m^z = -\sigma_m^x$:
+%
+\begin{equation}
+    \tau_m^z \tau_{m+1}^z = (-\sigma_m^x)(-\sigma_{m+1}^x) = \sigma_m^x \sigma_{m+1}^x.
+\end{equation}
+%
+Como $\sigma_m^x = \sigma_m^+ + \sigma_m^-$, obtemos diretamente:
+%
+\begin{equation}
+    \boxed{\mathbf{V}_2 = \exp\left[ K_2 \sum_{m=1}^{2} (\sigma_m^+ + \sigma_m^-)(\sigma_{m+1}^+ + \sigma_{m+1}^-) \right].}
+\end{equation}
+%
+\subsection*{(c) Transformação de Jordan--Wigner e Estrutura Fermiônica}
+%
+A transformação de Jordan--Wigner mapeia os operadores de spin em operadores fermiônicos $c_m, c_m^\dagger$ satisfazendo $\{c_m, c_{m'}^\dagger\} = \delta_{m,m'}$ e $\{c_m, c_{m'}\} = 0$:
+%
+\begin{equation}
+    \sigma_m^+ = c_m^\dagger e^{i\pi \sum_{l<m} n_l}, \qquad \sigma_m^- = e^{i\pi \sum_{l<m} n_l} c_m, \qquad \sigma_m^z = 1 - 2n_m,
+\end{equation}
+%
+onde $n_m = c_m^\dagger c_m = \sigma_m^+ \sigma_m^-$. Como $n_m = \sigma_m^+ \sigma_m^- = c_m^\dagger c_m$, o operador $\mathbf{V}_1$ torna-se imediatamente:
+%
+\begin{equation}
+    \boxed{\mathbf{V}_1 = (2\sinh 2K_1)^{3/2} e^{-3K_1^*} \exp\left( 2K_1^* \sum_{m=1}^{3} c_m^\dagger c_m \right)}
+\end{equation}
+%
+Para os sítios vizinhos $m$ e $m+1$ ($m=1,2$):
+%
+\begin{equation}
+    \sigma_m^x = e^{i\pi \sum_{l<m} n_l} (c_m + c_m^\dagger),
+\end{equation}
+%
+\begin{equation}
+    \sigma_{m+1}^x = e^{i\pi \sum_{l<m+1} n_l} (c_{m+1} + c_{m+1}^\dagger) = e^{i\pi \sum_{l<m} n_l} e^{i\pi n_m} (c_{m+1} + c_{m+1}^\dagger).
+\end{equation}
+%
+Multiplicando os dois operadores:
+%
+\begin{equation}
+    \sigma_m^x \sigma_{m+1}^x = e^{i\pi \sum_{l<m} n_l} (c_m + c_m^\dagger) e^{i\pi \sum_{l<m} n_l} e^{i\pi n_m} (c_{m+1} + c_{m+1}^\dagger).
+\end{equation}
+%
+Como as fatias de string para $l < m$ comutam com $(c_m + c_m^\dagger)$ e $(e^{i\pi \sum_{l<m} n_l})^2 = \mathbb{1}$, elas se cancelam identicamente. Resta o termo local:
+%
+\begin{equation}
+    (c_m + c_m^\dagger) e^{i\pi n_m} = (c_m + c_m^\dagger) (1 - 2c_m^\dagger c_m) = c_m - c_m^\dagger.
+\end{equation}
+%
+Portanto:
+%
+\begin{equation}
+    \sigma_m^x \sigma_{m+1}^x = (c_m - c_m^\dagger)(c_{m+1} + c_{m+1}^\dagger).
+\end{equation}
+%
+Substituindo em $\mathbf{V}_2$:
+%
+\begin{equation}
+    \boxed{\mathbf{V}_2 = \exp\left[ K_2 \sum_{m=1}^{2} (c_m - c_m^\dagger)(c_{m+1} + c_{m+1}^\dagger) \right]}
+\end{equation}
+%
+O operador de paridade fermiônica é $\mathcal{P} = \prod_{m=1}^{3} (1 - 2n_m) = (-1)^{\sum_{m=1}^3 n_m}$. Como $\mathcal{P}$ comuta com $\mathbf{V}_1$ e $\mathbf{V}_2$, o espaço de Hilbert de $2^3 = 8$ dimensões se decompõe em dois subespaços invariantes de dimensão 4:
+%
+\begin{itemize}
+    \item \textbf{Setor Par ($\mathcal{P} = +1$):} Número par de férmions ($n_{\text{total}} = 0, 2$). Requer condições de contorno periódicas (P) para os momentos fermiônicos.
+    \item \textbf{Setor Ímpar ($\mathcal{P} = -1$):} Número ímpar de férmions ($n_{\text{total}} = 1, 3$). Requer condições de contorno antiperiódicas (A).
+\end{itemize}
+%
+\subsection*{(d) Transformação de Fourier e Diagonalização Quadraticizada}
+%
+Aplicamos a transformada discreta de Fourier nos operadores fermiônicos:
+%
+\begin{equation}
+    c_m = \frac{1}{\sqrt{3}} e^{-i\pi/4} \sum_q e^{iqm} \eta_q,
+    \label{eq:fourier_def}
+\end{equation}
+%
+onde a fase $e^{-i\pi/4}$ garante coeficientes reais de Bogoliubov. Os valores permitidos de momento $q$ na zona de Brillouin para $M=3$ são:
+%
+\begin{align}
+    \text{Setor Periódico (P):} \quad & q \in \left\{ 0, \, \frac{2\pi}{3}, \, -\frac{2\pi}{3} \right\}, \label{eq:q_P_vals} \\
+    \text{Setor Antiperiódico (A):} \quad & q \in \left\{ \pi, \, \frac{\pi}{3}, \, -\frac{\pi}{3} \right\}. \label{eq:q_A_vals}
+\end{align}
+%
+Substituindo \eqref{eq:fourier_def} nos expoentes de $\mathbf{V}_1$ e $\mathbf{V}_2$, desacoplamos o hamiltoniano em blocos $2 \times 2$ para cada par $\{q, -q\}$:
+%
+\begin{align}
+    \ln \mathbf{V}_1 &= 2K_1^* \sum_q \eta_q^\dagger \eta_q + \text{constante}, \\
+    \ln \mathbf{V}_2 &= K_2 \sum_q \left[ 2\cos q \, \eta_q^\dagger \eta_q + \sin q \left( \eta_q^\dagger \eta_{-q}^\dagger + \eta_{-q} \eta_q \right) \right].
+\end{align}
+%
+\subsection*{(e) Derivação Explícita dos Oito Autovalores}
+%
+A diagonalização simultânea de cada bloco de momento $q$ via transformação de Bogoliubov fornece a relação de dispersão de quasi-partícula $\epsilon_q > 0$:
+%
+\begin{equation}
+    \epsilon_q = 2\sqrt{(K_1^* + K_2 \cos q)^2 + (K_2 \sin q)^2} = 2\sqrt{K_1^{*2} + 2K_1^* K_2 \cos q + K_2^2}.
+\end{equation}
+%
+Cada modo $q$ contribui com um fator de autovalor $\lambda_q^{\pm 1/2} = e^{\pm \frac{1}{2}\epsilon_q}$.
+%
+\begin{itemize}
+    \item \textbf{Setor Periódico (P):}
+    \begin{itemize}
+        \item Para $q = 0$: $\cos 0 = 1 \implies \epsilon_0 = 2(K_1^* + K_2)$.
+        \item Para $q = \pm \frac{2\pi}{3}$: $\cos\left(\frac{2\pi}{3}\right) = -\frac{1}{2} \implies \epsilon_{2\pi/3} = 2\sqrt{K_1^{*2} - K_1^* K_2 + K_2^2}$.
+    \end{itemize}
+
+    \item \textbf{Setor Antiperiódico (A):}
+    \begin{itemize}
+        \item Para $q = \pi$: $\cos\pi = -1 \implies \epsilon_\pi = 2|K_1^* - K_2|$.
+        \item Para $q = \pm \frac{\pi}{3}$: $\cos\left(\frac{\pi}{3}\right) = \frac{1}{2} \implies \epsilon_{\pi/3} = 2\sqrt{K_1^{*2} + K_1^* K_2 + K_2^2}$.
+    \end{itemize}
+\end{itemize}
+%
+Os 8 autovalores da matriz de transferência $\mathbf{V}$ são dados pelo produto sobre os 3 modos de momento ocupados ($n_q \in \{0, 1\}$):
+%
+\begin{equation}
+    \boxed{\lambda_{\{n_q\}} = (2\sinh 2K_1)^{3/2} e^{-3K_1^*} \prod_{q} \exp\left[ \left(n_q - \frac{1}{2}\right) \epsilon_q \right].}
+\end{equation}
+%
+Explicitamente, no espaço de ocupação $|n_{q_1}, n_{q_2}, n_{q_3}\rangle$:
+%
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Setor} & \textbf{Ocupação $(n_{q_1}, n_{q_2}, n_{q_3})$} & \textbf{Autovalor} $\lambda$ \\ \hline
+P ($\mathcal{P}=+1$) & $(0,0,0)$ & $C_0 \exp\left[ -\frac{1}{2}(\epsilon_0 + 2\epsilon_{2\pi/3}) \right]$ \\
+P ($\mathcal{P}=+1$) & $(1,1,0)$ e $(1,0,1)$ & $C_0 \exp\left[ \frac{1}{2}\epsilon_0 \right]$ \\
+P ($\mathcal{P}=+1$) & $(0,1,1)$ & $C_0 \exp\left[ -\frac{1}{2}\epsilon_0 + \epsilon_{2\pi/3} \right]$ \\ \hline
+A ($\mathcal{P}=-1$) & $(1,0,0)$ & $C_0 \exp\left[ \frac{1}{2}\epsilon_\pi - \epsilon_{\pi/3} \right]$ \\
+A ($\mathcal{P}=-1$) & $(0,1,0)$ e $(0,0,1)$ & $C_0 \exp\left[ -\frac{1}{2}\epsilon_\pi \right]$ \\
+A ($\mathcal{P}=-1$) & $(1,1,1)$ & $C_0 \exp\left[ \frac{1}{2}(\epsilon_\pi + 2\epsilon_{\pi/3}) \right]$ \\ \hline
+\end{tabular}
+\caption{Os 8 autovalores exatos da matriz de transferência para $M=3$, onde $C_0 = (2\sinh 2K_1)^{3/2} e^{-3K_1^*}$.}
+\end{table}
+%
+\subsection*{(f) Potencial Termodinâmico e Ausência de Transição de Fase}
+%
+No limite $N \to \infty$, a função de partição é dominada estritamente pelo maior autovalor $\lambda_{\max}$:
+%
+\begin{equation}
+    -\beta g = \lim_{N\to\infty} \frac{1}{N} \ln Z = \ln \lambda_{\max}.
+\end{equation}
+%
+O maior autovalor provém do estado fundamental fermiônico (com todos os modos preenchidos maximamente no setor de maior peso):
+%
+\begin{equation}
+    \lambda_{\max} = (2\sinh 2K_1)^{3/2} e^{-3K_1^*} \exp\left( \frac{1}{2}\epsilon_0 + \epsilon_{2\pi/3} \right).
+\end{equation}
+%
+Para qualquer temperatura $T > 0$ finita ($K_1, K_2 < \infty$), temos $K_1^* > 0$ e $K_2 > 0$. As energias de excitação $\epsilon_q = 2\sqrt{K_1^{*2} + 2K_1^* K_2 \cos q + K_2^2}$ são somas e raízes quadradas de quantidades estritamente positivas para os momentos discretos $q = 0, \pm 2\pi/3$. Como $\lambda_{\max}(T)$ é uma combinação finita de funções exponenciais e hiperbólicas analíticas que nunca se anulam nem se cruzam para $T > 0$, o potencial termodinâmico $-\beta g(T)$ é uma função analítica de classe $C^\infty(T)$ para toda a região $T > 0$. Sistemas unidimensionais ou fitas/cilindros com largura transversal finita ($M = 3 < \infty$) com interações de alcance finito não apresentam transição de fase a temperatura finita ($T_c = 0$). A singularidade logarítmica de Onsager no calor específico só emerge no limite termodinâmico bidimensional verdadeiro ($M \to \infty$).
+% ============================================================
+\section*{Problema S2 --- Identidade integral e energia livre de Onsager}
+%
+Desejamos demonstrar que:
+%
+\begin{equation}
+    \int_{-\pi}^{+\pi} \ln\left[2\cosh x - 2\cos\omega\right] d\omega = 2\pi x, \qquad x>0.
+\end{equation}
+%
+Definimos a função:
+%
+\begin{equation}
+    I(x) = \int_{-\pi}^{+\pi} \ln\left[2\cosh x - 2\cos\omega\right] d\omega.
+\end{equation}
+%
+Aplicando a regra de Leibniz para diferenciar sob o sinal da integral (válida pois o integrando é continuamente diferenciável para $x>0$ e $\omega \in [-\pi,\pi]$):
+%
+\begin{equation}
+    \frac{d}{dx} \ln\left[2\cosh x - 2\cos\omega\right] 
+    = \frac{\frac{d}{dx}(2\cosh x - 2\cos\omega)}{2\cosh x - 2\cos\omega} 
+    = \frac{2\sinh x}{2\cosh x - 2\cos\omega} 
+    = \frac{\sinh x}{\cosh x - \cos\omega}.
+\end{equation}
+%
+Fatorando $\sinh x$ para fora da integral:
+%
+\begin{equation}
+    I'(x) = \int_{-\pi}^{+\pi} \frac{\sinh x}{\cosh x - \cos\omega} d\omega 
+    = \sinh x \int_{-\pi}^{+\pi} \frac{d\omega}{\cosh x - \cos\omega}.
+\end{equation}
+%
+Agora, vamos calcular a integral auxiliar $J(a) = \int_{-\pi}^{+\pi} \frac{d\omega}{a - \cos\omega}$ para $a > 1$. Usamos a substituição de Weierstrass $t = \tan\left(\frac{\omega}{2}\right)$, notando as seguintes relações trigonométricas,
+%
+\begin{equation}
+    \cos\omega = \frac{1-t^2}{1+t^2}, \qquad d\omega = \frac{2\,dt}{1+t^2}.
+\end{equation}
+%
+com os seguintes limites de integração,
+%
+\begin{equation}
+        \omega = -\pi \implies t \to -\infty, \qquad \omega = +\pi \implies t \to +\infty.
+\end{equation}
+%
+Substituindo na integral:
+%
+\begin{equation}
+    J(a) = \int_{-\infty}^{+\infty} \frac{\frac{2\,dt}{1+t^2}}{a - \frac{1-t^2}{1+t^2}} 
+    = \int_{-\infty}^{+\infty} \frac{2\,dt}{a(1+t^2) - (1-t^2)}.
+\end{equation}
+%
+Expandindo e agrupando os termos de $t^2$ no denominador:
+%
+\begin{equation}
+    a(1+t^2) - (1-t^2) = (a+1)t^2 + (a-1).
+\end{equation}
+%
+\begin{equation}
+    J(a) = \int_{-\infty}^{+\infty} \frac{2\,dt}{(a+1)t^2 + (a-1)}.
+\end{equation}
+%
+Fatorando $(a-1)$ do denominador:
+\begin{equation}
+    J(a) = \frac{2}{a-1} \int_{-\infty}^{+\infty} \frac{dt}{\left(\frac{a+1}{a-1}\right)t^2 + 1}.
+\end{equation}
+%
+Fazendo a mudança de variável $u = \sqrt{\frac{a+1}{a-1}} \, t \implies dt = \sqrt{\frac{a-1}{a+1}} \, du$:
+%
+\begin{equation}
+    J(a) = \frac{2}{a-1} \sqrt{\frac{a-1}{a+1}} \int_{-\infty}^{+\infty} \frac{du}{u^2 + 1} 
+    = \frac{2}{\sqrt{(a-1)(a+1)}} \Big[ \arctan u \Big]_{-\infty}^{+\infty}.
+\end{equation}
+%
+Como $\arctan(+\infty) - \arctan(-\infty) = \frac{\pi}{2} - \left(-\frac{\pi}{2}\right) = \pi$:
+%
+\begin{equation}
+    J(a) = \frac{2}{\sqrt{a^2-1}} \cdot \pi = \frac{2\pi}{\sqrt{a^2-1}}.
+\end{equation}
+%
+Substituindo $a = \cosh x$ em $I'(x)$, para $x > 0$, temos $a = \cosh x > 1$. Pela identidade $\cosh^2 x - \sinh^2 x = 1$:
+%
+\begin{equation}
+    \sqrt{a^2-1} = \sqrt{\cosh^2 x - 1} = \sqrt{\sinh^2 x} = |\sinh x| = \sinh x \quad (\text{pois } x > 0).
+\end{equation}
+%
+Substituindo $J(\cosh x)$ na expressão de $I'(x)$:
+%
+\begin{equation}
+    I'(x) = \sinh x \cdot \frac{2\pi}{\sinh x} = 2\pi.
+\end{equation}
+%
+Integrando $I'(x)$ em relação a $x$:
+%
+\begin{equation}
+    I(x) = \int 2\pi \, dx = 2\pi x + C.
+\end{equation}
+%
+Avaliamos $I(0)$:
+%
+\begin{equation}
+    I(0) = \int_{-\pi}^{+\pi} \ln\left[2 - 2\cos\omega\right] d\omega.
+\end{equation}
+%
+Usando a identidade $1 - \cos\omega = 2\sin^2\left(\frac{\omega}{2}\right)$:
+%
+\begin{equation}
+    2 - 2\cos\omega = 4\sin^2\left(\frac{\omega}{2}\right).
+\end{equation}
+%
+\begin{equation}
+    I(0) = \int_{-\pi}^{+\pi} \ln\left[4\sin^2\left(\frac{\omega}{2}\right)\right] d\omega 
+    = \int_{-\pi}^{+\pi} \left( \ln 4 + 2\ln\left|\sin\frac{\omega}{2}\right| \right) d\omega.
+\end{equation}
+%
+Separando em duas integrais:
+%
+\begin{equation}
+        \int_{-\pi}^{+\pi} \ln 4 \, d\omega = \ln 4 \cdot 2\pi = 2\pi \ln(2^2) = 4\pi \ln 2.
+\end{equation}
+%
+E, mudando a variável $u = \frac{\omega}{2} \implies d\omega = 2\,du$:
+%
+\begin{equation}
+        2 \int_{-\pi}^{+\pi} \ln\left|\sin\frac{\omega}{2}\right| d\omega 
+        = 2 \int_{-\pi/2}^{\pi/2} \ln|\sin u| \cdot 2\,du 
+        = 4 \int_{-\pi/2}^{\pi/2} \ln|\sin u| \, du 
+        = 8 \int_0^{\pi/2} \ln(\sin u) \, du.
+\end{equation}
+%
+Calculamos $K = \int_0^{\pi/2} \ln(\sin u) \, du$. Por simetria, $K = \int_0^{\pi/2} \ln(\cos u) \, du$:
+%
+\begin{equation}
+    2K = \int_0^{\pi/2} \left[ \ln(\sin u) + \ln(\cos u) \right] du 
+    = \int_0^{\pi/2} \ln(\sin u \cos u) \, du 
+    = \int_0^{\pi/2} \ln\left(\frac{\sin 2u}{2}\right) du.
+\end{equation}
+%
+\begin{equation}
+    2K = \int_0^{\pi/2} \ln(\sin 2u) \, du - \int_0^{\pi/2} \ln 2 \, du.
+\end{equation}
+%
+Substituindo $v = 2u \implies du = \frac{dv}{2}$ na primeira integral:
+%
+\begin{equation}
+    \int_0^{\pi/2} \ln(\sin 2u) \, du 
+    = \frac{1}{2} \int_0^{\pi} \ln(\sin v) \, dv 
+    = \frac{1}{2} \left( \int_0^{\pi/2} \ln(\sin v) \, dv + \int_{\pi/2}^{\pi} \ln(\sin v) \, dv \right) 
+    = \frac{1}{2}(K + K) = K.
+\end{equation}
+%
+Logo:
+%
+\begin{equation}
+    2K = K - \frac{\pi}{2} \ln 2 \implies K = -\frac{\pi}{2} \ln 2.
+\end{equation}
+%
+Substituindo o valor de $K$ na segunda integral:
+%
+\begin{equation}
+    8 K = 8 \left(-\frac{\pi}{2} \ln 2\right) = -4\pi \ln 2.
+\end{equation}
+%
+Reunindo as duas partes de $I(0)$:
+%
+\begin{equation}
+    I(0) = 4\pi \ln 2 - 4\pi \ln 2 = 0 \implies C = 0.
+\end{equation}
+%
+Concluímos:
+%
+\begin{equation}
+    \boxed{I(x) = 2\pi x.}
+\end{equation}
+%
+\newpage
+%
+Agora, temos que verificar que a Energia Livre de Onsager a partir do Método de Schultz--Mattis--Lieb, notamos que o hamiltoniano do modelo de Ising 2D isotrópico na rede quadrada simples com condições periódicas de contorno e $J_1=J_2=J$ conduz à energia livre por spin no limite termodinâmico ($L, N \to \infty$):
+%
+\begin{equation}
+    -\beta g = \frac{1}{2}\ln(2\sinh 2K) + \frac{1}{4\pi} \int_{-\pi}^{+\pi} \gamma(q) \, dq,
+\end{equation}
+%
+onde $K = \beta J$ e a relação de dispersão dos férmions $\gamma(q) > 0$ satisfaz:
+%
+\begin{equation}
+    \cosh \gamma(q) = \cosh(2K)\cosh(2K^*) - \sinh(2K)\sinh(2K^*)\cos q,
+\end{equation}
+%
+com o acoplamento dual $K^*$ definido por $\sinh(2K)\sinh(2K^*) = 1$. A partir de $\sinh(2K^*) = \frac{1}{\sinh(2K)}$, calculamos $\cosh(2K^*)$:
+%
+\begin{equation}
+    \cosh(2K^*) = \sqrt{1 + \sinh^2(2K^*)} 
+    = \sqrt{1 + \frac{1}{\sinh^2(2K)}} 
+    = \sqrt{\frac{\sinh^2(2K) + 1}{\sinh^2(2K)}} 
+    = \frac{\cosh(2K)}{\sinh(2K)} 
+    = \coth(2K).
+\end{equation}
+%
+Substituindo em $\cosh \gamma(q)$:
+%
+\begin{equation}
+    \cosh \gamma(q) = \cosh(2K)\coth(2K) - 1 \cdot \cos q 
+    = \frac{\cosh^2(2K)}{\sinh(2K)} - \cos q.
+\end{equation}
+%
+Definimos o parâmetro $k$:
+%
+\begin{equation}
+    k = \frac{\cosh^2(2K)}{2\sinh(2K)} \implies 2k = \frac{\cosh^2(2K)}{\sinh(2K)}.
+\end{equation}
+%
+Assim, a relação de dispersão reduz-se a:
+%
+\begin{equation}
+    \cosh \gamma(q) = 2k - \cos q.
+\end{equation}
+%
+Invertemos a identidade $2\pi x = \int_{-\pi}^{+\pi} \ln\left[2\cosh x - 2\cos\omega\right] d\omega$:
+%
+\begin{equation}
+    x = \frac{1}{2\pi} \int_{-\pi}^{+\pi} \ln\left[2\cosh x - 2\cos q_1\right] dq_1.
+\end{equation}
+%
+Aplicando esta expressão para $x = \gamma(q_2)$:
+%
+\begin{equation}
+    \gamma(q_2) = \frac{1}{2\pi} \int_{-\pi}^{+\pi} \ln\left[2\cosh \gamma(q_2) - 2\cos q_1\right] dq_1.
+\end{equation}
+%
+Substituindo $2\cosh\gamma(q_2) = 4k - 2\cos q_2$:
+%
+\begin{equation}
+    2\cosh \gamma(q_2) - 2\cos q_1 = 4k - 2\cos q_2 - 2\cos q_1 = 4k - 2(\cos q_1 + \cos q_2).
+\end{equation}
+%
+Substituindo $\gamma(q_2)$ na integral 1D da energia livre:
+%
+\begin{equation}
+    \frac{1}{4\pi} \int_{-\pi}^{+\pi} \gamma(q_2) \, dq_2 
+    = \frac{1}{4\pi} \int_{-\pi}^{+\pi} \left( \frac{1}{2\pi} \int_{-\pi}^{+\pi} \ln\left[4k - 2(\cos q_1 + \cos q_2)\right] dq_1 \right) dq_2
+\end{equation}
+%
+\begin{equation}
+    = \frac{1}{8\pi^2} \iint_{-\pi}^{+\pi} \ln\left[4k - 2(\cos q_1 + \cos q_2)\right] dq_1 \, dq_2.
+\end{equation}
+%
+Fatoramos $2k$ no termo sob o logaritmo:
+%
+\begin{equation}
+    4k - 2(\cos q_1 + \cos q_2) = 2k \cdot \left[ 2 - \frac{1}{k}(\cos q_1 + \cos q_2) \right].
+\end{equation}
+%
+Aplicando as propriedades do logaritmo:
+%
+\begin{equation}
+    \ln\left[4k - 2(\cos q_1 + \cos q_2)\right] = \ln(2k) + \ln\left[ 2 - \frac{1}{k}(\cos q_1 + \cos q_2) \right].
+\end{equation}
+%
+Integrando o termo constante $\ln(2k)$ sobre o domínio $[-\pi,\pi] \times [-\pi,\pi]$ de área $4\pi^2$:
+%
+\begin{equation}
+    \frac{1}{8\pi^2} \iint_{-\pi}^{+\pi} \ln(2k) \, dq_1 \, dq_2 = \frac{\ln(2k)}{8\pi^2} \cdot 4\pi^2 = \frac{1}{2} \ln(2k).
+\end{equation}
+%
+Expandimos $\frac{1}{2}\ln(2k)$ usando $2k = \frac{\cosh^2(2K)}{\sinh(2K)}$:
+%
+\begin{equation}
+    \frac{1}{2}\ln(2k) = \frac{1}{2}\ln\left(\frac{\cosh^2 2K}{\sinh 2K}\right) 
+    = \frac{1}{2}\left( 2\ln(\cosh 2K) - \ln(\sinh 2K) \right) 
+    = \ln(\cosh 2K) - \frac{1}{2}\ln(\sinh 2K).
+\end{equation}
+%
+Somamos $\frac{1}{2}\ln(2\sinh 2K)$ com $\frac{1}{2}\ln(2k)$:
+%
+\begin{equation}
+    \frac{1}{2}\ln(2\sinh 2K) + \frac{1}{2}\ln(2k) 
+    = \left[ \frac{1}{2}\ln 2 + \frac{1}{2}\ln(\sinh 2K) \right] + \left[ \ln(\cosh 2K) - \frac{1}{2}\ln(\sinh 2K) \right]
+\end{equation}
+%
+\begin{equation}
+    = \frac{1}{2}\ln 2 + \ln(\cosh 2K).
+\end{equation}
+%
+Reagrupando com a integral dupla restante:
+%
+\begin{equation}
+    \boxed{-\beta g = \frac{1}{2}\ln 2 + \ln(\cosh 2K) + \frac{1}{8\pi^2} \iint_{-\pi}^{+\pi} \ln\left[ 2 - \frac{1}{k}(\cos q_1 + \cos q_2) \right] dq_1 \, dq_2.}
+\end{equation}
+%
+\subsection*{(a) --- Obtenção de $k=1$ no Ponto Crítico}
+
+O ponto crítico do modelo de Ising 2D isotrópico satisfaz a condição de automultiplicidade dual $K_c^* = K_c$, dada por $\sinh(2K_c) = 1$.
+%
+Pela identidade trigonométrica hiperbólica básica:
+%
+\begin{equation}
+    \cosh^2(2K_c) - \sinh^2(2K_c) = 1 \implies \cosh^2(2K_c) = 1 + \sinh^2(2K_c).
+\end{equation}
+%
+Substituindo $\sinh(2K_c) = 1$:
+%
+\begin{equation}
+    \cosh^2(2K_c) = 1 + 1^2 = 2.
+\end{equation}
+%
+Substituindo na definição de $k$:
+%
+\begin{equation}
+    \boxed{k_c = \frac{\cosh^2(2K_c)}{2\sinh(2K_c)} = \frac{2}{2 \cdot 1} = 1.}
+\end{equation}
+%
+\subsection*{(b) --- Comportamento de $J(k)$ no Limite $k \to 1^-$}
+%
+Queremos analisar a divergência da integral:
+%
+\begin{equation}
+    J(k) = \iint_{-\pi}^{+\pi} \frac{dq_1\,dq_2}{2 - k(\cos q_1 + \cos q_2)}.
+\end{equation}
+%
+Primeiro fazemos a expansão em série de Taylor dos cossenos perto de $(q_1,q_2) = (0,0)$:
+%
+\begin{equation}
+        \cos q_1 \approx 1 - \frac{q_1^2}{2}, \qquad \cos q_2 \approx 1 - \frac{q_2^2}{2}.
+\end{equation}
+%
+\begin{equation}
+        \cos q_1 + \cos q_2 \approx 2 - \frac{1}{2}(q_1^2 + q_2^2).
+\end{equation}
+%
+Substituimos no denominador,
+%
+\begin{equation}
+        2 - k(\cos q_1 + \cos q_2) \approx 2 - k\left[2 - \frac{1}{2}(q_1^2 + q_2^2)\right] = 2(1-k) + \frac{k}{2}(q_1^2 + q_2^2).
+\end{equation}
+%
+Convertemos para Coordenadas Polares 
+($q_1 = q\cos\theta, q_2 = q\sin\theta, dq_1 dq_2 = q\,dq\,d\theta$):
+%
+\begin{equation}
+        J(k) \approx \int_0^{2\pi} d\theta \int_0^{q_c} \frac{q\,dq}{2(1-k) + \frac{k}{2}q^2} = 2\pi \int_0^{q_c} \frac{q\,dq}{2(1-k) + \frac{k}{2}q^2}.
+\end{equation}
+%
+Usamos a substituição $w = 2(1-k) + \frac{k}{2}q^2 \implies dw = k\,q\,dq$:
+%
+\begin{equation}
+        J(k) \approx \frac{2\pi}{k} \int_{2(1-k)}^{2(1-k) + \frac{k}{2}q_c^2} \frac{dw}{w} 
+        = \frac{2\pi}{k} \left[ \ln\left(2(1-k) + \frac{k}{2}q_c^2\right) - \ln(2(1-k)) \right]
+\end{equation}
+%    
+\begin{equation}
+        = \frac{2\pi}{k} \ln\left( 1 + \frac{k q_c^2}{4(1-k)} \right).
+\end{equation}
+%
+Quando $k \to 1$, $1-k \to 0^+$, de modo que $\frac{k q_c^2}{4(1-k)} \gg 1$:
+%
+\begin{equation}
+        \ln\left( 1 + \frac{k q_c^2}{4(1-k)} \right) \sim \ln\left(\frac{q_c^2}{4}\right) - \ln(1-k) \sim -\ln(1-k).
+\end{equation}
+%
+Como $\frac{2\pi}{k} \to 2\pi$, o termo dominante divergente é:
+%
+\begin{equation}
+    \boxed{J(k) \sim -2\pi \ln(1-k).}
+\end{equation}
+%
+\subsection*{(c) --- Comportamento assintótico de $u$ e $c$}
+%
+Com $K = \frac{J}{k_B T}$, expandimos $K - K_c$ em termos de $t$:
+%
+\begin{equation}
+    K = \frac{J}{k_B T_c (1+t)} \approx K_c (1 - t) \implies K - K_c \approx -K_c \, t.
+\end{equation}
+%
+Expandimos $k(K) = \frac{\cosh^2(2K)}{2\sinh(2K)}$ em torno de $K_c$:
+%
+\begin{equation}
+    \frac{dk}{dK} = \frac{d}{dK}\left[\frac{\cosh^2 2K}{2\sinh 2K}\right] 
+    = \frac{4\cosh(2K)\sinh^2(2K) - 2\cosh^3(2K)}{4\sinh^2(2K)}.
+\end{equation}
+%
+No ponto crítico ($\sinh 2K_c = 1, \cosh 2K_c = \sqrt{2}$):
+%    
+\begin{equation}
+    \left.\frac{dk}{dK}\right|_{K_c} = \sqrt{2} - \frac{(\sqrt{2})^3}{2 \cdot 1^2} = \sqrt{2} - \sqrt{2} = 0.
+\end{equation}
+%
+\begin{equation}
+    \left.\frac{d^2k}{dK^2}\right|_{K_c} = 8.
+\end{equation}
+%
+Expansão de Taylor de $k(K)$:
+%
+\begin{equation}
+    k(K) \approx k(K_c) + \left.\frac{dk}{dK}\right|_{K_c}(K-K_c) + \frac{1}{2}\left.\frac{d^2k}{dK^2}\right|_{K_c}(K-K_c)^2 = 1 + 4(K-K_c)^2.
+    \end{equation}
+%    
+\begin{equation}
+    1 - k \approx -4(K-K_c)^2 = -4 K_c^2 \, t^2.
+\end{equation}
+%
+Portanto:
+%
+\begin{equation}
+    \ln|1-k| \sim \ln(4 K_c^2 t^2) = \ln(4 K_c^2) + 2\ln|t| \sim 2\ln|t|.
+\end{equation}
+%
+A energia interna é dada por $u = -J \frac{\partial}{\partial K} (-\beta g)$. O termo singular provém da derivada da integral:
+%
+\begin{equation}
+    u_{\text{sing}} = -J \cdot \frac{\partial}{\partial K} \left( \frac{1}{8\pi^2} \iint \ln\left[2 - k(\cos q_1 + \cos q_2)\right] dq_1 dq_2 \right)
+\end{equation}
+%
+\begin{equation}
+    = \frac{J}{8\pi^2} \frac{dk}{dK} \iint \frac{\cos q_1 + \cos q_2}{2 - k(\cos q_1 + \cos q_2)} dq_1 dq_2.
+\end{equation}
+%
+Usando $\frac{dk}{dK} \approx 8(K-K_c) = -8 K_c t$ e $J(k) \sim -2\pi \ln(1-k) \sim -4\pi \ln|t|$:
+%
+\begin{equation}
+    \boxed{\frac{u}{J} \sim -\frac{8}{\pi} K_c \, t \ln|t|.}
+\end{equation}
+%
+A capacidade térmica por spin é $c = \frac{\partial u}{\partial T} = \frac{1}{T_c} \frac{\partial u}{\partial t}$:
+%
+\begin{equation}
+    \frac{\partial u}{\partial t} = \frac{\partial}{\partial t} \left( -J \frac{8}{\pi} K_c \, t \ln|t| \right) 
+    = -J \frac{8}{\pi} K_c \left( \ln|t| + t \cdot \frac{1}{t} \right) 
+    = -J \frac{8}{\pi} K_c \left( \ln|t| + 1 \right).
+\end{equation}
+%
+Mantendo apenas o termo dominante divergente ($\ln|t| \gg 1$ quando $t \to 0$):
+%
+\begin{equation}
+    \frac{\partial u}{\partial t} \sim -J \frac{8}{\pi} K_c \ln|t|.
+\end{equation}
+%
+Como $K_c = \frac{J}{k_B T_c} \implies \frac{J}{T_c} = k_B K_c$:
+%
+\begin{equation}
+    c = \frac{1}{T_c} \left( -J \frac{8}{\pi} K_c \ln|t| \right) = -k_B \frac{8}{\pi} K_c^2 \ln|t|.
+\end{equation}
+%
+Dividindo por $k_B$:
+%
+\begin{equation}
+    \boxed{\frac{c}{k_B} \sim -\frac{8}{\pi} K_c^2 \ln|t|,}
+\end{equation}
+%
+com $K_c = \frac{1}{2}\ln\left(1+\sqrt{2}\right)$.
+%
+\end{document}
