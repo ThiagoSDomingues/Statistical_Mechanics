@@ -1,1 +1,3456 @@
 
+\documentclass[12pt,a4paper]{article}
+
+% ============================================================
+% PACOTES
+% ============================================================
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+
+\usepackage{amsmath,amssymb,amsfonts,mathtools}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\usepackage{tikz}
+\usetikzlibrary{calc, decorations.pathmorphing, arrows.meta}
+\usepackage{amsmath}
+
+\geometry{a4paper, margin=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+% ============================================================
+% Estilos
+% ============================================================
+
+\tikzset{
+    originalsite/.style={
+        circle,
+        fill=gray!55,
+        inner sep=0pt,
+        minimum size=2.5pt
+    },
+    blockbond/.style={
+        draw=blue!75!black,
+        line width=1.4pt
+    },
+    blockcenter/.style={
+        circle,
+        fill=red!75!black,
+        draw=black,
+        line width=0.4pt,
+        inner sep=0pt,
+        minimum size=5.5pt
+    },
+    stagearrow/.style={
+        -{Latex[length=3mm]},
+        line width=0.9pt,
+        draw=black!70
+    }
+}
+
+
+\begin{document}
+
+% ============================================================
+% CABEÇALHO
+% ============================================================
+
+\begin{center}
+    {\Large \textbf{Quinta série de exercícios}}\\[0.6cm]
+    {\large Tópicos de Mecânica Estatística -- Transições de Fases -- 2026}\\[0.2cm]
+    {\large Grupo de Renormalização -- 05/10/2026}\\[0.2cm]
+    {\large Data de Entrega -- 04/10/2026}\\[0.2cm]
+    {\Large \textbf{Autor:} Thiago Siqueira Domingues (Nº USP: 8942194)}
+\end{center}
+%
+\vspace{0.4cm}
+% ============================================================
+% PROBLEMA 1
+% ============================================================
+\section*{Problema 1 -- Modelo de Ising na rede hierárquica do diamante}
+%
+Consideramos o modelo de Ising ferromagnético em campo nulo,
+%
+\begin{equation}
+    \mathcal H
+    =
+    -J\sum_{\langle ij\rangle}\sigma_i\sigma_j,
+    \qquad
+    J>0,
+    \qquad
+    \sigma_i=\pm1.
+    \label{eq:H_ising_p1}
+\end{equation}
+%
+Introduzimos o acoplamento adimensional
+%
+\begin{equation}
+    K\equiv\beta J=\frac{J}{k_BT}.
+    \label{eq:K_p1}
+\end{equation}
+%
+A construção da rede do diamante substitui uma ligação por duas cadeias em paralelo, cada uma contendo duas ligações em série. Assim, o fator de escala linear é
+%
+\begin{equation}
+    b=2,
+\end{equation}
+%
+e o número efetivo de ramos em paralelo é também \(p=2\). A dimensão da
+rede hierárquica é, portanto,
+%
+\begin{equation}
+    d
+    =
+    \frac{\ln(pb)}{\ln b}
+    =
+    \frac{\ln 4}{\ln 2}
+    =
+    2.
+    \label{eq:dim_diamond}
+\end{equation}
+% ------------------------------------------------------------
+Agora, considere uma cadeia formada pelos spins extremos \(\sigma_1\) e
+\(\sigma_2\) e pelo spin intermediário \(s\):
+%
+\begin{equation}
+    \sigma_1-s-\sigma_2.
+\end{equation}
+%
+O peso de Boltzmann dessa cadeia é
+%
+\begin{equation}
+    W(\sigma_1,\sigma_2)
+    =
+    \sum_{s=\pm1}
+    \exp\left[
+        K s(\sigma_1+\sigma_2)
+    \right].
+    \label{eq:W_chain_p1}
+\end{equation}
+%
+Analisamos separadamente os dois casos possíveis para os spins externos. Se \(\sigma_1=\sigma_2\), então \(\sigma_1+\sigma_2=2\sigma_1\). Como
+\(\sigma_1=\pm1\), podemos escrever \(\sigma_1^2=1\). Assim,
+%
+\begin{equation}
+    W_{\parallel}
+    =
+    \sum_{s=\pm1}
+    e^{2K s\sigma_1}
+    =
+    e^{2K\sigma_1}+e^{-2K\sigma_1}.
+\end{equation}
+%
+Como a soma sobre \(s=\pm1\) é simétrica, o resultado não depende do
+sinal de \(\sigma_1\). Portanto,
+%
+\begin{equation}
+    W_{\parallel}
+    =
+    e^{2K}+e^{-2K}
+    =
+    2\cosh(2K).
+    \label{eq:Wpar_p1}
+\end{equation}
+
+\medskip
+\noindent\textbf{Caso 2: \(\sigma_1=-\sigma_2\).}
+%
+Se \(\sigma_1=-\sigma_2\), então \(\sigma_1+\sigma_2=0\). Logo,
+%
+\begin{equation}
+    W_{\mathrm{anti}}
+    =
+    \sum_{s=\pm1}
+    e^{0}
+    =
+    \sum_{s=\pm1}1
+    =
+    2.
+    \label{eq:Wanti_p1}
+\end{equation}
+
+\medskip
+Queremos substituir a cadeia por uma ligação efetiva:
+%
+\begin{equation}
+    W(\sigma_1,\sigma_2)
+    =
+    A\,e^{K_s\sigma_1\sigma_2}.
+    \label{eq:W_eff_p1}
+\end{equation}
+%
+Para \(\sigma_1=\sigma_2\), temos \(\sigma_1\sigma_2=1\), de modo que
+%
+\begin{equation}
+    W_{\parallel}=A\,e^{K_s}.
+\end{equation}
+%
+Para \(\sigma_1=-\sigma_2\), temos \(\sigma_1\sigma_2=-1\), de modo que
+%
+\begin{equation}
+    W_{\mathrm{anti}}=A\,e^{-K_s}.
+\end{equation}
+%
+Dividindo as duas equações,
+%
+\begin{equation}
+    \frac{W_{\parallel}}{W_{\mathrm{anti}}}
+    =
+    \frac{A\,e^{K_s}}{A\,e^{-K_s}}
+    =
+    e^{2K_s}.
+\end{equation}
+%
+Substituindo \eqref{eq:Wpar_p1} e \eqref{eq:Wanti_p1},
+%
+\begin{equation}
+    e^{2K_s}
+    =
+    \frac{2\cosh(2K)}{2}
+    =
+    \cosh(2K).
+    \label{eq:e2Ks_p1}
+\end{equation}
+%
+Tomando o logaritmo,
+%
+\begin{equation}
+    2K_s=\ln\cosh(2K),
+\end{equation}
+%
+e, portanto,
+%
+\begin{equation}
+    \boxed{
+    K_s
+    =
+    \frac12\ln\cosh(2K).
+    }
+    \label{eq:Ks_p1}
+\end{equation}
+
+\medskip
+Usando a identidade
+%
+\begin{equation}
+    \operatorname{arctanh}(\tanh^2K)
+    =
+    \frac12\ln\cosh(2K),
+    \label{eq:identity_arctanh_p1}
+\end{equation}
+%
+também podemos escrever
+%
+\begin{equation}
+    \boxed{
+    K_s=\operatorname{arctanh}(\tanh^2K).
+    }
+    \label{eq:Ks_arctanh_p1}
+\end{equation}
+%
+Para verificar \eqref{eq:identity_arctanh_p1}, seja
+%
+\begin{equation}
+    t=\tanh K.
+\end{equation}
+%
+Então
+%
+\begin{equation}
+    \tanh^2K=t^2,
+\end{equation}
+%
+e, pela definição de \(\operatorname{arctanh}\),
+%
+\begin{equation}
+    \operatorname{arctanh}(t^2)
+    =
+    \frac12
+    \ln\left(
+        \frac{1+t^2}{1-t^2}
+    \right).
+    \label{eq:arctanh_def_p1}
+\end{equation}
+%
+Por outro lado,
+%
+\begin{equation}
+    \cosh(2K)
+    =
+    \frac{e^{2K}+e^{-2K}}{2}.
+\end{equation}
+%
+Usando \(t=\tanh K\), temos
+%
+\begin{equation}
+    e^{2K}=\frac{1+t}{1-t}.
+\end{equation}
+%
+Portanto,
+%
+\begin{align}
+    \cosh(2K)
+    &=
+    \frac12
+    \left[
+        \frac{1+t}{1-t}
+        +
+        \frac{1-t}{1+t}
+    \right]
+    \nonumber\\[4pt]
+    &=
+    \frac12
+    \frac{
+        (1+t)^2+(1-t)^2
+    }{(1-t)(1+t)}
+    \nonumber\\[4pt]
+    &=
+    \frac12
+    \frac{
+        1+2t+t^2+1-2t+t^2
+    }{1-t^2}
+    \nonumber\\[4pt]
+    &=
+    \frac12
+    \frac{
+        2+2t^2
+    }{1-t^2}
+    =
+    \frac{1+t^2}{1-t^2}.
+    \label{eq:cosh2K_t_p1}
+\end{align}
+%
+Substituindo \eqref{eq:cosh2K_t_p1} em \eqref{eq:arctanh_def_p1},
+%
+\begin{equation}
+    \operatorname{arctanh}(t^2)
+    =
+    \frac12
+    \ln\left(
+        \cosh(2K)
+    \right)
+    =
+    \frac12\ln\cosh(2K),
+\end{equation}
+%
+o que confirma \eqref{eq:identity_arctanh_p1}.
+% ------------------------------------------------------------
+Na rede do diamante existem dois ramos idênticos em paralelo. Os
+acoplamentos efetivos de ramos em paralelo se somam, de modo que
+%
+\begin{equation}
+    K'=2K_s.
+    \label{eq:Kprime_parallel_p1}
+\end{equation}
+%
+Substituindo \eqref{eq:Ks_p1},
+%
+\begin{equation}
+    \boxed{
+    K'
+    =
+    \ln\cosh(2K).
+    }
+    \label{eq:RG_Ising_diamond}
+\end{equation}
+%
+Assim, a relação de recorrência é
+%
+\begin{equation}
+    \boxed{
+    K_{n+1}
+    =
+    \ln\cosh(2K_n).
+    }
+    \label{eq:recursion_p1}
+\end{equation}
+% 
+Um ponto fixo satisfaz
+%
+\begin{equation}
+    K^*=\ln\cosh(2K^*).
+    \label{eq:fixed_p1}
+\end{equation}
+%
+Existe imediatamente o ponto
+%
+\begin{equation}
+    \boxed{K^*_0=0},
+\end{equation}
+%
+que corresponde ao limite de alta temperatura, \(T\to\infty\), pois
+\(K=\beta J\to0\). Existe também um ponto fixo não trivial. Para encontrá-lo,
+escrevemos \eqref{eq:fixed_p1} na forma
+%
+\begin{equation}
+    e^{K^*}=\cosh(2K^*).
+    \label{eq:fixed_exp_p1}
+\end{equation}
+%
+Resolvendo numericamente \eqref{eq:fixed_exp_p1}, obtemos
+%
+\begin{equation}
+    \boxed{
+    K_c\simeq0.6093779.
+    }
+    \label{eq:Kc_p1}
+\end{equation}
+%
+Como
+%
+\begin{equation}
+    K_c=\frac{J}{k_BT_c},
+\end{equation}
+%
+a temperatura de transição estimada é
+%
+\begin{equation}
+    \boxed{
+    \frac{k_BT_c^{\mathrm{MK}}}{J}
+    =
+    \frac{1}{K_c}
+    \simeq1.641.
+    }
+    \label{eq:Tc_p1}
+\end{equation}
+% 
+Seja
+%
+\begin{equation}
+    K'=R(K),
+    \qquad
+    R(K)=\ln\cosh(2K).
+    \label{eq:RK_p1}
+\end{equation}
+%
+Próximo ao ponto fixo,
+%
+\begin{equation}
+    K=K_c+\delta K,
+\end{equation}
+%
+e a transformação linearizada é
+%
+\begin{equation}
+    \delta K'
+    =
+    R'(K_c)\,\delta K.
+    \label{eq:linearized_p1}
+\end{equation}
+%
+Calculamos \(R'(K)\):
+%
+\begin{align}
+    R'(K)
+    &=
+    \frac{d}{dK}
+    \ln\cosh(2K)
+    \nonumber\\[4pt]
+    &=
+    \frac{1}{\cosh(2K)}
+    \frac{d}{dK}
+    \cosh(2K)
+    \nonumber\\[4pt]
+    &=
+    \frac{1}{\cosh(2K)}
+    \,
+    2\sinh(2K)
+    \nonumber\\[4pt]
+    &=
+    2\tanh(2K).
+    \label{eq:Rprime_p1}
+\end{align}
+%
+Portanto,
+%
+\begin{equation}
+    \lambda_t
+    =
+    R'(K_c)
+    =
+    2\tanh(2K_c).
+    \label{eq:lambdat_form_p1}
+\end{equation}
+%
+Para calcular \(\tanh(2K_c)\), usamos a equação do ponto fixo
+\eqref{eq:fixed_exp_p1}:
+%
+\begin{equation}
+    \cosh(2K_c)=e^{K_c}.
+\end{equation}
+%
+Então
+%
+\begin{equation}
+    \sinh^2(2K_c)
+    =
+    \cosh^2(2K_c)-1
+    =
+    e^{2K_c}-1,
+\end{equation}
+%
+e, como \(\sinh(2K_c)>0\),
+%
+\begin{equation}
+    \sinh(2K_c)
+    =
+    \sqrt{e^{2K_c}-1}.
+\end{equation}
+%
+Logo,
+%
+\begin{equation}
+    \tanh(2K_c)
+    =
+    \frac{\sinh(2K_c)}{\cosh(2K_c)}
+    =
+    \frac{\sqrt{e^{2K_c}-1}}{e^{K_c}}
+    =
+    \sqrt{1-e^{-2K_c}}.
+    \label{eq:tanh2Kc_p1}
+\end{equation}
+%
+Substituindo \eqref{eq:tanh2Kc_p1} em \eqref{eq:lambdat_form_p1},
+%
+\begin{equation}
+    \lambda_t
+    =
+    2\sqrt{1-e^{-2K_c}}.
+    \label{eq:lambdat_sqrt_p1}
+\end{equation}
+%
+Com \(K_c\simeq0.6093779\),
+%
+\begin{equation}
+    e^{-2K_c}
+    \simeq
+    e^{-1.2187558}
+    \simeq
+    0.2956,
+\end{equation}
+%
+de modo que
+%
+\begin{equation}
+    \lambda_t
+    \simeq
+    2\sqrt{1-0.2956}
+    =
+    2\sqrt{0.7044}
+    \simeq
+    1.67857.
+    \label{eq:lambdat_p1}
+\end{equation}
+%
+Pela definição do expoente térmico,
+%
+\begin{equation}
+    \lambda_t=b^{y_t}.
+\end{equation}
+%
+Como \(b=2\),
+%
+\begin{equation}
+    y_t
+    =
+    \frac{\ln\lambda_t}{\ln 2}
+    \simeq
+    \frac{\ln 1.67857}{\ln 2}
+    \simeq
+    0.74724.
+    \label{eq:yt_p1}
+\end{equation}
+%
+Assim,
+%
+\begin{equation}
+    \boxed{
+    y_t\simeq0.74724.
+    }
+    \label{eq:yt_box_p1}
+\end{equation}
+%
+O expoente \(\nu\) é
+%
+\begin{equation}
+    \nu=\frac{1}{y_t},
+\end{equation}
+%
+dando
+%
+\begin{equation}
+    \boxed{
+    \nu_{\mathrm{MK}}\simeq1.33827.
+    }
+    \label{eq:nu_p1}
+\end{equation}
+%
+Usando a relação de hiperescala em \(d=2\),
+%
+\begin{equation}
+    2-\alpha=d\nu,
+\end{equation}
+%
+e como \(d=2\),
+%
+\begin{equation}
+    2-\alpha=2\nu.
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+    \boxed{
+    \alpha_{\mathrm{MK}}
+    =
+    2-2\nu
+    \simeq-0.67653.
+    }
+    \label{eq:alpha_p1}
+\end{equation}
+% 
+Para o modelo de Ising na rede quadrada, a solução exata de Onsager fornece
+%
+\begin{equation}
+    K_c^{\mathrm{exato}}
+    =
+    \frac12\ln(1+\sqrt2)
+    \simeq0.440687,
+\end{equation}
+%
+ou
+%
+\begin{equation}
+    \boxed{
+    \frac{k_BT_c^{\mathrm{exato}}}{J}
+    \simeq2.269185.
+    }
+\end{equation}
+%
+Além disso,
+%
+\begin{equation}
+    \nu_{\mathrm{exato}}=1,
+    \qquad
+    \alpha_{\mathrm{exato}}=0.
+\end{equation}
+%
+A comparação é apresentada na Tabela~\ref{tab:comparison_p1}.
+%
+\begin{table}[H]
+    \centering
+    \caption{Resultados para o modelo de Ising na rede quadrada.}
+    \label{tab:comparison_p1}
+    \begin{tabular}{lcc}
+        \toprule
+        Método
+        & \(k_BT_c/J\)
+        & \(\nu\) \\
+        \midrule
+        Migdal--Kadanoff
+        & \(1.641\)
+        & \(1.338\) \\
+        Exato
+        & \(2.269\)
+        & \(1\) \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+%
+A transformação de Migdal--Kadanoff reproduz qualitativamente a estrutura de uma transição crítica, mas fornece valores aproximados para a temperatura crítica e para os expoentes. Para uma rede hierárquica construída com \(b\) bonds em série e \(p\) ramos em paralelo, o resultado geral para o modelo de Ising é
+%
+\begin{equation}
+    K_s
+    =
+    \operatorname{arctanh}
+    \left[
+        (\tanh K)^b
+    \right],
+    \label{eq:Ks_general_p1}
+\end{equation}
+%
+seguido por
+%
+\begin{equation}
+    \boxed{
+    K'
+    =
+    p\,\operatorname{arctanh}
+    \left[
+        (\tanh K)^b
+    \right].
+    }
+    \label{eq:general_hierarchical}
+\end{equation}
+%
+A dimensão correspondente é
+%
+\begin{equation}
+    d
+    =
+    \frac{\ln(pb)}{\ln b}.
+    \label{eq:dim_general_p1}
+\end{equation}
+%
+No caso da rede do diamante, temos \(b=2\) e \(p=2\). Substituindo em
+\eqref{eq:general_hierarchical},
+%
+\begin{equation}
+    K'
+    =
+    2\,\operatorname{arctanh}
+    \left[
+        (\tanh K)^2
+    \right].
+\end{equation}
+%
+Usando a identidade \eqref{eq:identity_arctanh_p1},
+%
+\begin{equation}
+    K'
+    =
+    2\cdot
+    \frac12\ln\cosh(2K)
+    =
+    \ln\cosh(2K),
+\end{equation}
+%
+que coincide com \eqref{eq:RG_Ising_diamond}. Isso mostra a consistência
+da fórmula geral. Assim, para a ``necklace'' utilizada em aula, basta identificar os
+valores de \(p\) e \(b\) de sua construção para obter a recorrência e,
+consequentemente, seu ponto fixo e expoente térmico.
+% ============================================================
+% PROBLEMA 2
+% ============================================================
+\section*{Problema 2 -- Modelo de Potts na rede hierárquica do diamante}
+%
+Considere o modelo de Potts com \(q\ge2\) estados:
+%
+\begin{equation}
+    \mathcal H
+    =
+    -J\sum_{\langle ij\rangle}
+    \delta_{\sigma_i,\sigma_j},
+    \qquad
+    \sigma_i=0,1,\ldots,q-1,
+    \qquad
+    J>0.
+    \label{eq:H_potts}
+\end{equation}
+%
+A construção da rede do diamante é a mesma do Problema~1: uma ligação
+é substituída por dois ramos em paralelo, cada um contendo dois bonds
+em série. Assim, temos \(p=2\) ramos em paralelo e \(b=2\) bonds em
+série. A dimensão da rede hierárquica é
+%
+\begin{equation}
+    d=\frac{\ln(pb)}{\ln b}
+    =\frac{\ln 4}{\ln 2}=2.
+\end{equation}
+% 
+Considere os estados externos \(\sigma_1\) e \(\sigma_2\) e um estado intermediário \(\tau\). O peso de Boltzmann do ramo de dois bonds é
+%
+\begin{equation}
+    W(\sigma_1,\sigma_2)
+    =
+    \sum_{\tau=0}^{q-1}
+    e^{K\delta_{\sigma_1,\tau}}
+    e^{K\delta_{\tau,\sigma_2}}.
+    \label{eq:Wpotts}
+\end{equation}
+%
+Analisamos separadamente os casos \(\sigma_1=\sigma_2\) e
+\(\sigma_1\neq\sigma_2\). Se \(\tau=\sigma_1=\sigma_2\), então
+%
+\begin{equation}
+    \delta_{\sigma_1,\tau}=1,
+    \qquad
+    \delta_{\tau,\sigma_2}=1,
+\end{equation}
+%
+e o peso desse termo é
+%
+\begin{equation}
+    e^{K\cdot1}e^{K\cdot1}=e^{2K}.
+\end{equation}
+%
+Para os outros \(q-1\) estados de \(\tau\), temos
+%
+\begin{equation}
+    \tau\neq\sigma_1,
+    \qquad
+    \tau\neq\sigma_2,
+\end{equation}
+%
+de modo que
+%
+\begin{equation}
+    \delta_{\sigma_1,\tau}=0,
+    \qquad
+    \delta_{\tau,\sigma_2}=0,
+\end{equation}
+%
+e cada um desses termos contribui com peso
+%
+\begin{equation}
+    e^{0}e^{0}=1.
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+    W_{\parallel}
+    =
+    e^{2K}+(q-1).
+    \label{eq:Wpar_potts}
+\end{equation}
+%
+Se \(\tau=\sigma_1\), então
+%
+\begin{equation}
+    \delta_{\sigma_1,\tau}=1,
+    \qquad
+    \delta_{\tau,\sigma_2}=0,
+\end{equation}
+%
+pois \(\sigma_1\neq\sigma_2\). O peso é
+%
+\begin{equation}
+    e^{K}e^{0}=e^{K}.
+\end{equation}
+%
+Se \(\tau=\sigma_2\), então
+%
+\begin{equation}
+    \delta_{\sigma_1,\tau}=0,
+    \qquad
+    \delta_{\tau,\sigma_2}=1,
+\end{equation}
+%
+e o peso é novamente
+%
+\begin{equation}
+    e^{0}e^{K}=e^{K}.
+\end{equation}
+%
+Para os \(q-2\) estados restantes, temos
+%
+\begin{equation}
+    \tau\neq\sigma_1,
+    \qquad
+    \tau\neq\sigma_2,
+\end{equation}
+%
+e cada um contribui com peso \(1\). Logo,
+%
+\begin{equation}
+    W_{\mathrm{anti}}
+    =
+    2e^{K}+(q-2).
+    \label{eq:Wanti_potts}
+\end{equation}
+%
+Representamos o ramo efetivo por uma ligação de Potts:
+%
+\begin{equation}
+    W_{\mathrm{eff}}
+    =
+    A\,e^{K_s\delta_{\sigma_1,\sigma_2}}.
+\end{equation}
+%
+Assim,
+%
+\begin{equation}
+    W_{\parallel}=A\,e^{K_s},
+    \qquad
+    W_{\mathrm{anti}}=A.
+\end{equation}
+%
+Dividindo as duas expressões,
+%
+\begin{equation}
+    e^{K_s}
+    =
+    \frac{W_{\parallel}}{W_{\mathrm{anti}}}
+    =
+    \frac{e^{2K}+q-1}{2e^{K}+q-2}.
+\end{equation}
+%
+Tomando o logaritmo,
+%
+\begin{equation}
+    K_s
+    =
+    \ln
+    \left[
+        \frac{e^{2K}+q-1}{2e^{K}+q-2}
+    \right].
+    \label{eq:Ks_potts}
+\end{equation}
+% 
+Na rede do diamante existem dois ramos idênticos em paralelo. Os
+acoplamentos efetivos de ramos em paralelo se somam, de modo que
+%
+\begin{equation}
+    K'=2K_s.
+\end{equation}
+%
+Substituindo \eqref{eq:Ks_potts},
+%
+\begin{equation}
+    \boxed{
+    K'
+    =
+    2\ln
+    \left[
+        \frac{e^{2K}+q-1}{2e^{K}+q-2}
+    \right].
+    }
+    \label{eq:potts_RG}
+\end{equation}
+%
+É conveniente introduzir a variável
+%
+\begin{equation}
+    v=e^{K}-1,
+    \label{eq:v_def_potts}
+\end{equation}
+%
+de modo que
+%
+\begin{equation}
+    e^{K}=1+v.
+\end{equation}
+%
+Calculamos separadamente os termos que aparecem em \eqref{eq:potts_RG}:
+%
+\begin{align}
+    e^{2K}
+    &=
+    (e^{K})^2
+    =
+    (1+v)^2
+    =
+    1+2v+v^2,
+    \label{eq:e2K_potts}
+    \\[4pt]
+    e^{2K}+q-1
+    &=
+    (1+2v+v^2)+q-1
+    =
+    v^2+2v+q,
+    \label{eq:num_potts}
+    \\[4pt]
+    2e^{K}+q-2
+    &=
+    2(1+v)+q-2
+    =
+    q+2v.
+    \label{eq:den_potts}
+\end{align}
+%
+Portanto,
+%
+\begin{equation}
+    K'
+    =
+    2\ln
+    \left(
+        \frac{v^2+2v+q}{q+2v}
+    \right)
+    =
+    \ln
+    \left(
+        \frac{v^2+2v+q}{q+2v}
+    \right)^2.
+    \label{eq:Kprime_v_potts}
+\end{equation}
+%
+Como
+%
+\begin{equation}
+    e^{K'}=1+v',
+\end{equation}
+%
+segue de \eqref{eq:Kprime_v_potts} que
+%
+\begin{equation}
+    1+v'
+    =
+    \left(
+        \frac{v^2+2v+q}{q+2v}
+    \right)^2.
+    \label{eq:1vprime_potts}
+\end{equation}
+%
+Subtraindo \(1\) de ambos os lados,
+%
+\begin{equation}
+    v'
+    =
+    \left(
+        \frac{v^2+2v+q}{q+2v}
+    \right)^2
+    -
+    1
+    =
+    \frac{
+        (v^2+2v+q)^2-(q+2v)^2
+    }{(q+2v)^2}.
+    \label{eq:vprime_unsimplified_potts}
+\end{equation}
+%
+Fatoramos o numerador usando a diferença de quadrados:
+%
+\begin{equation}
+    (v^2+2v+q)^2-(q+2v)^2
+    =
+    \left[
+        (v^2+2v+q)-(q+2v)
+    \right]
+    \left[
+        (v^2+2v+q)+(q+2v)
+    \right].
+    \label{eq:diff_squares_potts}
+\end{equation}
+%
+Calculamos cada fator:
+%
+\begin{align}
+    (v^2+2v+q)-(q+2v)
+    &=
+    v^2+2v+q-q-2v
+    =
+    v^2,
+    \label{eq:fator1_potts}
+    \\[4pt]
+    (v^2+2v+q)+(q+2v)
+    &=
+    v^2+2v+q+q+2v
+    =
+    v^2+4v+2q.
+    \label{eq:fator2_potts}
+\end{align}
+%
+Substituindo \eqref{eq:fator1_potts} e \eqref{eq:fator2_potts} em
+\eqref{eq:diff_squares_potts},
+%
+\begin{equation}
+    (v^2+2v+q)^2-(q+2v)^2
+    =
+    v^2(v^2+4v+2q).
+    \label{eq:num_factored_potts}
+\end{equation}
+%
+Portanto, a recorrência para \(v\) é
+%
+\begin{equation}
+    \boxed{
+    v'
+    =
+    \frac{
+        v^2(v^2+4v+2q)
+    }{(q+2v)^2}.
+    }
+    \label{eq:v_potts}
+\end{equation}
+% 
+Os pontos fixos satisfazem
+%
+\begin{equation}
+    v'=v.
+\end{equation}
+%
+Da equação \eqref{eq:v_potts},
+%
+\begin{equation}
+    v
+    =
+    \frac{
+        v^2(v^2+4v+2q)
+    }{(q+2v)^2}.
+    \label{eq:fixed_v_potts}
+\end{equation}
+%
+Existe imediatamente a solução
+%
+\begin{equation}
+    \boxed{
+    v^*=0,
+    }
+    \label{eq:v0_potts}
+\end{equation}
+%
+que corresponde ao limite de alta temperatura, \(K\to0\). Para \(v\neq0\), podemos dividir ambos os lados de \eqref{eq:fixed_v_potts}
+por \(v\):
+%
+\begin{equation}
+    1
+    =
+    \frac{
+        v(v^2+4v+2q)
+    }{(q+2v)^2}.
+\end{equation}
+%
+Multiplicando por \((q+2v)^2\),
+%
+\begin{equation}
+    (q+2v)^2
+    =
+    v(v^2+4v+2q).
+    \label{eq:fixed_v2_potts}
+\end{equation}
+%
+Expandimos o lado esquerdo:
+%
+\begin{equation}
+    (q+2v)^2
+    =
+    q^2+4qv+4v^2.
+    \label{eq:lhs_exp_potts}
+\end{equation}
+%
+Expandimos o lado direito:
+%
+\begin{equation}
+    v(v^2+4v+2q)
+    =
+    v^3+4v^2+2qv.
+    \label{eq:rhs_exp_potts}
+\end{equation}
+%
+Igualando \eqref{eq:lhs_exp_potts} e \eqref{eq:rhs_exp_potts},
+%
+\begin{equation}
+    q^2+4qv+4v^2
+    =
+    v^3+4v^2+2qv.
+\end{equation}
+%
+Cancelando \(4v^2\) em ambos os lados,
+%
+\begin{equation}
+    q^2+4qv
+    =
+    v^3+2qv.
+\end{equation}
+%
+Rearranjando,
+%
+\begin{equation}
+    v^3+2qv-4qv-q^2=0,
+\end{equation}
+%
+ou seja,
+%
+\begin{equation}
+    v^3-2qv-q^2=0.
+    \label{eq:vc_potts}
+\end{equation}
+%
+Essa equação cúbica determina o ponto crítico \(v_c\) para cada valor de \(q\). A equação \eqref{eq:vc_potts} é uma cúbica deprimida da forma
+%
+\begin{equation}
+    v^3+pv+r=0,
+    \qquad
+    p=-2q,
+    \qquad
+    r=-q^2.
+\end{equation}
+%
+Pela fórmula de Cardano, as soluções são
+%
+\begin{equation}
+    v
+    =
+    \sqrt[3]{
+        -\frac{r}{2}
+        +
+        \sqrt{
+            \left(\frac{r}{2}\right)^2
+            +
+            \left(\frac{p}{3}\right)^3
+        }
+    }
+    +
+    \sqrt[3]{
+        -\frac{r}{2}
+        -
+        \sqrt{
+            \left(\frac{r}{2}\right)^2
+            +
+            \left(\frac{p}{3}\right)^3
+        }
+    }.
+    \label{eq:cardano_general_potts}
+\end{equation}
+%
+Calculamos os termos:
+%
+\begin{align}
+    -\frac{r}{2}
+    &=
+    \frac{q^2}{2},
+    \label{eq:cardano_term1_potts}
+    \\[4pt]
+    \left(\frac{r}{2}\right)^2
+    &=
+    \frac{q^4}{4},
+    \label{eq:cardano_term2_potts}
+    \\[4pt]
+    \left(\frac{p}{3}\right)^3
+    &=
+    \left(-\frac{2q}{3}\right)^3
+    =
+    -\frac{8q^3}{27}.
+    \label{eq:cardano_term3_potts}
+\end{align}
+%
+Substituindo em \eqref{eq:cardano_general_potts},
+%
+\begin{equation}
+    v_c
+    =
+    \sqrt[3]{
+        \frac{q^2}{2}
+        +
+        \sqrt{
+            \frac{q^4}{4}
+            -
+            \frac{8q^3}{27}
+        }
+    }
+    +
+    \sqrt[3]{
+        \frac{q^2}{2}
+        -
+        \sqrt{
+            \frac{q^4}{4}
+            -
+            \frac{8q^3}{27}
+        }
+    }.
+    \label{eq:vc_cardano}
+\end{equation}
+%
+Como
+%
+\begin{equation}
+    K_c=\ln(1+v_c),
+\end{equation}
+%
+a temperatura crítica é
+%
+\begin{equation}
+    \boxed{
+    \frac{k_BT_c(q)}{J}
+    =
+    \frac{1}{\ln[1+v_c(q)]}.
+    }
+    \label{eq:Tc_q}
+\end{equation}
+% 
+Para obter o expoente térmico, linearizamos a transformação
+%
+\begin{equation}
+    v'=R(v)
+\end{equation}
+%
+em torno do ponto fixo \(v_c\):
+%
+\begin{equation}
+    \delta v'
+    =
+    \lambda_t\,\delta v,
+    \qquad
+    \lambda_t=R'(v_c).
+    \label{eq:linearization_potts}
+\end{equation}
+%
+A partir de \eqref{eq:v_potts},
+%
+\begin{equation}
+    R(v)
+    =
+    \frac{
+        v^2(v^2+4v+2q)
+    }{(q+2v)^2}.
+    \label{eq:Rv_potts}
+\end{equation}
+%
+Calculamos a derivada logarítmica de \(R(v)\):
+%
+\begin{equation}
+    \ln R(v)
+    =
+    2\ln v
+    +
+    \ln(v^2+4v+2q)
+    -
+    2\ln(q+2v).
+    \label{eq:lnR_potts}
+\end{equation}
+%
+Derivando em relação a \(v\),
+%
+\begin{align}
+    \frac{R'(v)}{R(v)}
+    &=
+    \frac{d}{dv}
+    \left[
+        2\ln v
+        +
+        \ln(v^2+4v+2q)
+        -
+        2\ln(q+2v)
+    \right]
+    \nonumber\\[4pt]
+    &=
+    \frac{2}{v}
+    +
+    \frac{2v+4}{v^2+4v+2q}
+    -
+    \frac{4}{q+2v}.
+    \label{eq:logderiv_potts}
+\end{align}
+%
+Como no ponto fixo \(R(v_c)=v_c\), podemos escrever
+%
+\begin{align}
+    \lambda_t
+    &=
+    R'(v_c)
+    =
+    v_c\,
+    \frac{R'(v_c)}{R(v_c)}
+    \nonumber\\[4pt]
+    &=
+    v_c
+    \left[
+        \frac{2}{v_c}
+        +
+        \frac{2v_c+4}{v_c^2+4v_c+2q}
+        -
+        \frac{4}{q+2v_c}
+    \right]
+    \nonumber\\[4pt]
+    &=
+    2
+    +
+    \frac{
+        2v_c(v_c+2)
+    }{
+        v_c^2+4v_c+2q
+    }
+    -
+    \frac{
+        4v_c
+    }{
+        q+2v_c
+    }.
+    \label{eq:lambdat_potts}
+\end{align}
+%
+Como \(b=2\), o expoente \(y_t\) é definido por
+%
+\begin{equation}
+    \lambda_t=b^{y_t}=2^{y_t},
+\end{equation}
+%
+de modo que
+%
+\begin{equation}
+    y_t(q)
+    =
+    \frac{\ln\lambda_t(q)}{\ln 2}.
+    \label{eq:yt_potts}
+\end{equation}
+%
+O expoente \(\nu\) é
+%
+\begin{equation}
+    \nu(q)=\frac{1}{y_t(q)}.
+    \label{eq:nu_potts}
+\end{equation}
+%
+Usando a relação de hiperescala em \(d=2\),
+%
+\begin{equation}
+    2-\alpha=2\nu,
+\end{equation}
+%
+obtemos
+%
+\begin{equation}
+    \boxed{
+    \alpha(q)
+    =
+    2-\frac{2}{y_t(q)}
+    =
+    2-\frac{2\ln 2}{\ln\lambda_t(q)}.
+    }
+    \label{eq:alpha_q}
+\end{equation}
+% 
+Alguns resultados numéricos são apresentados na
+Tabela~\ref{tab:potts_values}.
+%
+\begin{table}[H]
+    \centering
+    \caption{
+        Temperatura crítica, expoente \(\nu\) e expoente \(\alpha\)
+        para alguns valores de \(q\) na rede hierárquica do diamante.
+    }
+    \label{tab:potts_values}
+    \begin{tabular}{cccc}
+        \toprule
+        \(q\) & \(K_c\) & \(\nu\) & \(\alpha\) \\
+        \midrule
+        2 & 1.21876 & 1.33827 & $-0.67653$ \\
+        3 & 1.38629 & 1.20471 & $-0.40942$ \\
+        4 & 1.51262 & 1.12416 & $-0.24832$ \\
+        5 & 1.61464 & 1.06865 & $-0.13729$ \\
+        6 & 1.70052 & 1.02731 & $-0.05463$ \\
+        7 & 1.77481 & 0.99494 & $0.01012$ \\
+        8 & 1.84037 & 0.96866 & $0.06268$ \\
+        9 & 1.89910 & 0.94675 & $0.10649$ \\
+        10 & 1.95232 & 0.92811 & $0.14378$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+%
+Para \(q=2\), o modelo de Potts é equivalente ao modelo de Ising.
+De fato, com \(\sigma_i=\pm1\),
+%
+\begin{equation}
+    \delta_{\sigma_i,\sigma_j}
+    =
+    \frac{1+\sigma_i\sigma_j}{2},
+\end{equation}
+%
+de modo que
+%
+\begin{equation}
+    -J\sum_{\langle ij\rangle}\delta_{\sigma_i,\sigma_j}
+    =
+    -\frac{J}{2}\sum_{\langle ij\rangle}\sigma_i\sigma_j
+    -
+    \frac{J}{2}\sum_{\langle ij\rangle}1.
+\end{equation}
+%
+O último termo é uma constante, e o acoplamento efetivo de Ising é
+\(J_{\mathrm{Ising}}=J/2\). Assim, \(K_{\mathrm{Ising}}=K_{\mathrm{Potts}}/2\).
+Para \(q=2\), a equação \eqref{eq:vc_potts} dá
+%
+\begin{equation}
+    v_c^3-4v_c-4=0,
+\end{equation}
+%
+cuja solução positiva é \(v_c\simeq2.38298\). Então
+%
+\begin{equation}
+    K_c^{\mathrm{Potts}}
+    =
+    \ln(1+v_c)
+    \simeq
+    1.21876,
+\end{equation}
+%
+e
+%
+\begin{equation}
+    K_c^{\mathrm{Ising}}
+    =
+    \frac{K_c^{\mathrm{Potts}}}{2}
+    \simeq
+    0.60938,
+\end{equation}
+%
+que coincide exatamente com o valor obtido no Problema~1. O expoente \(\alpha(q)\) passa de valores negativos para positivos
+em torno de
+%
+\begin{equation}
+    q\simeq6.83.
+\end{equation}
+%
+A dependência de \(\alpha\) com \(q\) é mostrada na
+Fig.~\ref{fig:alpha_potts}.
+%
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.82\linewidth]{Figures/statistical_mechanics/alpha_potts_diamond_mk.pdf}
+    \caption{
+        Expoente térmico \(\alpha\) do modelo de Potts na rede
+        hierárquica do diamante, obtido a partir da linearização da
+        transformação de renormalização e da relação de hiperescala
+        em \(d=2\).
+    }
+    \label{fig:alpha_potts}
+\end{figure}
+% ============================================================
+% PROBLEMA 3
+% ============================================================
+\section*{Problema 3 -- Renormalização em blocos de cinco spins}
+%
+Neste problema utilizamos uma transformação de grupo de renormalização no espaço real baseada em aglomerados de cinco spins em forma de cruz, seguindo a geometria indicada na figura da lista. O Hamiltoniano de
+partida é
+%
+\begin{equation}
+    \mathcal H
+    =
+    -J\sum_{\langle ij\rangle}
+    \sigma_i\sigma_j,
+    \qquad
+    \sigma_i=\pm1,
+    \qquad
+    J>0.
+    \label{eq:H_p3}
+\end{equation}
+%
+Cada bloco contém cinco spins: um spin central \(\sigma_0\) e quatro spins de borda \(\sigma_1,\sigma_2,\sigma_3,\sigma_4\). A variável renormalizada \(\Sigma\) é definida pela regra da maioria:
+%
+\begin{equation}
+    \Sigma
+    =
+    \operatorname{sgn}
+    \left(
+        \sigma_0+\sigma_1+\sigma_2+\sigma_3+\sigma_4
+    \right).
+    \label{eq:majority}
+\end{equation}
+%
+Como há cinco spins, a soma nunca se anula e, portanto, não existe empate. A nova rede é uma rede quadrada girada. Para ver isso, note que os centros dos blocos podem ser tomados, por exemplo, nos pontos \((2m-n,\,m+2n)\), com \(m,n\in\mathbb Z\). Dois centros vizinhos,
+como \((0,0)\) e \((2,1)\), estão separados por
+%
+\begin{equation}
+    \sqrt{2^2+1^2}=\sqrt5.
+\end{equation}
+%
+Logo, o parâmetro de rede é multiplicado por
+%
+\begin{equation}
+    b=\sqrt5.
+    \label{eq:b_p3}
+\end{equation}
+%
+Denotemos por \(\sigma_0\) o spin central e por
+\(\sigma_1,\ldots,\sigma_4\) os quatro spins da borda. O Hamiltoniano
+interno do bloco é
+%
+\begin{equation}
+    \mathcal H_B
+    =
+    -J\sigma_0
+    \sum_{a=1}^{4}\sigma_a.
+\end{equation}
+%
+Introduzindo \(K=\beta J\), a probabilidade interna é proporcional a
+%
+\begin{equation}
+    \exp\left[
+        K\sigma_0\sum_{a=1}^{4}\sigma_a
+    \right].
+\end{equation}
+%
+Para calcular a interação efetiva entre blocos, precisamos da média
+de um spin de borda condicionada à variável de bloco \(\Sigma\).
+Por simetria, todas as quatro bordas possuem a mesma média. Definimos
+%
+\begin{equation}
+    \mu(K)
+    \equiv
+    \left\langle
+        \sigma_1
+    \right\rangle_{\Sigma=+1}.
+\end{equation}
+%
+Para calcular \(\mu(K)\), escrevemos
+%
+\begin{equation}
+    S\equiv \sigma_1+\sigma_2+\sigma_3+\sigma_4.
+\end{equation}
+%
+Se \(k\) é o número de spins \(+1\) entre as quatro bordas, então
+%
+\begin{equation}
+    S=2k-4,
+    \qquad
+    k=0,1,2,3,4.
+\end{equation}
+%
+A condição de maioria positiva é
+%
+\begin{equation}
+    \Sigma=+1
+    \quad\Longleftrightarrow\quad
+    \sigma_0+S>0.
+\end{equation}
+%
+Analisamos separadamente \(\sigma_0=+1\) e \(\sigma_0=-1\).
+%
+\begin{itemize}
+    \item Se \(\sigma_0=+1\), a condição \(1+S>0\) exige \(S\ge0\), ou seja,
+    \(S=0,2,4\), que correspondem a \(k=2,3,4\).
+
+    \item Se \(\sigma_0=-1\), a condição \(-1+S>0\) exige \(S\ge2\), ou seja,
+    \(S=2,4\), que correspondem a \(k=3,4\).
+\end{itemize}
+%
+O denominador da média, que chamaremos de \(Z_+\), é a soma dos pesos de Boltzmann sobre todas as configurações com maioria positiva:
+%
+\begin{align}
+    Z_+
+    &=
+    \sum_{\substack{\text{configs}\\\Sigma=+1}}
+    e^{K\sigma_0 S}
+    \nonumber\\[4pt]
+    &=
+    \underbrace{
+        \binom{4}{2}\,e^{K(+1)(0)}
+    }_{k=2,\ \sigma_0=+1}
+    +
+    \underbrace{
+        \binom{4}{3}\,e^{K(+1)(2)}
+    }_{k=3,\ \sigma_0=+1}
+    +
+    \underbrace{
+        \binom{4}{4}\,e^{K(+1)(4)}
+    }_{k=4,\ \sigma_0=+1}
+    \nonumber\\[4pt]
+    &\qquad
+    +
+    \underbrace{
+        \binom{4}{3}\,e^{K(-1)(2)}
+    }_{k=3,\ \sigma_0=-1}
+    +
+    \underbrace{
+        \binom{4}{4}\,e^{K(-1)(4)}
+    }_{k=4,\ \sigma_0=-1}.
+\end{align}
+%
+Como
+%
+\begin{equation}
+    \binom{4}{2}=6,
+    \qquad
+    \binom{4}{3}=4,
+    \qquad
+    \binom{4}{4}=1,
+\end{equation}
+%
+segue
+%
+\begin{equation}
+    Z_+
+    =
+    6
+    +
+    4e^{2K}
+    +
+    e^{4K}
+    +
+    4e^{-2K}
+    +
+    e^{-4K}.
+    \label{eq:Zplus_p3}
+\end{equation}
+%
+Multiplicando \eqref{eq:Zplus_p3} por \(e^{4K}\), obtemos
+%
+\begin{align}
+    e^{4K}Z_+
+    &=
+    6e^{4K}
+    +
+    4e^{6K}
+    +
+    e^{8K}
+    +
+    4e^{2K}
+    +
+    1
+    \nonumber\\[4pt]
+    &=
+    1+4e^{2K}+6e^{4K}+4e^{6K}+e^{8K}
+    \nonumber\\[4pt]
+    &=
+    \left(1+e^{2K}\right)^4.
+    \label{eq:Zplus_factored_p3}
+\end{align}
+%
+Passemos agora ao numerador \(N_+\), que contém o fator \(\sigma_1\):
+%
+\begin{equation}
+    N_+
+    =
+    \sum_{\substack{\text{configs}\\\Sigma=+1}}
+    \sigma_1\,
+    e^{K\sigma_0 S}.
+\end{equation}
+%
+Para uma dada borda \(\sigma_1\), a soma sobre as demais bordas deve
+ser feita com cuidado. Fixado \(k\), o número de configurações com
+\(\sigma_1=+1\) é \(\binom{3}{k-1}\), e o número com \(\sigma_1=-1\)
+é \(\binom{3}{k}\). Portanto, a soma de \(\sigma_1\) sobre as
+configurações de borda com um dado \(k\) é
+%
+\begin{equation}
+    \sum_{\text{bordas}}\sigma_1
+    =
+    \binom{3}{k-1}
+    -
+    \binom{3}{k}.
+    \label{eq:sum_sigma1_p3}
+\end{equation}
+%
+Calculamos \eqref{eq:sum_sigma1_p3} para os valores de \(k\) que
+aparecem em \(Z_+\):
+%
+\begin{align}
+    k=2:&\qquad
+    \binom{3}{1}-\binom{3}{2}
+    =
+    3-3
+    =
+    0,
+    \nonumber\\[4pt]
+    k=3:&\qquad
+    \binom{3}{2}-\binom{3}{3}
+    =
+    3-1
+    =
+    2,
+    \nonumber\\[4pt]
+    k=4:&\qquad
+    \binom{3}{3}-\binom{3}{4}
+    =
+    1-0
+    =
+    1.
+\end{align}
+%
+Assim, as contribuições para \(N_+\) são:
+%
+\begin{align}
+    N_+
+    &=
+    \underbrace{
+        0\cdot e^{K(+1)(0)}
+    }_{k=2,\ \sigma_0=+1}
+    +
+    \underbrace{
+        2\,e^{K(+1)(2)}
+    }_{k=3,\ \sigma_0=+1}
+    +
+    \underbrace{
+        1\,e^{K(+1)(4)}
+    }_{k=4,\ \sigma_0=+1}
+    \nonumber\\[4pt]
+    &\qquad
+    +
+    \underbrace{
+        2\,e^{K(-1)(2)}
+    }_{k=3,\ \sigma_0=-1}
+    +
+    \underbrace{
+        1\,e^{K(-1)(4)}
+    }_{k=4,\ \sigma_0=-1}
+    \nonumber\\[4pt]
+    &=
+    2e^{2K}
+    +
+    e^{4K}
+    +
+    2e^{-2K}
+    +
+    e^{-4K}.
+    \label{eq:Nplus_p3}
+\end{align}
+%
+Multiplicando \eqref{eq:Nplus_p3} por \(e^{4K}\),
+%
+\begin{align}
+    e^{4K}N_+
+    &=
+    2e^{6K}
+    +
+    e^{8K}
+    +
+    2e^{2K}
+    +
+    1
+    \nonumber\\[4pt]
+    &=
+    e^{8K}+2e^{6K}+2e^{2K}+1.
+    \label{eq:Nplus_factored_p3}
+\end{align}
+%
+Dividindo \eqref{eq:Nplus_factored_p3} por \eqref{eq:Zplus_factored_p3},
+obtemos
+%
+\begin{equation}
+    \mu(K)
+    =
+    \frac{
+        e^{8K}+2e^{6K}+2e^{2K}+1
+    }
+    {\left(1+e^{2K}\right)^4}.
+    \label{eq:mu_exp_p3}
+\end{equation}
+% 
+Introduzimos
+%
+\begin{equation}
+    t=\tanh K.
+\end{equation}
+%
+Queremos simplificar \eqref{eq:mu_exp_p3}. Seja
+%
+\begin{equation}
+    u=e^{2K}.
+\end{equation}
+%
+Então
+%
+\begin{equation}
+    e^{8K}=u^4,
+    \qquad
+    e^{6K}=u^3,
+    \qquad
+    e^{2K}=u,
+\end{equation}
+%
+e a expressão \eqref{eq:mu_exp_p3} torna-se
+%
+\begin{equation}
+    \mu
+    =
+    \frac{
+        u^4+2u^3+2u+1
+    }
+    {(1+u)^4}.
+    \label{eq:mu_u_p3}
+\end{equation}
+%
+Dividimos numerador e denominador de \eqref{eq:mu_u_p3} por \(u^2\):
+%
+\begin{equation}
+    \mu
+    =
+    \frac{
+        u^2+2u+\dfrac{2}{u}+\dfrac{1}{u^2}
+    }
+    {
+        \dfrac{(1+u)^4}{u^2}
+    }.
+    \label{eq:mu_u_div_p3}
+\end{equation}
+%
+No denominador,
+%
+\begin{equation}
+    \frac{(1+u)^4}{u^2}
+    =
+    \left[
+        \frac{(1+u)^2}{u}
+    \right]^2
+    =
+    \left(
+        u+2+\frac{1}{u}
+    \right)^2.
+\end{equation}
+%
+Definindo
+%
+\begin{equation}
+    w\equiv u+\frac{1}{u},
+\end{equation}
+%
+o denominador fica
+%
+\begin{equation}
+    (w+2)^2.
+\end{equation}
+%
+No numerador,
+%
+\begin{align}
+    u^2+2u+\frac{2}{u}+\frac{1}{u^2}
+    &=
+    \left(
+        u^2+2+\frac{1}{u^2}
+    \right)
+    +
+    2u+\frac{2}{u}-2
+    \nonumber\\[4pt]
+    &=
+    \left(
+        u+\frac{1}{u}
+    \right)^2
+    +
+    2\left(
+        u+\frac{1}{u}
+    \right)
+    -2
+    \nonumber\\[4pt]
+    &=
+    w^2+2w-2.
+\end{align}
+%
+Portanto,
+%
+\begin{equation}
+    \mu
+    =
+    \frac{w^2+2w-2}{(w+2)^2}.
+    \label{eq:mu_w_p3}
+\end{equation}
+%
+Agora usamos a relação entre \(u\) e \(t\). Como
+%
+\begin{equation}
+    t=\tanh K
+    =
+    \frac{e^{2K}-1}{e^{2K}+1}
+    =
+    \frac{u-1}{u+1},
+\end{equation}
+%
+podemos inverter:
+%
+\begin{equation}
+    u=\frac{1+t}{1-t}.
+    \label{eq:u_t_p3}
+\end{equation}
+%
+Logo,
+%
+\begin{align}
+    w
+    &=
+    u+\frac{1}{u}
+    =
+    \frac{1+t}{1-t}
+    +
+    \frac{1-t}{1+t}
+    \nonumber\\[4pt]
+    &=
+    \frac{(1+t)^2+(1-t)^2}{(1-t)(1+t)}
+    \nonumber\\[4pt]
+    &=
+    \frac{1+2t+t^2+1-2t+t^2}{1-t^2}
+    \nonumber\\[4pt]
+    &=
+    \frac{2+2t^2}{1-t^2}
+    =
+    \frac{2(1+t^2)}{1-t^2}.
+    \label{eq:w_t_p3}
+\end{align}
+%
+Assim,
+%
+\begin{equation}
+    w+2
+    =
+    \frac{2(1+t^2)}{1-t^2}+2
+    =
+    \frac{2(1+t^2)+2(1-t^2)}{1-t^2}
+    =
+    \frac{4}{1-t^2}.
+    \label{eq:wplus2_t_p3}
+\end{equation}
+%
+Além disso,
+%
+\begin{align}
+    w^2+2w-2
+    &=
+    \left[
+        \frac{2(1+t^2)}{1-t^2}
+    \right]^2
+    +
+    2\left[
+        \frac{2(1+t^2)}{1-t^2}
+    \right]
+    -2
+    \nonumber\\[4pt]
+    &=
+    \frac{
+        4(1+t^2)^2
+        +
+        4(1+t^2)(1-t^2)
+        -
+        2(1-t^2)^2
+    }
+    {(1-t^2)^2}.
+    \label{eq:num_common_p3}
+\end{align}
+%
+Calculamos cada termo do numerador de \eqref{eq:num_common_p3}:
+%
+\begin{align}
+    4(1+t^2)^2
+    &=
+    4(1+2t^2+t^4)
+    =
+    4+8t^2+4t^4,
+    \nonumber\\[4pt]
+    4(1+t^2)(1-t^2)
+    &=
+    4(1-t^4)
+    =
+    4-4t^4,
+    \nonumber\\[4pt]
+    -2(1-t^2)^2
+    &=
+    -2(1-2t^2+t^4)
+    =
+    -2+4t^2-2t^4.
+\end{align}
+%
+Somando,
+%
+\begin{equation}
+    4+8t^2+4t^4
+    +
+    4-4t^4
+    -
+    2+4t^2-2t^4
+    =
+    6+12t^2-2t^4.
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+    w^2+2w-2
+    =
+    \frac{
+        6+12t^2-2t^4
+    }
+    {(1-t^2)^2}
+    =
+    \frac{
+        2(3+6t^2-t^4)
+    }
+    {(1-t^2)^2}.
+    \label{eq:num_final_p3}
+\end{equation}
+%
+Substituindo \eqref{eq:num_final_p3} e \eqref{eq:wplus2_t_p3} em
+\eqref{eq:mu_w_p3},
+%
+\begin{equation}
+    \mu
+    =
+    \frac{
+        \dfrac{2(3+6t^2-t^4)}{(1-t^2)^2}
+    }
+    {
+        \left(
+            \dfrac{4}{1-t^2}
+        \right)^2
+    }
+    =
+    \frac{
+        \dfrac{2(3+6t^2-t^4)}{(1-t^2)^2}
+    }
+    {
+        \dfrac{16}{(1-t^2)^2}
+    }.
+\end{equation}
+%
+Cancelando \((1-t^2)^2\),
+%
+\begin{equation}
+    \mu(K)
+    =
+    \frac{
+        3+6\tanh^2 K-\tanh^4 K
+    }{8}.
+    \label{eq:mu_p3}
+\end{equation}
+%
+Por simetria global,
+%
+\begin{equation}
+    \left\langle
+        \sigma_a
+    \right\rangle_{\Sigma}
+    =
+    \mu(K)\Sigma,
+    \qquad
+    a=1,2,3,4.
+\end{equation}
+% 
+Pela geometria dos blocos, dois blocos vizinhos \(A\) e \(B\) são
+conectados por dois bonds da rede quadrada original. Assim, a parte
+do Hamiltoniano que acopla dois blocos pode ser escrita como
+%
+\begin{equation}
+    \mathcal H_{AB}
+    =
+    -J
+    \left(
+        \sigma_a\sigma_b
+        +
+        \sigma_c\sigma_d
+    \right),
+    \label{eq:HAB_p3}
+\end{equation}
+%
+onde \(\sigma_a,\sigma_c\) pertencem ao bloco \(A\) e
+\(\sigma_b,\sigma_d\) pertencem ao bloco \(B\). No cálculo perturbativo até primeira ordem em \(K=\beta J\),
+%
+\begin{equation}
+    e^{-\beta\mathcal H_{AB}}
+    \simeq
+    1-\beta\mathcal H_{AB}
+    =
+    1
+    +
+    K
+    \left(
+        \sigma_a\sigma_b
+        +
+        \sigma_c\sigma_d
+    \right).
+    \label{eq:exp_pert_p3}
+\end{equation}
+%
+Tomando a média sobre os estados internos dos dois blocos, e usando
+que os blocos são independentes,
+%
+\begin{align}
+    \left\langle
+        \sigma_a\sigma_b
+    \right\rangle
+    &=
+    \left\langle
+        \sigma_a
+    \right\rangle_A
+    \left\langle
+        \sigma_b
+    \right\rangle_B
+    =
+    \mu(K)\Sigma_A\,
+    \mu(K)\Sigma_B
+    \nonumber\\[4pt]
+    &=
+    \mu(K)^2\,\Sigma_A\Sigma_B.
+\end{align}
+%
+Analogamente,
+%
+\begin{equation}
+    \left\langle
+        \sigma_c\sigma_d
+    \right\rangle
+    =
+    \mu(K)^2\,\Sigma_A\Sigma_B.
+\end{equation}
+%
+Portanto,
+%
+\begin{align}
+    -\beta
+    \left\langle
+        \mathcal H_{AB}
+    \right\rangle
+    &=
+    K
+    \left[
+        \left\langle
+            \sigma_a\sigma_b
+        \right\rangle
+        +
+        \left\langle
+            \sigma_c\sigma_d
+        \right\rangle
+    \right]
+    \nonumber\\[4pt]
+    &=
+    K
+    \left[
+        \mu^2\Sigma_A\Sigma_B
+        +
+        \mu^2\Sigma_A\Sigma_B
+    \right]
+    \nonumber\\[4pt]
+    &=
+    2K\mu(K)^2\,\Sigma_A\Sigma_B.
+\end{align}
+%
+Logo, a interação efetiva entre os spins renormalizados é
+%
+\begin{equation}
+    -K'\Sigma_A\Sigma_B,
+\end{equation}
+%
+com
+%
+\begin{equation}
+    K'
+    =
+    2K\mu(K)^2.
+    \label{eq:RG_cross}
+\end{equation}
+%
+Substituindo \eqref{eq:mu_p3},
+%
+\begin{equation}
+    \boxed{
+    K'
+    =
+    \frac{K}{32}
+    \left[
+        3+6\tanh^2K-\tanh^4K
+    \right]^2.
+    }
+    \label{eq:RG_cross_explicit}
+\end{equation}
+%
+O ponto crítico satisfaz
+%
+\begin{equation}
+    K_c=2K_c\mu(K_c)^2.
+\end{equation}
+%
+Para \(K_c\neq0\), podemos dividir por \(K_c\):
+%
+\begin{equation}
+    1=2\mu(K_c)^2,
+\end{equation}
+%
+ou seja,
+%
+\begin{equation}
+    \mu(K_c)=\frac{1}{\sqrt2}.
+    \label{eq:mu_c_p3}
+\end{equation}
+%
+Usando \eqref{eq:mu_p3},
+%
+\begin{equation}
+    \frac{
+        3+6\tanh^2K_c-\tanh^4K_c
+    }{8}
+    =
+    \frac{1}{\sqrt2}.
+    \label{eq:eq_Kc_p3}
+\end{equation}
+%
+Multiplicando por \(8\),
+%
+\begin{equation}
+    3+6\tanh^2K_c-\tanh^4K_c
+    =
+    \frac{8}{\sqrt2}
+    =
+    4\sqrt2.
+\end{equation}
+%
+Rearranjando,
+%
+\begin{equation}
+    \tanh^4K_c
+    -
+    6\tanh^2K_c
+    +
+    (4\sqrt2-3)
+    =
+    0.
+    \label{eq:quartic_t_p3}
+\end{equation}
+%
+Definindo
+%
+\begin{equation}
+    y\equiv \tanh^2 K_c,
+\end{equation}
+%
+a equação \eqref{eq:quartic_t_p3} torna-se uma equação quadrática:
+%
+\begin{equation}
+    y^2-6y+(4\sqrt2-3)=0.
+\end{equation}
+%
+As soluções são
+%
+\begin{align}
+    y
+    &=
+    \frac{
+        6\pm\sqrt{36-4(4\sqrt2-3)}
+    }{2}
+    \nonumber\\[4pt]
+    &=
+    3\pm\sqrt{9-(4\sqrt2-3)}
+    \nonumber\\[4pt]
+    &=
+    3\pm\sqrt{12-4\sqrt2}
+    \nonumber\\[4pt]
+    &=
+    3\pm 2\sqrt{3-\sqrt2}.
+\end{align}
+%
+Como \(0<y<1\), escolhemos o sinal negativo:
+%
+\begin{equation}
+    \tanh^2 K_c
+    =
+    3-2\sqrt{3-\sqrt2}
+    \simeq
+    0.4814.
+    \label{eq:tanh2_Kc_p3}
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+    \tanh K_c
+    =
+    \sqrt{
+        3-2\sqrt{3-\sqrt2}
+    }
+    \simeq
+    0.6938.
+\end{equation}
+%
+O acoplamento crítico é
+%
+\begin{equation}
+    K_c
+    =
+    \operatorname{arctanh}
+    \left(
+        \tanh K_c
+    \right)
+    =
+    \frac12
+    \ln
+    \left(
+        \frac{
+            1+\tanh K_c
+        }{
+            1-\tanh K_c
+        }
+    \right)
+    \simeq
+    0.855359.
+    \label{eq:Kc_p3}
+\end{equation}
+%
+Assim,
+%
+\begin{equation}
+    \boxed{
+    \frac{k_BT_c}{J}
+    =
+    \frac1{K_c}
+    \simeq
+    1.16910.
+    }
+    \label{eq:Tc_p3}
+\end{equation}
+% 
+Linearizando a transformação
+%
+\begin{equation}
+    K'=R(K)=2K\mu(K)^2
+\end{equation}
+%
+em torno de \(K_c\),
+%
+\begin{equation}
+    \delta K'
+    =
+    R'(K_c)\,\delta K,
+    \qquad
+    \lambda_t
+    =
+    R'(K_c).
+\end{equation}
+%
+Derivando,
+%
+\begin{equation}
+    \lambda_t
+    =
+    2\mu(K_c)^2
+    +
+    4K_c\mu(K_c)\mu'(K_c).
+\end{equation}
+%
+Como \(\mu(K_c)^2=1/2\),
+%
+\begin{equation}
+    \lambda_t
+    =
+    1
+    +
+    4K_c\mu(K_c)\mu'(K_c).
+    \label{eq:lambda_form_p3}
+\end{equation}
+%
+Precisamos de \(\mu'(K)\). A partir de \eqref{eq:mu_p3},
+%
+\begin{equation}
+    \mu(K)
+    =
+    \frac{
+        3+6t^2-t^4
+    }{8},
+    \qquad
+    t=\tanh K.
+\end{equation}
+%
+Derivando em relação a \(K\),
+%
+\begin{equation}
+    \frac{dt}{dK}
+    =
+    \operatorname{sech}^2K
+    =
+    1-\tanh^2K
+    =
+    1-t^2.
+\end{equation}
+%
+Logo,
+%
+\begin{align}
+    \mu'(K)
+    &=
+    \frac18
+    \left(
+        12t-4t^3
+    \right)
+    \frac{dt}{dK}
+    \nonumber\\[4pt]
+    &=
+    \frac18
+    \left(
+        12t-4t^3
+    \right)
+    (1-t^2)
+    \nonumber\\[4pt]
+    &=
+    \frac{4t(3-t^2)}{8}
+    (1-t^2)
+    \nonumber\\[4pt]
+    &=
+    \frac{t}{2}
+    (3-t^2)(1-t^2).
+    \label{eq:mu_prime_p3}
+\end{align}
+%
+Usando os valores numéricos
+%
+\begin{equation}
+    t_c=\tanh K_c\simeq0.6938,
+    \qquad
+    \mu_c=\frac{1}{\sqrt2}\simeq0.7071,
+    \qquad
+    K_c\simeq0.855359,
+\end{equation}
+%
+e
+%
+\begin{equation}
+    \mu'(K_c)
+    \simeq
+    0.4528,
+\end{equation}
+%
+obtemos
+%
+\begin{equation}
+    \lambda_t
+    \simeq
+    1
+    +
+    4(0.855359)(0.7071)(0.4528)
+    \simeq
+    2.09619.
+    \label{eq:lambda_p3}
+\end{equation}
+%
+Como \(b=\sqrt5\),
+%
+\begin{equation}
+    \lambda_t=b^{y_t},
+\end{equation}
+%
+e, portanto,
+%
+\begin{equation}
+    y_t
+    =
+    \frac{\ln\lambda_t}{\ln b}
+    =
+    \frac{\ln\lambda_t}{\ln\sqrt5}
+    \simeq
+    0.91973.
+\end{equation}
+%
+Logo,
+%
+\begin{equation}
+    \boxed{
+    \nu
+    =
+    \frac1{y_t}
+    \simeq
+    1.08728.
+    }
+    \label{eq:nu_p3}
+\end{equation}
+%
+Aplicando a relação de hiperescala em \(d=2\),
+%
+\begin{equation}
+    \alpha
+    =
+    2-2\nu,
+\end{equation}
+%
+obtemos
+%
+\begin{equation}
+    \boxed{
+    \alpha
+    \simeq
+    -0.17456.
+    }
+    \label{eq:alpha_p3}
+\end{equation}
+% 
+Esse resultado melhora, dentro dessa aproximação de primeira ordem, em relação ao valor obtido pela construção do diamante,
+\(\alpha_{\mathrm{MK}}\simeq-0.6765\), embora ainda esteja distante
+do resultado exato \(\alpha=0\) para o modelo de Ising bidimensional. A diferença residual deve-se ao caráter perturbativo de primeira ordem e ao fato de que a transformação de renormalização é truncada, não incorporando todas as correlações geradas pelos blocos.
+% PROBLEMA 4
+% ============================================================
+\section*{Problema 4 -- Modelo de Ising de spin 1 e geração de novas interações}
+%
+Consideramos inicialmente o modelo de Ising de spin 1
+%
+\begin{equation}
+    \mathcal H
+    =
+    -J\sum_{\langle ij\rangle}S_iS_j,
+    \qquad
+    S_i=-1,0,+1,
+    \qquad
+    J>0.
+    \label{eq:H_spin1_initial}
+\end{equation}
+%
+O objetivo é mostrar que uma transformação de renormalização não pode ser fechada apenas em termos da constante \(J\) e, posteriormente, estudar o espaço ampliado de Hamiltonianas contendo interações adicionais. Consideremos uma cadeia
+%
+\begin{equation}
+    S_1-S-S_2
+\end{equation}
+%
+e eliminemos o spin intermediário \(S\). O peso efetivo é
+%
+\begin{equation}
+    W(S_1,S_2)
+    =
+    \sum_{S=-1}^{1}
+    e^{K S(S_1+S_2)},
+    \qquad
+    K=\beta J.
+    \label{eq:Wspin1}
+\end{equation}
+%
+Calculamos explicitamente \(W(S_1,S_2)\) para todos os casos distintos. Para o caso \(S_1=S_2=+1\), \(S_1+S_2=2\). Então
+%
+\begin{align}
+    W(+1,+1)
+    &=
+    \sum_{S=-1}^{1}
+    e^{2K S}
+    \nonumber\\[4pt]
+    &=
+    e^{-2K}
+    +
+    e^{0}
+    +
+    e^{2K}
+    \nonumber\\[4pt]
+    &=
+    1
+    +
+    2\cosh(2K).
+    \label{eq:W++_p4}
+\end{align}
+%
+Para o caso \(S_1=+1\), \(S_2=-1\), \(S_1+S_2=0\). Logo,
+%
+\begin{equation}
+    W(+1,-1)
+    =
+    \sum_{S=-1}^{1}
+    e^{0}
+    =
+    1+1+1
+    =
+    3.
+    \label{eq:W+-_p4}
+\end{equation}
+%
+Para o caso \(S_1=+1\), \(S_2=0\), \(S_1+S_2=1\). Então
+%
+\begin{align}
+    W(+1,0)
+    &=
+    \sum_{S=-1}^{1}
+    e^{K S}
+    \nonumber\\[4pt]
+    &=
+    e^{-K}
+    +
+    1
+    +
+    e^{K}
+    \nonumber\\[4pt]
+    &=
+    1
+    +
+    2\cosh K.
+    \label{eq:W+0_p4}
+\end{align}
+%
+Para o caso \(S_1=S_2=0\), \(S_1+S_2=0\). Portanto,
+%
+\begin{equation}
+    W(0,0)
+    =
+    \sum_{S=-1}^{1}
+    e^{0}
+    =
+    3.
+    \label{eq:W00_p4}
+\end{equation}
+%
+Suponha que a transformação pudesse ser escrita novamente apenas como uma interação bilinear,
+%
+\begin{equation}
+    \mathcal H'
+    =
+    -J'S_1S_2
+\end{equation}
+%
+mais uma constante. Nesse caso, o peso efetivo teria a forma
+%
+\begin{equation}
+    W_{\mathrm{eff}}(S_1,S_2)
+    =
+    A\,e^{K' S_1S_2},
+    \qquad
+    K'=\beta J'.
+\end{equation}
+%
+Para \(S_1=+1\) e \(S_2=0\), temos \(S_1S_2=0\). Para \(S_1=S_2=0\),
+também temos \(S_1S_2=0\). Logo,
+%
+\begin{equation}
+    W_{\mathrm{eff}}(+1,0)
+    =
+    A\,e^{0}
+    =
+    A,
+    \qquad
+    W_{\mathrm{eff}}(0,0)
+    =
+    A\,e^{0}
+    =
+    A.
+\end{equation}
+%
+Portanto, deveríamos ter necessariamente
+%
+\begin{equation}
+    W(+1,0)=W(0,0).
+\end{equation}
+%
+Entretanto, de \eqref{eq:W+0_p4} e \eqref{eq:W00_p4},
+%
+\begin{equation}
+    W(+1,0)=1+2\cosh K,
+    \qquad
+    W(0,0)=3.
+\end{equation}
+%
+Para \(K\neq0\),
+%
+\begin{equation}
+    1+2\cosh K
+    \neq
+    3,
+\end{equation}
+%
+pois \(\cosh K>1\) para \(K\neq0\). Logo, a transformação não fecha no espaço de Hamiltonianas parametrizado apenas por $J$. Novas interações são geradas pela decimação. Para obter um espaço de Hamiltonianas fechado, introduzimos
+%
+\begin{equation}
+    \mathcal H
+    =
+    -J\sum_{\langle ij\rangle}S_iS_j
+    -K\sum_{\langle ij\rangle}S_i^2S_j^2
+    -D\sum_iS_i^2.
+    \label{eq:H_spin1_extended}
+\end{equation}
+%
+O primeiro termo é a interação bilinear, o segundo é a interação
+biquadrática e o terceiro é o campo cristalino. Seguindo o enunciado, introduzimos as variáveis adimensionais
+%
+\begin{equation}
+    x=
+    \exp\left[
+        -\frac{\beta}{2}(J+K+D)
+    \right],
+    \label{eq:x_spin1}
+\end{equation}
+%
+\begin{equation}
+    y=e^{-2\beta J},
+    \label{eq:y_spin1}
+\end{equation}
+%
+e
+%
+\begin{equation}
+    z=e^{-\beta(J+K+D)}.
+    \label{eq:z_spin1}
+\end{equation}
+%
+Observamos imediatamente que, para os parâmetros originais,
+%
+\begin{equation}
+    z
+    =
+    e^{-\beta(J+K+D)}
+    =
+    \left[
+        e^{-\frac{\beta}{2}(J+K+D)}
+    \right]^2
+    =
+    x^2.
+    \label{eq:z_x2_initial}
+\end{equation}
+%
+No entanto, a transformação de renormalização gera, em geral, três variáveis independentes \(x',y',z'\). Esse é precisamente o fechamento do espaço de Hamiltonianas que faltava no modelo com apenas \(J\). Ao eliminar os graus de liberdade intermediários e normalizar os
+pesos efetivos, obtêm-se as recorrências fornecidas no enunciado:
+%
+\begin{equation}
+    x'
+    =
+    \frac{(1+y+z)x}
+         {1+x^2+y^2},
+    \label{eq:xrec}
+\end{equation}
+%
+\begin{equation}
+    y'
+    =
+    \frac{2y+x^2}
+         {1+x^2+y^2},
+    \label{eq:yrec}
+\end{equation}
+%
+e
+%
+\begin{equation}
+    z'
+    =
+    \frac{z^2+2x^2}
+         {1+x^2+y^2}.
+    \label{eq:zrec}
+\end{equation}
+%
+Para entender a estrutura dessas equações, definimos o denominador
+comum
+%
+\begin{equation}
+    \mathcal D=1+x^2+y^2.
+    \label{eq:D_p4}
+\end{equation}
+%
+Os pesos renormalizados correspondentes aos três setores são
+%
+\begin{equation}
+    \widetilde x=(1+y+z)x,
+    \label{eq:x_tilde_p4}
+\end{equation}
+%
+\begin{equation}
+    \widetilde y=2y+x^2,
+    \label{eq:y_tilde_p4}
+\end{equation}
+%
+e
+%
+\begin{equation}
+    \widetilde z=z^2+2x^2.
+    \label{eq:z_tilde_p4}
+\end{equation}
+%
+Normalizando pelo peso de referência \(\mathcal D\),
+%
+\begin{equation}
+    x'=\frac{\widetilde x}{\mathcal D},
+    \qquad
+    y'=\frac{\widetilde y}{\mathcal D},
+    \qquad
+    z'=\frac{\widetilde z}{\mathcal D}.
+\end{equation}
+%
+Isso reproduz \eqref{eq:xrec}--\eqref{eq:zrec}. Os pontos fixos satisfazem simultaneamente
+%
+\begin{equation}
+    x'=x,
+    \qquad
+    y'=y,
+    \qquad
+    z'=z.
+    \label{eq:fixed_conditions_p4}
+\end{equation}
+%
+Agora, par o subcaso \(x>0\). A condição \(x'=x\) implica
+%
+\begin{equation}
+    x
+    =
+    \frac{(1+y+z)x}{\mathcal D}.
+\end{equation}
+%
+Como \(x>0\), podemos dividir ambos os lados por \(x\):
+%
+\begin{equation}
+    1
+    =
+    \frac{1+y+z}{\mathcal D},
+\end{equation}
+%
+ou seja,
+%
+\begin{equation}
+    \mathcal D=1+y+z.
+    \label{eq:D_eq_p4}
+\end{equation}
+%
+Substituindo a definição de \(\mathcal D\),
+%
+\begin{equation}
+    1+x^2+y^2
+    =
+    1+y+z.
+\end{equation}
+%
+Cancelando \(1\) em ambos os lados,
+%
+\begin{equation}
+    x^2+y^2
+    =
+    y+z,
+\end{equation}
+%
+ou
+%
+\begin{equation}
+    x^2+y^2-y-z=0.
+    \label{eq:fp1}
+\end{equation}
+
+A condição \(y'=y\) fornece
+%
+\begin{equation}
+    y
+    =
+    \frac{2y+x^2}{\mathcal D}.
+\end{equation}
+%
+Multiplicando por \(\mathcal D\),
+%
+\begin{equation}
+    y(1+x^2+y^2)
+    =
+    2y+x^2.
+\end{equation}
+%
+Expandindo o lado esquerdo,
+%
+\begin{equation}
+    y+x^2y+y^3
+    =
+    2y+x^2.
+\end{equation}
+%
+Rearranjando,
+%
+\begin{equation}
+    x^2y+y^3-y-x^2=0.
+\end{equation}
+%
+Fatorando,
+%
+\begin{align}
+    x^2y+y^3-y-x^2
+    &=
+    x^2(y-1)+y(y^2-1)
+    \nonumber\\[4pt]
+    &=
+    x^2(y-1)+y(y-1)(y+1)
+    \nonumber\\[4pt]
+    &=
+    (y-1)\left[
+        x^2+y(y+1)
+    \right].
+\end{align}
+%
+Portanto,
+%
+\begin{equation}
+    (y-1)
+    \left[
+        x^2+y(y+1)
+    \right]
+    =0.
+    \label{eq:fp2}
+\end{equation}
+%
+No domínio físico \(x,y\ge0\), o segundo fator é não negativo, pois
+\(x^2\ge0\) e \(y(y+1)\ge0\). Ele só se anula se \(x=0\) e \(y=0\).
+Como estamos no caso \(x>0\), o segundo fator é estritamente positivo.
+Assim, devemos ter
+%
+\begin{equation}
+    y=1.
+    \label{eq:y1_p4}
+\end{equation}
+%
+Inserindo \(y=1\) em \eqref{eq:fp1},
+%
+\begin{equation}
+    x^2+1-1-z=0,
+\end{equation}
+%
+de onde
+%
+\begin{equation}
+    z=x^2.
+    \label{eq:z_x2_p4}
+\end{equation}
+%
+Portanto, existe a linha de pontos fixos
+%
+\begin{equation}
+    \boxed{
+    \mathcal F:
+    \qquad
+    (x,y,z)=(x,1,x^2),
+    \qquad
+    x\ge0.
+    }
+    \label{eq:fixed_line}
+\end{equation}
+%
+Para o subcaso \(x=0\), a condição \(x'=x\) é automaticamente satisfeita, pois
+\(x'=(1+y+z)\cdot0/\mathcal D=0\). A condição \(y'=y\) dá
+%
+\begin{equation}
+    y
+    =
+    \frac{2y}{1+y^2}.
+\end{equation}
+%
+Multiplicando por \(1+y^2\),
+%
+\begin{equation}
+    y(1+y^2)=2y.
+\end{equation}
+%
+Se \(y=0\), a equação é satisfeita. Se \(y\neq0\), podemos dividir por
+\(y\):
+%
+\begin{equation}
+    1+y^2=2
+    \quad\Longrightarrow\quad
+    y^2=1
+    \quad\Longrightarrow\quad
+    y=\pm1.
+\end{equation}
+%
+No domínio \(y\ge0\), obtemos
+%
+\begin{equation}
+    y=0
+    \qquad\text{ou}\qquad
+    y=1.
+\end{equation}
+%
+Para o subcaso \(x=0\), \(y=0\), a condição \(z'=z\) fornece
+%
+\begin{equation}
+    z
+    =
+    \frac{z^2}{1}
+    =
+    z^2.
+\end{equation}
+%
+Logo,
+%
+\begin{equation}
+    z(z-1)=0,
+\end{equation}
+%
+de modo que
+%
+\begin{equation}
+    z=0
+    \qquad\text{ou}\qquad
+    z=1.
+\end{equation}
+%
+Obtemos assim os pontos fixos,
+%
+\begin{equation}
+    \boxed{
+    (0,0,0),
+    \qquad
+    (0,0,1).
+    }
+\end{equation}
+%
+Para o subcaso \(x=0\), \(y=1\), a condição \(z'=z\) dá
+%
+\begin{equation}
+    z
+    =
+    \frac{z^2}{1+1}
+    =
+    \frac{z^2}{2}.
+\end{equation}
+%
+Multiplicando por \(2\),
+%
+\begin{equation}
+    2z=z^2
+    \quad\Longrightarrow\quad
+    z(z-2)=0.
+\end{equation}
+%
+Logo,
+%
+\begin{equation}
+    z=0
+    \qquad\text{ou}\qquad
+    z=2.
+\end{equation}
+%
+O primeiro ponto,
+%
+\begin{equation}
+    \boxed{(0,1,0)},
+\end{equation}
+%
+já pertence à linha \eqref{eq:fixed_line} (basta tomar \(x=0\)).
+O segundo,
+%
+\begin{equation}
+    \boxed{
+    (0,1,2),
+    }
+\end{equation}
+%
+é um ponto fixo adicional da transformação matemática. Entretanto, como as variáveis definidas em
+\eqref{eq:x_spin1}--\eqref{eq:z_spin1} satisfazem \(0<x,y,z\le1\)
+para \(J,K,D\ge0\), o ponto \((0,1,2)\) não pertence ao domínio físico
+correspondente a esses parâmetros. Assim, os principais pontos fixos
+matemáticos são
+%
+\begin{equation}
+    \boxed{
+    (0,0,0),\qquad
+    (0,0,1),\qquad
+    (0,1,2),
+    \qquad
+    (x,1,x^2).
+    }
+    \label{eq:all_fixed_p4}
+\end{equation}
+% 
+O ponto
+%
+\begin{equation}
+    (1,1,1)
+\end{equation}
+%
+pertence à linha \eqref{eq:fixed_line}. Como
+%
+\begin{equation}
+    x\to1,\qquad
+    y\to1,\qquad
+    z\to1
+\end{equation}
+%
+corresponde ao limite \(\beta\to0\), ele representa o ponto de alta temperatura, no qual as interações efetivas desaparecem. Já o ponto
+%
+\begin{equation}
+    \boxed{
+    (0,0,0)
+    }
+\end{equation}
+%
+corresponde ao limite de baixa temperatura no qual os pesos dos
+estados excitados são fortemente suprimidos, sendo associado ao regime ordenado. O ponto \((0,0,1)\) pertence ao espaço ampliado de pesos e representa
+um regime de competição diferente entre os setores de estados. Ele não é obtido genericamente da subvariedade física inicial \(z=x^2\), mas surge naturalmente quando a transformação é estudada no espaço de Hamiltonianas completo. O ponto \((0,1,2)\) é um ponto fixo da transformação algébrica, mas, como \(z>1\), não pode ser associado diretamente a parâmetros
+\(J,K,D\ge0\) através das definições do problema. Sua existência mostra, contudo, que o espaço matemático da transformação contém setores que
+não correspondem diretamente ao domínio ferromagnético físico
+considerado inicialmente. A linha de pontos fixos
+%
+\begin{equation}
+    y=1,\qquad z=x^2
+\end{equation}
+%
+corresponde a \(J=0\), pois
+%
+\begin{equation}
+    y=e^{-2\beta J}=1
+    \quad\Longrightarrow\quad
+    J=0.
+\end{equation}
+% 
+A estabilidade pode ser estudada pela matriz jacobiana
+%
+\begin{equation}
+    \mathcal J
+    =
+    \frac{\partial(x',y',z')}
+         {\partial(x,y,z)}.
+    \label{eq:jacobian_p4}
+\end{equation}
+%
+Calculamos as derivadas parciais das funções de recorrência
+\eqref{eq:xrec}--\eqref{eq:zrec}. Seja
+%
+\begin{equation}
+    \mathcal D=1+x^2+y^2.
+\end{equation}
+%
+Então
+%
+\begin{align}
+    \pd{x'}{x}
+    &=
+    \frac{(1+y+z)(\mathcal D-2x^2)}{\mathcal D^2},
+    \label{eq:dxdx_p4}
+    \\[4pt]
+    \pd{x'}{y}
+    &=
+    \frac{x[\mathcal D-2y(1+y+z)]}{\mathcal D^2},
+    \label{eq:dxdy_p4}
+    \\[4pt]
+    \pd{x'}{z}
+    &=
+    \frac{x}{\mathcal D},
+    \label{eq:dxdz_p4}
+    \\[4pt]
+    \pd{y'}{x}
+    &=
+    \frac{2x[\mathcal D-(2y+x^2)]}{\mathcal D^2},
+    \label{eq:dydx_p4}
+    \\[4pt]
+    \pd{y'}{y}
+    &=
+    \frac{2\mathcal D-2y(2y+x^2)}{\mathcal D^2},
+    \label{eq:dydy_p4}
+    \\[4pt]
+    \pd{y'}{z}
+    &=
+    0,
+    \label{eq:dydz_p4}
+    \\[4pt]
+    \pd{z'}{x}
+    &=
+    \frac{2x[2\mathcal D-(z^2+2x^2)]}{\mathcal D^2},
+    \label{eq:dzdx_p4}
+    \\[4pt]
+    \pd{z'}{y}
+    &=
+    -\frac{2y(z^2+2x^2)}{\mathcal D^2},
+    \label{eq:dzdy_p4}
+    \\[4pt]
+    \pd{z'}{z}
+    &=
+    \frac{2z}{\mathcal D}.
+    \label{eq:dzdz_p4}
+\end{align}
+%
+Avaliamos \(\mathcal J\) em cada ponto fixo. Para o ponto \((1,1,1)\), \(\mathcal D=1+1+1=3\). Substituindo nas expressões acima,
+%
+\begin{align}
+    \pd{x'}{x}
+    &=
+    \frac{(1+1+1)(3-2\cdot1)}{9}
+    =
+    \frac{3\cdot1}{9}
+    =
+    \frac13,
+    \\[4pt]
+    \pd{x'}{y}
+    &=
+    \frac{1[3-2\cdot1\cdot3]}{9}
+    =
+    \frac{3-6}{9}
+    =
+    -\frac13,
+    \\[4pt]
+    \pd{x'}{z}
+    &=
+    \frac{1}{3},
+    \\[4pt]
+    \pd{y'}{x}
+    &=
+    \frac{2\cdot1[3-(2+1)]}{9}
+    =
+    0,
+    \\[4pt]
+    \pd{y'}{y}
+    &=
+    \frac{2\cdot3-2\cdot1(2+1)}{9}
+    =
+    0,
+    \\[4pt]
+    \pd{y'}{z}
+    &=
+    0,
+    \\[4pt]
+    \pd{z'}{x}
+    &=
+    \frac{2\cdot1[2\cdot3-(1+2)]}{9}
+    =
+    \frac{2\cdot3}{9}
+    =
+    \frac23,
+    \\[4pt]
+    \pd{z'}{y}
+    &=
+    -\frac{2\cdot1(1+2)}{9}
+    =
+    -\frac23,
+    \\[4pt]
+    \pd{z'}{z}
+    &=
+    \frac{2\cdot1}{3}
+    =
+    \frac23.
+\end{align}
+%
+Logo,
+%
+\begin{equation}
+    \mathcal J(1,1,1)
+    =
+    \begin{pmatrix}
+        \frac13 & -\frac13 & \frac13 \\[4pt]
+        0 & 0 & 0 \\[4pt]
+        \frac23 & -\frac23 & \frac23
+    \end{pmatrix}.
+\end{equation}
+%
+Os autovalores são obtidos de
+%
+\begin{equation}
+    \det(\mathcal J-\lambda I)=0.
+\end{equation}
+%
+Expandindo,
+%
+\begin{equation}
+    \det
+    \begin{pmatrix}
+        \frac13-\lambda & -\frac13 & \frac13 \\[4pt]
+        0 & -\lambda & 0 \\[4pt]
+        \frac23 & -\frac23 & \frac23-\lambda
+    \end{pmatrix}
+    =
+    (-\lambda)
+    \left[
+        \left(\frac13-\lambda\right)
+        \left(\frac23-\lambda\right)
+        -
+        \frac29
+    \right]
+    =
+    0.
+\end{equation}
+%
+O termo entre colchetes é
+%
+\begin{equation}
+    \frac{2}{9}
+    -
+    \lambda
+    +
+    \lambda^2
+    -
+    \frac{2}{9}
+    =
+    \lambda^2-\lambda
+    =
+    \lambda(\lambda-1).
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+    -\lambda\cdot\lambda(\lambda-1)=0
+    \quad\Longrightarrow\quad
+    \lambda=0,0,1.
+\end{equation}
+%
+Assim,
+%
+\begin{equation}
+    \lambda=(1,0,0).
+\end{equation}
+%
+O autovalor unitário está associado à direção tangente da linha de pontos fixos, enquanto as outras duas direções são contraídas. Para o ponto \((0,0,0)\), \(\mathcal D=1\). Substituindo,
+%
+\begin{align}
+    \pd{x'}{x} &= 1, &
+    \pd{x'}{y} &= 0, &
+    \pd{x'}{z} &= 0,
+    \\
+    \pd{y'}{x} &= 0, &
+    \pd{y'}{y} &= 2, &
+    \pd{y'}{z} &= 0,
+    \\
+    \pd{z'}{x} &= 0, &
+    \pd{z'}{y} &= 0, &
+    \pd{z'}{z} &= 0.
+\end{align}
+%
+Logo,
+%
+\begin{equation}
+    \mathcal J(0,0,0)
+    =
+    \begin{pmatrix}
+        1 & 0 & 0 \\
+        0 & 2 & 0 \\
+        0 & 0 & 0
+    \end{pmatrix},
+\end{equation}
+%
+cujos autovalores são
+%
+\begin{equation}
+    \lambda=(2,1,0).
+\end{equation}
+%
+Para o ponto \((0,0,1)\), \(\mathcal D=1\). Substituindo,
+%
+\begin{align}
+    \pd{x'}{x} &= (1+0+1)(1)=2, &
+    \pd{x'}{y} &= 0, &
+    \pd{x'}{z} &= 0,
+    \\
+    \pd{y'}{x} &= 0, &
+    \pd{y'}{y} &= 2, &
+    \pd{y'}{z} &= 0,
+    \\
+    \pd{z'}{x} &= 0, &
+    \pd{z'}{y} &= 0, &
+    \pd{z'}{z} &= 2.
+\end{align}
+%
+Portanto,
+%
+\begin{equation}
+    \mathcal J(0,0,1)
+    =
+    \begin{pmatrix}
+        2 & 0 & 0 \\
+        0 & 2 & 0 \\
+        0 & 0 & 2
+    \end{pmatrix},
+\end{equation}
+%
+e os autovalores são
+%
+\begin{equation}
+    \lambda=(2,2,2).
+\end{equation}
+%
+Para o ponto \((0,1,2)\), \(\mathcal D=1+0+1=2\). Substituindo,
+%
+\begin{align}
+    \pd{x'}{x} &= (1+1+2)(2)/4 = 2, &
+    \pd{x'}{y} &= 0, &
+    \pd{x'}{z} &= 0,
+    \\
+    \pd{y'}{x} &= 0, &
+    \pd{y'}{y} &= [2\cdot2-2\cdot1(2+0)]/4 = 0, &
+    \pd{y'}{z} &= 0,
+    \\
+    \pd{z'}{x} &= 0, &
+    \pd{z'}{y} &= -2\cdot1(4+0)/4 = -2, &
+    \pd{z'}{z} &= 2\cdot2/2 = 2.
+\end{align}
+%
+Logo,
+%
+\begin{equation}
+    \mathcal J(0,1,2)
+    =
+    \begin{pmatrix}
+        2 & 0 & 0 \\
+        0 & 0 & 0 \\
+        0 & -2 & 2
+    \end{pmatrix}.
+\end{equation}
+%
+O polinômio característico é
+%
+\begin{equation}
+    \det(\mathcal J-\lambda I)
+    =
+    (2-\lambda)
+    \det
+    \begin{pmatrix}
+        -\lambda & 0 \\
+        -2 & 2-\lambda
+    \end{pmatrix}
+    =
+    (2-\lambda)(-\lambda)(2-\lambda)
+    =
+    -\lambda(2-\lambda)^2.
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+    \boxed{
+    \lambda=(2,2,0).
+    }
+\end{equation}
+%
+Esses autovalores caracterizam as direções relevantes e irrelevantes do fluxo de renormalização em torno de cada ponto.
+%
+\end{document}
