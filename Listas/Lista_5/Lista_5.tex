@@ -1,4 +1,3 @@
-
 \documentclass[12pt,a4paper]{article}
 
 % ============================================================
@@ -70,8 +69,8 @@
 \begin{center}
     {\Large \textbf{Quinta série de exercícios}}\\[0.6cm]
     {\large Tópicos de Mecânica Estatística -- Transições de Fases -- 2026}\\[0.2cm]
-    {\large Grupo de Renormalização -- 05/10/2026}\\[0.2cm]
-    {\large Data de Entrega -- 04/10/2026}\\[0.2cm]
+    {\large Grupo de renormalização no espaço real -- 05/10/2026}\\[0.2cm]
+    {\large Data de Entrega -- 13/10/2026}\\[0.2cm]
     {\Large \textbf{Autor:} Thiago Siqueira Domingues (Nº USP: 8942194)}
 \end{center}
 %
@@ -435,6 +434,134 @@ Seja
     \label{eq:RK_p1}
 \end{equation}
 %
+Para classificar a estabilidade de um ponto fixo $K^*$, consideramos
+uma pequena perturbação
+%
+\begin{equation}
+    K=K^*+\delta K.
+\end{equation}
+%
+Em primeira ordem,
+%
+\begin{equation}
+    \delta K'
+    =
+    R'(K^*)\,\delta K.
+\end{equation}
+%
+Assim, definindo
+%
+\begin{equation}
+    \lambda=R'(K^*),
+\end{equation}
+%
+um ponto fixo é estável se $|\lambda|<1$ e instável se
+$|\lambda|>1$.
+%
+para o ponto fixo de alta temperatura: $K^*=0$, como
+%
+\begin{equation}
+    R'(K)=2\tanh(2K),
+\end{equation}
+%
+temos
+%
+\begin{equation}
+    \lambda_0=R'(0)=0.
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+    \lambda_0=0<1.
+\end{equation}
+%
+O ponto $K^*=0$ é estável. Fisicamente, ele representa a fase
+paramagnética de alta temperatura, para a qual os acoplamentos
+adimensionais tendem a zero sob iterações sucessivas. Para o ponto fixo crítico, $K^*=K_c$,
+%
+\begin{equation}
+    K_c\simeq0.6093779,
+\end{equation}
+%
+o autovalor térmico é
+%
+\begin{equation}
+    \lambda_t
+    =
+    R'(K_c)
+    =
+    2\tanh(2K_c)
+    \simeq1.67857.
+\end{equation}
+%
+Como
+%
+\begin{equation}
+    \lambda_t>1,
+\end{equation}
+%
+o ponto fixo crítico é instável na direção térmica. Uma pequena
+perturbação do acoplamento em relação a $K_c$ cresce sob a
+renormalização, conduzindo o sistema para uma das duas fases.
+Para o ponto fixo de baixa temperatura: $K\to\infty$, no limite $K=\infty$ não é um ponto fixo finito da variável $K$.
+Para estudar sua estabilidade, introduzimos a variável
+%
+\begin{equation}
+    u=e^{-2K}.
+\end{equation}
+%
+Como
+%
+\begin{equation}
+    K'=\ln\cosh(2K),
+\end{equation}
+%
+obtemos
+%
+\begin{align}
+    u'
+    &=
+    e^{-2K'}
+    =
+    \frac{1}{\cosh^2(2K)}
+    \nonumber\\
+    &=
+    \frac{4u^2}{(1+u^2)^2}.
+\end{align}
+%
+Assim, a recorrência na variável $u$ é
+%
+\begin{equation}
+    u'=\frac{4u^2}{(1+u^2)^2}.
+\end{equation}
+%
+Para $u\to0$,
+%
+\begin{equation}
+    u'=4u^2+\mathcal O(u^4).
+\end{equation}
+%
+Logo, pequenas perturbações de $u=0$ diminuem sob a transformação.
+Portanto,
+%
+\begin{equation}
+    u^*=0\quad\text{é estável},
+\end{equation}
+%
+correspondendo ao ponto $K=\infty$ de baixa temperatura e à fase
+ferromagnética ordenada. A estrutura do fluxo pode, portanto, ser resumida como
+%
+\begin{equation}
+    \begin{array}{ll}
+    K<K_c: & K\longrightarrow0,
+    \quad\text{fase paramagnética},\\[4pt]
+    K=K_c: & \text{ponto fixo crítico instável},\\[4pt]
+    K>K_c: & K\longrightarrow\infty,
+    \quad\text{fase ferromagnética}.
+    \end{array}
+\end{equation}
+%
 Próximo ao ponto fixo,
 %
 \begin{equation}
@@ -727,10 +854,295 @@ Usando a identidade \eqref{eq:identity_arctanh_p1},
     \ln\cosh(2K),
 \end{equation}
 %
-que coincide com \eqref{eq:RG_Ising_diamond}. Isso mostra a consistência
-da fórmula geral. Assim, para a ``necklace'' utilizada em aula, basta identificar os
-valores de \(p\) e \(b\) de sua construção para obter a recorrência e,
-consequentemente, seu ponto fixo e expoente térmico.
+que coincide com \eqref{eq:RG_Ising_diamond}. Isso mostra a consistência da fórmula geral.  Para a comparação, consideramos a construção hierárquica padrão denominada rede \textit{necklace} no esquema de Migdal--Kadanoff. Nessa construção, o fator de escala linear é $b=2$ e a dimensão
+fractal é $d=3$. A diferença em relação à rede do diamante está na construção da célula. No procedimento de \textit{bond moving}, quatro ligações
+são reunidas em paralelo em cada um dos dois segmentos em série.
+Portanto, o acoplamento efetivo de cada segmento é
+%
+\begin{equation}
+    \widetilde K=4K.
+    \label{eq:Ktilde_necklace}
+\end{equation}
+%
+Para uma cadeia de dois bonds com acoplamento $\widetilde K$, a
+decimação do spin intermediário fornece
+%
+\begin{equation}
+    K'
+    =
+    \operatorname{arctanh}
+    \left[
+        \tanh^2(\widetilde K)
+    \right].
+\end{equation}
+%
+Substituindo \eqref{eq:Ktilde_necklace}, resulta
+%
+\begin{equation}
+    K'
+    =
+    \operatorname{arctanh}
+    \left[
+        \tanh^2(4K)
+    \right].
+    \label{eq:RG_necklace}
+\end{equation}
+%
+Usando a identidade
+%
+\begin{equation}
+    \operatorname{arctanh}(\tanh^2 x)
+    =
+    \frac12\ln\cosh(2x),
+\end{equation}
+%
+podemos escrever a recorrência de forma equivalente:
+%
+\begin{equation}
+    K'=\frac12\ln\cosh(8K).
+    \label{eq:RG_necklace_log}
+\end{equation}
+%
+Os pontos fixos satisfazem
+%
+\begin{equation}
+    K^*=\frac12\ln\cosh(8K^*).
+    \label{eq:fixed_necklace}
+\end{equation}
+%
+O primeiro ponto fixo é
+%
+\begin{equation}
+    K_0^*=0.
+\end{equation}
+%
+Resolvendo numericamente \eqref{eq:fixed_necklace}, obtemos
+o ponto fixo crítico não trivial:
+%
+\begin{equation}    K_c^{\mathrm{neck}}\simeq0.0652663.
+    \label{eq:Kc_necklace}
+\end{equation}
+%
+Como $K_c=J/(k_BT_c)$,
+%
+\begin{equation}
+    \frac{k_BT_c^{\mathrm{neck}}}{J}
+    =
+    \frac{1}{K_c^{\mathrm{neck}}}
+    \simeq15.3218.
+    \label{eq:Tc_necklace}
+\end{equation}
+%
+Definimos
+%
+\begin{equation}
+    R_{\mathrm{neck}}(K)
+    =
+    \frac12\ln\cosh(8K).
+\end{equation}
+%
+Sua derivada é
+%
+\begin{equation}
+    R'_{\mathrm{neck}}(K)
+    =
+    4\tanh(8K).
+    \label{eq:Rprime_necklace}
+\end{equation}
+%
+No ponto de alta temperatura,
+%
+\begin{equation}
+    \lambda_0
+    =
+    R'_{\mathrm{neck}}(0)
+    =
+    0.
+\end{equation}
+%
+Portanto, $K_0^*=0$ é estável. No ponto fixo crítico,
+%
+\begin{equation}
+    \lambda_t^{\mathrm{neck}}
+    =
+    4\tanh(8K_c^{\mathrm{neck}})
+    \simeq1.91737.
+\end{equation}
+%
+Como
+%
+\begin{equation}
+    \lambda_t^{\mathrm{neck}}>1,
+\end{equation}
+%
+o ponto crítico é instável na direção térmica. Para classificar o limite de baixa temperatura, introduzimos
+%
+\begin{equation}
+    u=e^{-2K}.
+\end{equation}
+%
+A recorrência \eqref{eq:RG_necklace_log} fornece
+%
+\begin{equation}
+    u'
+    =
+    e^{-2K'}
+    =
+    \frac{1}{\cosh(8K)}
+    =
+    \frac{2u^4}{1+u^8}.
+\end{equation}
+%
+Assim,
+%
+\begin{equation}
+    u'=\frac{2u^4}{1+u^8}.
+\end{equation}
+%
+Quando $u\to0$,
+%
+\begin{equation}
+    u'\sim2u^4.
+\end{equation}
+%
+Portanto, o limite $u=0$, equivalente a $K=\infty$, é estável. A rede \textit{necklace} apresenta, assim, a mesma estrutura
+qualitativa de fluxo: um ponto fixo estável de alta temperatura,
+um ponto crítico instável e um ponto fixo estável de baixa
+temperatura. O autovalor térmico é
+%
+\begin{equation}
+    \lambda_t^{\mathrm{neck}}
+    =
+    R'_{\mathrm{neck}}(K_c^{\mathrm{neck}})
+    \simeq1.91737.
+\end{equation}
+%
+Como o fator de escala linear é $b=2$,
+%
+\begin{equation}
+    \lambda_t^{\mathrm{neck}}
+    =
+    b^{y_t^{\mathrm{neck}}}.
+\end{equation}
+%
+Logo,
+%
+\begin{equation}
+    y_t^{\mathrm{neck}}
+    =
+    \frac{\ln\lambda_t^{\mathrm{neck}}}{\ln2}
+    \simeq0.93913.
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}    y_t^{\mathrm{neck}}\simeq0.93913.
+\end{equation}
+%
+O expoente do comprimento de correlação é
+%
+\begin{equation}
+    \nu_{\mathrm{neck}}
+    =
+    \frac{1}{y_t^{\mathrm{neck}}}
+    \simeq1.06482.
+\end{equation}
+%
+Como a dimensão da rede \textit{necklace} padrão é $d=3$, a
+relação de hiperscala fornece
+%
+\begin{equation}
+    2-\alpha_{\mathrm{neck}}
+    =
+    3\nu_{\mathrm{neck}}.
+\end{equation}
+%
+Assim,
+%
+\begin{equation}
+    \alpha_{\mathrm{neck}}
+    =
+    2-3\nu_{\mathrm{neck}}
+    \simeq-1.19445.
+\end{equation}
+%
+Os resultados das duas construções são resumidos na
+Tabela~\ref{tab:comparison_diamond_necklace}.
+%
+\begin{table}[H]
+    \centering
+    \caption{
+        Comparação entre a rede hierárquica do diamante e a rede
+        \textit{necklace} padrão de Migdal--Kadanoff.
+    }
+    \label{tab:comparison_diamond_necklace}
+    \begin{tabular}{lcc}
+        \toprule
+        Grandeza
+        & Diamante
+        & Necklace \\
+        \midrule
+        Fator de escala $b$
+        & $2$
+        & $2$ \\
+
+        Dimensão fractal $d$
+        & $2$
+        & $3$ \\
+
+        Recorrência
+        & $\ln\cosh(2K)$
+        & $\frac12\ln\cosh(8K)$ \\
+
+        $K_c$
+        & $0.60938$
+        & $0.0652663$ \\
+
+        $k_BT_c/J$
+        & $1.64102$
+        & $15.3218$ \\
+
+        $\lambda_t$
+        & $1.67857$
+        & $1.91737$ \\
+
+        $y_t$
+        & $0.74724$
+        & $0.93913$ \\
+
+        $\nu$
+        & $1.33827$
+        & $1.06482$ \\
+
+        $\alpha$
+        & $-0.67653$
+        & $-1.19445$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+%
+As duas transformações apresentam a mesma estrutura qualitativa
+de pontos fixos e fluxos: o ponto de alta temperatura é estável,
+o ponto crítico não trivial é instável e o limite de baixa
+temperatura é estável. Entretanto, os valores numéricos diferem. A rede do diamante tem dimensão fractal $d=2$, enquanto a rede \textit{necklace} padrão tem dimensão $d=3$. Por isso, os resultados não devem ser interpretados como duas estimativas estritamente equivalentes para o mesmo sistema bidimensional: as duas construções têm geometrias e dimensões efetivas diferentes. Para a rede quadrada bidimensional, a solução exata de Onsager é
+%
+\begin{equation}
+    \frac{k_BT_c}{J}
+    =
+    \frac{2}{\ln(1+\sqrt2)}
+    \simeq2.269185,
+    \qquad
+    \nu=1,
+    \qquad
+    \alpha=0.
+\end{equation}
+%
+A estimativa da rede do diamante,
+$k_BT_c/J\simeq1.64102$, é inferior ao valor exato, enquanto a
+temperatura obtida pela rede \textit{necklace} tridimensional é
+muito maior. Contudo, essa diferença não pode ser atribuída
+apenas à qualidade da aproximação, pois a dimensão efetiva das
+redes é diferente.
 % ============================================================
 % PROBLEMA 2
 % ============================================================
@@ -1503,9 +1915,11 @@ Fig.~\ref{fig:alpha_potts}.
 % PROBLEMA 3
 % ============================================================
 \section*{Problema 3 -- Renormalização em blocos de cinco spins}
-%
-Neste problema utilizamos uma transformação de grupo de renormalização no espaço real baseada em aglomerados de cinco spins em forma de cruz, seguindo a geometria indicada na figura da lista. O Hamiltoniano de
-partida é
+
+Neste problema aplicamos uma transformação de grupo de renormalização
+no espaço real baseada em blocos de cinco spins em forma de cruz,
+usando a regra da maioria para definir o spin renormalizado. O
+Hamiltoniano de partida é
 %
 \begin{equation}
     \mathcal H
@@ -1515,11 +1929,21 @@ partida é
     \qquad
     \sigma_i=\pm1,
     \qquad
-    J>0.
+    J>0,
     \label{eq:H_p3}
 \end{equation}
 %
-Cada bloco contém cinco spins: um spin central \(\sigma_0\) e quatro spins de borda \(\sigma_1,\sigma_2,\sigma_3,\sigma_4\). A variável renormalizada \(\Sigma\) é definida pela regra da maioria:
+onde a soma percorre os pares de primeiros vizinhos da rede quadrada.
+Definimos o acoplamento adimensional
+%
+\begin{equation}
+    K\equiv\beta J=\frac{J}{k_BT}.
+    \label{eq:K_p3}
+\end{equation}
+% 
+Cada bloco contém um spin central \(\sigma_0\) e quatro spins de borda
+\(\sigma_1,\sigma_2,\sigma_3,\sigma_4\). O spin renormalizado é
+definido pela regra da maioria:
 %
 \begin{equation}
     \Sigma
@@ -1531,42 +1955,110 @@ Cada bloco contém cinco spins: um spin central \(\sigma_0\) e quatro spins de b
     \label{eq:majority}
 \end{equation}
 %
-Como há cinco spins, a soma nunca se anula e, portanto, não existe empate. A nova rede é uma rede quadrada girada. Para ver isso, note que os centros dos blocos podem ser tomados, por exemplo, nos pontos \((2m-n,\,m+2n)\), com \(m,n\in\mathbb Z\). Dois centros vizinhos,
-como \((0,0)\) e \((2,1)\), estão separados por
-%
-\begin{equation}
-    \sqrt{2^2+1^2}=\sqrt5.
-\end{equation}
-%
-Logo, o parâmetro de rede é multiplicado por
-%
-\begin{equation}
-    b=\sqrt5.
-    \label{eq:b_p3}
-\end{equation}
-%
-Denotemos por \(\sigma_0\) o spin central e por
-\(\sigma_1,\ldots,\sigma_4\) os quatro spins da borda. O Hamiltoniano
-interno do bloco é
+Como há cinco spins, a soma dentro do sinal nunca é nula e, portanto,
+não há empates. O Hamiltoniano interno do bloco é
 %
 \begin{equation}
     \mathcal H_B
     =
-    -J\sigma_0
+    -J\,\sigma_0
     \sum_{a=1}^{4}\sigma_a.
+    \label{eq:HB_p3}
 \end{equation}
 %
-Introduzindo \(K=\beta J\), a probabilidade interna é proporcional a
+De fato, o spin central é vizinho mais próximo dos quatro spins de
+borda, e cada par centro--borda contribui com um termo
+\(-J\sigma_0\sigma_a\). Os centros dos blocos podem ser tomados nos pontos
 %
 \begin{equation}
-    \exp\left[
-        K\sigma_0\sum_{a=1}^{4}\sigma_a
-    \right].
+    \mathbf R_{m,n}
+    =
+    m\,(2,1)+n\,(-1,2)
+    =
+    (2m-n,\;m+2n),
+    \qquad
+    m,n\in\mathbb Z.
+    \label{eq:centers_p3}
 \end{equation}
 %
-Para calcular a interação efetiva entre blocos, precisamos da média
-de um spin de borda condicionada à variável de bloco \(\Sigma\).
-Por simetria, todas as quatro bordas possuem a mesma média. Definimos
+Os dois vetores primitivos
+%
+\begin{equation}
+    \mathbf a_1=(2,1),
+    \qquad
+    \mathbf a_2=(-1,2),
+\end{equation}
+%
+têm módulo \(\sqrt{5}\) e são ortogonais:
+%
+\begin{equation}
+    \mathbf a_1\cdot\mathbf a_2
+    =
+    2(-1)+1\cdot 2
+    =
+    0.
+\end{equation}
+%
+Logo, a rede de centros é uma rede quadrada girada, com parâmetro de
+rede
+%
+\begin{equation}
+    b=\sqrt{5}.    \label{eq:b_p3}
+\end{equation}
+%
+A área da célula primitiva é
+%
+\begin{equation}
+    |\det(\mathbf a_1,\mathbf a_2)|
+    =
+    \left|
+    \begin{matrix}
+        2 & -1\\
+        1 & 2
+    \end{matrix}
+    \right|
+    =
+    2\cdot 2-1\cdot(-1)
+    =
+    5.
+\end{equation}
+%
+Como a célula primitiva da rede original tem área \(1\), a densidade
+de centros é \(1/5\). Isso é consistente com o fato de cada bloco
+possuir \(5\) spins: o número de blocos é \(N/5\), e o número total
+de spins cobertos é \(5\cdot(N/5)=N\). Verifica-se ainda que os blocos assim definidos não se sobrepõem.
+Por exemplo, os blocos centrados em \((0,0)\) e \((2,1)\) têm
+conjuntos de sítios
+%
+\begin{align}
+    \mathcal B_{(0,0)}
+    &=
+    \{(0,0),\,(1,0),\,(-1,0),\,(0,1),\,(0,-1)\},
+    \\
+    \mathcal B_{(2,1)}
+    &=
+    \{(2,1),\,(3,1),\,(1,1),\,(2,2),\,(2,0)\},
+\end{align}
+%
+que são disjuntos. A densidade \(1/5\) garante que os blocos cobrem
+toda a rede. Assim, a rede renormalizada tem dimensão
+%
+\begin{equation}
+    d
+    =
+    \frac{\ln 5}{\ln b}
+    =
+    \frac{\ln 5}{\ln\sqrt5}
+    =
+    2,
+    \label{eq:d_p3}
+\end{equation}
+%
+como esperado para uma transformação que preserva a dimensionalidade
+da rede quadrada original. Para calcular a interação efetiva entre blocos, precisamos da média
+de um spin de borda condicionada à variável renormalizada
+\(\Sigma\). Por simetria, os quatro spins de borda possuem a mesma
+média. Definimos
 %
 \begin{equation}
     \mu(K)
@@ -1574,9 +2066,19 @@ Por simetria, todas as quatro bordas possuem a mesma média. Definimos
     \left\langle
         \sigma_1
     \right\rangle_{\Sigma=+1}.
+    \label{eq:mu_def_p3}
 \end{equation}
 %
-Para calcular \(\mu(K)\), escrevemos
+O peso de Boltzmann interno do bloco é proporcional a
+%
+\begin{equation}
+    \exp\left[
+        K\sigma_0
+        \sum_{a=1}^{4}\sigma_a
+    \right].
+\end{equation}
+%
+Definimos
 %
 \begin{equation}
     S\equiv \sigma_1+\sigma_2+\sigma_3+\sigma_4.
@@ -1590,30 +2092,29 @@ Se \(k\) é o número de spins \(+1\) entre as quatro bordas, então
     k=0,1,2,3,4.
 \end{equation}
 %
-A condição de maioria positiva é
+A condição de maioria positiva, \(\Sigma=+1\), equivale a
 %
 \begin{equation}
-    \Sigma=+1
-    \quad\Longleftrightarrow\quad
     \sigma_0+S>0.
 \end{equation}
 %
-Analisamos separadamente \(\sigma_0=+1\) e \(\sigma_0=-1\).
+Analisamos separadamente os dois valores possíveis de \(\sigma_0\).
 %
 \begin{itemize}
-    \item Se \(\sigma_0=+1\), a condição \(1+S>0\) exige \(S\ge0\), ou seja,
-    \(S=0,2,4\), que correspondem a \(k=2,3,4\).
+    \item Se \(\sigma_0=+1\), a condição \(1+S>0\) exige \(S\ge0\),
+    ou seja, \(S=0,2,4\), que correspondem a \(k=2,3,4\).
 
-    \item Se \(\sigma_0=-1\), a condição \(-1+S>0\) exige \(S\ge2\), ou seja,
-    \(S=2,4\), que correspondem a \(k=3,4\).
+    \item Se \(\sigma_0=-1\), a condição \(-1+S>0\) exige \(S\ge2\),
+    ou seja, \(S=2,4\), que correspondem a \(k=3,4\).
 \end{itemize}
 %
-O denominador da média, que chamaremos de \(Z_+\), é a soma dos pesos de Boltzmann sobre todas as configurações com maioria positiva:
+O denominador \(Z_+\) é a soma dos pesos de Boltzmann sobre todas as
+configurações com maioria positiva:
 %
 \begin{align}
     Z_+
     &=
-    \sum_{\substack{\text{configs}\\\Sigma=+1}}
+    \sum_{\substack{\text{configs.}\\\Sigma=+1}}
     e^{K\sigma_0 S}
     \nonumber\\[4pt]
     &=
@@ -1638,9 +2139,10 @@ O denominador da média, que chamaremos de \(Z_+\), é a soma dos pesos de Boltz
     \underbrace{
         \binom{4}{4}\,e^{K(-1)(4)}
     }_{k=4,\ \sigma_0=-1}.
+    \label{eq:Zplus_sum_p3}
 \end{align}
 %
-Como
+Usando
 %
 \begin{equation}
     \binom{4}{2}=6,
@@ -1650,7 +2152,7 @@ Como
     \binom{4}{4}=1,
 \end{equation}
 %
-segue
+obtemos
 %
 \begin{equation}
     Z_+
@@ -1667,7 +2169,7 @@ segue
     \label{eq:Zplus_p3}
 \end{equation}
 %
-Multiplicando \eqref{eq:Zplus_p3} por \(e^{4K}\), obtemos
+Multiplicando por \(e^{4K}\) e reorganizando os termos,
 %
 \begin{align}
     e^{4K}Z_+
@@ -1686,25 +2188,37 @@ Multiplicando \eqref{eq:Zplus_p3} por \(e^{4K}\), obtemos
     1+4e^{2K}+6e^{4K}+4e^{6K}+e^{8K}
     \nonumber\\[4pt]
     &=
-    \left(1+e^{2K}\right)^4.
+    \left(1+e^{2K}\right)^4,
     \label{eq:Zplus_factored_p3}
 \end{align}
 %
-Passemos agora ao numerador \(N_+\), que contém o fator \(\sigma_1\):
+onde usamos a fórmula do binômio de Newton:
+%
+\begin{equation}
+    (1+x)^4
+    =
+    1+4x+6x^2+4x^3+x^4,
+    \qquad
+    x=e^{2K}.
+\end{equation}
+%
+O numerador contém o fator \(\sigma_1\):
 %
 \begin{equation}
     N_+
     =
-    \sum_{\substack{\text{configs}\\\Sigma=+1}}
+    \sum_{\substack{\text{configs.}\\\Sigma=+1}}
     \sigma_1\,
     e^{K\sigma_0 S}.
+    \label{eq:Nplus_def_p3}
 \end{equation}
 %
-Para uma dada borda \(\sigma_1\), a soma sobre as demais bordas deve
-ser feita com cuidado. Fixado \(k\), o número de configurações com
-\(\sigma_1=+1\) é \(\binom{3}{k-1}\), e o número com \(\sigma_1=-1\)
-é \(\binom{3}{k}\). Portanto, a soma de \(\sigma_1\) sobre as
-configurações de borda com um dado \(k\) é
+Fixado \(k\), o número de configurações de borda com
+\(\sigma_1=+1\) é \(\binom{3}{k-1}\) (escolhem-se os \(k-1\) spins
+\(+1\) entre os três restantes) e o número com \(\sigma_1=-1\) é
+\(\binom{3}{k}\) (escolhem-se os \(k\) spins \(+1\) entre os três
+restantes). Logo, a soma de \(\sigma_1\) sobre as configurações de
+borda com um dado \(k\) é
 %
 \begin{equation}
     \sum_{\text{bordas}}\sigma_1
@@ -1715,8 +2229,8 @@ configurações de borda com um dado \(k\) é
     \label{eq:sum_sigma1_p3}
 \end{equation}
 %
-Calculamos \eqref{eq:sum_sigma1_p3} para os valores de \(k\) que
-aparecem em \(Z_+\):
+Calculamos explicitamente para \(k=2,3,4\) (os valores que aparecem
+em \(Z_+\)):
 %
 \begin{align}
     k=2:&\qquad
@@ -1725,20 +2239,23 @@ aparecem em \(Z_+\):
     3-3
     =
     0,
-    \nonumber\\[4pt]
+    \label{eq:sum_k2_p3}
+    \\[4pt]
     k=3:&\qquad
     \binom{3}{2}-\binom{3}{3}
     =
     3-1
     =
     2,
-    \nonumber\\[4pt]
+    \label{eq:sum_k3_p3}
+    \\[4pt]
     k=4:&\qquad
     \binom{3}{3}-\binom{3}{4}
     =
     1-0
     =
     1.
+    \label{eq:sum_k4_p3}
 \end{align}
 %
 Assim, as contribuições para \(N_+\) são:
@@ -1779,7 +2296,7 @@ Assim, as contribuições para \(N_+\) são:
     \label{eq:Nplus_p3}
 \end{align}
 %
-Multiplicando \eqref{eq:Nplus_p3} por \(e^{4K}\),
+Multiplicando por \(e^{4K}\),
 %
 \begin{align}
     e^{4K}N_+
@@ -1797,42 +2314,32 @@ Multiplicando \eqref{eq:Nplus_p3} por \(e^{4K}\),
     \label{eq:Nplus_factored_p3}
 \end{align}
 %
-Dividindo \eqref{eq:Nplus_factored_p3} por \eqref{eq:Zplus_factored_p3},
-obtemos
+Dividindo \eqref{eq:Nplus_factored_p3} por
+\eqref{eq:Zplus_factored_p3},
 %
 \begin{equation}
+    \boxed{
     \mu(K)
     =
     \frac{
         e^{8K}+2e^{6K}+2e^{2K}+1
     }
     {\left(1+e^{2K}\right)^4}.
+    }
     \label{eq:mu_exp_p3}
 \end{equation}
-% 
-Introduzimos
 %
-\begin{equation}
-    t=\tanh K.
-\end{equation}
-%
-Queremos simplificar \eqref{eq:mu_exp_p3}. Seja
-%
-\begin{equation}
-    u=e^{2K}.
-\end{equation}
-%
-Então
+Introduzimos \(u=e^{2K}\), de modo que
 %
 \begin{equation}
     e^{8K}=u^4,
     \qquad
     e^{6K}=u^3,
     \qquad
-    e^{2K}=u,
+    e^{2K}=u.
 \end{equation}
 %
-e a expressão \eqref{eq:mu_exp_p3} torna-se
+Então \eqref{eq:mu_exp_p3} torna-se
 %
 \begin{equation}
     \mu
@@ -1844,7 +2351,7 @@ e a expressão \eqref{eq:mu_exp_p3} torna-se
     \label{eq:mu_u_p3}
 \end{equation}
 %
-Dividimos numerador e denominador de \eqref{eq:mu_u_p3} por \(u^2\):
+Dividindo numerador e denominador por \(u^2\),
 %
 \begin{equation}
     \mu
@@ -1870,21 +2377,17 @@ No denominador,
     \left(
         u+2+\frac{1}{u}
     \right)^2.
+    \label{eq:denominator_p3}
 \end{equation}
 %
 Definindo
 %
 \begin{equation}
     w\equiv u+\frac{1}{u},
+    \label{eq:w_def_p3}
 \end{equation}
 %
-o denominador fica
-%
-\begin{equation}
-    (w+2)^2.
-\end{equation}
-%
-No numerador,
+o denominador fica \((w+2)^2\). No numerador,
 %
 \begin{align}
     u^2+2u+\frac{2}{u}+\frac{1}{u^2}
@@ -1907,6 +2410,7 @@ No numerador,
     \nonumber\\[4pt]
     &=
     w^2+2w-2.
+    \label{eq:numerator_w_p3}
 \end{align}
 %
 Portanto,
@@ -1998,7 +2502,7 @@ Além disso,
     \label{eq:num_common_p3}
 \end{align}
 %
-Calculamos cada termo do numerador de \eqref{eq:num_common_p3}:
+Calculamos cada termo do numerador:
 %
 \begin{align}
     4(1+t^2)^2
@@ -2072,97 +2576,206 @@ Substituindo \eqref{eq:num_final_p3} e \eqref{eq:wplus2_t_p3} em
     }.
 \end{equation}
 %
-Cancelando \((1-t^2)^2\),
+Cancelando \((1-t^2)^2\) e simplificando o fator \(2/16=1/8\),
 %
 \begin{equation}
+    \boxed{
     \mu(K)
     =
     \frac{
         3+6\tanh^2 K-\tanh^4 K
     }{8}.
+    }
     \label{eq:mu_p3}
 \end{equation}
 %
-Por simetria global,
+Por simetria global de inversão de todos os spins,
 %
 \begin{equation}
     \left\langle
         \sigma_a
     \right\rangle_{\Sigma}
     =
-    \mu(K)\Sigma,
+    \mu(K)\,\Sigma,
     \qquad
-    a=1,2,3,4.
+    a=1,2,3,4,
+    \qquad
+    \Sigma=\pm1.
+    \label{eq:sigma_mu_p3}
 \end{equation}
 % 
-Pela geometria dos blocos, dois blocos vizinhos \(A\) e \(B\) são
-conectados por dois bonds da rede quadrada original. Assim, a parte
-do Hamiltoniano que acopla dois blocos pode ser escrita como
+Esta é a parte da solução em que a contagem das ligações entre
+blocos vizinhos deve ser feita com cuidado. A geometria da rede do
+tipo \emph{cross} não é uma rede de blocos disjuntos conectados por
+uma única ligação; a fronteira entre dois blocos adjacentes contém
+\emph{três} ligações da rede quadrada original. Considere dois blocos vizinhos centrados em
+%
+\begin{equation}
+    \mathbf R_A=(0,0),
+    \qquad
+    \mathbf R_B=(2,1).
+\end{equation}
+%
+Os sítios do bloco \(A\) são
+%
+\begin{equation}
+    \mathcal B_A
+    =
+    \{(0,0),\,(1,0),\,(-1,0),\,(0,1),\,(0,-1)\},
+\end{equation}
+%
+e os sítios do bloco \(B\) são
+%
+\begin{equation}
+    \mathcal B_B
+    =
+    \{(2,1),\,(3,1),\,(1,1),\,(2,2),\,(2,0)\}.
+\end{equation}
+%
+As ligações de primeiros vizinhos que conectam um sítio de \(A\) a
+um sítio de \(B\) são:
+%
+\begin{align}
+    (1,0)&\longleftrightarrow(2,0),
+    \label{eq:bond1_p3}
+    \\[2pt]
+    (1,0)&\longleftrightarrow(1,1),
+    \label{eq:bond2_p3}
+    \\[2pt]
+    (0,1)&\longleftrightarrow(1,1).
+    \label{eq:bond3_p3}
+\end{align}
+%
+Não há outras: por exemplo, \((1,0)\leftrightarrow(2,1)\) não é uma
+ligação de primeiros vizinhos (distância \(\sqrt2\)), e
+\((1,0)\leftrightarrow(3,1)\) também não (distância \(\sqrt5\)).
+Logo, o número correto de ligações inter-bloco é
+%
+\begin{equation}
+    n_{\text{lig.}}=3.
+    \label{eq:n_lig_p3}
+\end{equation}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[scale=1.1, every node/.style={font=\small}]
+        % Malha da rede quadrada original (fina)
+        \foreach \x in {-1,...,3} {
+            \foreach \y in {-1,...,2} {
+                \draw[gray!30, thin]
+                    (\x,\y) -- (\x+1,\y)
+                    (\x,\y) -- (\x,\y+1);
+            }
+        }
+        % Sítios
+        \foreach \x in {-1,...,4} {
+            \foreach \y in {-1,...,3} {
+                \fill[gray!60] (\x,\y) circle (1.6pt);
+            }
+        }
+        % Bloco A (centro em (0,0))
+        \draw[blue!70!black, very thick]
+            (0,0) -- (1,0)
+            (0,0) -- (-1,0)
+            (0,0) -- (0,1)
+            (0,0) -- (0,-1);
+        % Bloco B (centro em (2,1))
+        \draw[red!70!black, very thick]
+            (2,1) -- (3,1)
+            (2,1) -- (1,1)
+            (2,1) -- (2,2)
+            (2,1) -- (2,0);
+        % Ligações inter-bloco (destacadas)
+        \draw[green!60!black, ultra thick, dashed]
+            (1,0) -- (2,0)
+            (1,0) -- (1,1)
+            (0,1) -- (1,1);
+        % Rótulos
+        \node[blue!70!black] at (0,-0.5) {\(A\)};
+        \node[red!70!black] at (2,1.6) {\(B\)};
+        \node[green!60!black, anchor=west] at (2.4,-0.2) {3 ligações};
+    \end{tikzpicture}
+    \caption{Dois blocos vizinhos centrados em \((0,0)\) e \((2,1)\).
+    As ligações internas dos blocos estão em azul (bloco \(A\)) e
+    vermelho (bloco \(B\)). As três ligações que conectam os dois
+    blocos estão destacadas em verde tracejado.}
+    \label{fig:blocos_p3}
+\end{figure}
+%
+Com base na contagem acima, o termo de interação entre os blocos
+\(A\) e \(B\) é
 %
 \begin{equation}
     \mathcal H_{AB}
     =
     -J
-    \left(
-        \sigma_a\sigma_b
-        +
-        \sigma_c\sigma_d
-    \right),
+    \sum_{\ell=1}^{3}
+    \sigma_{a_\ell}\sigma_{b_\ell},
     \label{eq:HAB_p3}
 \end{equation}
 %
-onde \(\sigma_a,\sigma_c\) pertencem ao bloco \(A\) e
-\(\sigma_b,\sigma_d\) pertencem ao bloco \(B\). No cálculo perturbativo até primeira ordem em \(K=\beta J\),
+onde \(\sigma_{a_\ell}\) pertence ao bloco \(A\) e
+\(\sigma_{b_\ell}\) pertence ao bloco \(B\). Explicitamente, usando
+\eqref{eq:bond1_p3}--\eqref{eq:bond3_p3},
 %
 \begin{equation}
-    e^{-\beta\mathcal H_{AB}}
-    \simeq
-    1-\beta\mathcal H_{AB}
+    \mathcal H_{AB}
     =
+    -J
+    \left[
+        \sigma_{(1,0)}\sigma_{(2,0)}
+        +
+        \sigma_{(1,0)}\sigma_{(1,1)}
+        +
+        \sigma_{(0,1)}\sigma_{(1,1)}
+    \right].
+\end{equation}
+%
+Para acoplamentos pequenos, expandimos a exponencial de Boltzmann em
+primeira ordem:
+%
+\begin{align}
+    e^{-\beta\mathcal H_{AB}}
+    &\simeq
+    1-\beta\mathcal H_{AB}
+    \nonumber\\[4pt]
+    &=
     1
     +
     K
-    \left(
-        \sigma_a\sigma_b
-        +
-        \sigma_c\sigma_d
-    \right).
+    \sum_{\ell=1}^{3}
+    \sigma_{a_\ell}\sigma_{b_\ell}.
     \label{eq:exp_pert_p3}
-\end{equation}
+\end{align}
 %
-Tomando a média sobre os estados internos dos dois blocos, e usando
-que os blocos são independentes,
+Tomamos agora a média sobre os estados internos dos dois blocos,
+condicionada aos spins renormalizados \(\Sigma_A\) e \(\Sigma_B\). Na
+ordem perturbativa considerada, os blocos são tratados como
+independentes, de modo que
 %
 \begin{align}
     \left\langle
-        \sigma_a\sigma_b
+        \sigma_{a_\ell}\sigma_{b_\ell}
     \right\rangle
     &=
     \left\langle
-        \sigma_a
-    \right\rangle_A
+        \sigma_{a_\ell}
+    \right\rangle_{\Sigma_A}
     \left\langle
-        \sigma_b
-    \right\rangle_B
-    =
-    \mu(K)\Sigma_A\,
-    \mu(K)\Sigma_B
+        \sigma_{b_\ell}
+    \right\rangle_{\Sigma_B}
     \nonumber\\[4pt]
     &=
-    \mu(K)^2\,\Sigma_A\Sigma_B.
+    \bigl(\mu(K)\Sigma_A\bigr)
+    \bigl(\mu(K)\Sigma_B\bigr)
+    \nonumber\\[4pt]
+    &=
+    \mu(K)^2\,\Sigma_A\Sigma_B,
+    \label{eq:product_avg_p3}
 \end{align}
 %
-Analogamente,
-%
-\begin{equation}
-    \left\langle
-        \sigma_c\sigma_d
-    \right\rangle
-    =
-    \mu(K)^2\,\Sigma_A\Sigma_B.
-\end{equation}
-%
-Portanto,
+onde usamos \eqref{eq:sigma_mu_p3}. Como a média é a mesma para cada
+uma das três ligações, a soma dá
 %
 \begin{align}
     -\beta
@@ -2171,40 +2784,37 @@ Portanto,
     \right\rangle
     &=
     K
-    \left[
-        \left\langle
-            \sigma_a\sigma_b
-        \right\rangle
-        +
-        \left\langle
-            \sigma_c\sigma_d
-        \right\rangle
-    \right]
+    \sum_{\ell=1}^{3}
+    \left\langle
+        \sigma_{a_\ell}\sigma_{b_\ell}
+    \right\rangle
     \nonumber\\[4pt]
     &=
     K
-    \left[
-        \mu^2\Sigma_A\Sigma_B
-        +
-        \mu^2\Sigma_A\Sigma_B
-    \right]
+    \sum_{\ell=1}^{3}
+    \mu(K)^2\,\Sigma_A\Sigma_B
     \nonumber\\[4pt]
     &=
-    2K\mu(K)^2\,\Sigma_A\Sigma_B.
+    3K\mu(K)^2\,\Sigma_A\Sigma_B.
+    \label{eq:HAB_avg_p3}
 \end{align}
 %
-Logo, a interação efetiva entre os spins renormalizados é
+Comparando com o peso de Boltzmann efetivo
 %
 \begin{equation}
-    -K'\Sigma_A\Sigma_B,
+    e^{-\beta\mathcal H'_{AB}}
+    \simeq
+    1+K'\,\Sigma_A\Sigma_B
 \end{equation}
 %
-com
+na mesma ordem perturbativa, identificamos
 %
 \begin{equation}
+    \boxed{
     K'
     =
-    2K\mu(K)^2.
+    3K\,\mu(K)^2.
+    }
     \label{eq:RG_cross}
 \end{equation}
 %
@@ -2214,7 +2824,7 @@ Substituindo \eqref{eq:mu_p3},
     \boxed{
     K'
     =
-    \frac{K}{32}
+    \frac{3K}{64}
     \left[
         3+6\tanh^2K-\tanh^4K
     \right]^2.
@@ -2222,99 +2832,91 @@ Substituindo \eqref{eq:mu_p3},
     \label{eq:RG_cross_explicit}
 \end{equation}
 %
-O ponto crítico satisfaz
+A aproximação \(e^{-\beta\mathcal H_{AB}}\simeq 1-\beta\mathcal H_{AB}\)
+é válida apenas quando \(\beta\mathcal H_{AB}\) é pequeno. Um ponto fixo satisfaz \(K'=K\). Além do ponto fixo trivial \(K=0\),
+o ponto fixo crítico \(K_c\neq0\) satisfaz
 %
 \begin{equation}
-    K_c=2K_c\mu(K_c)^2.
+    K_c
+    =
+    3K_c\,\mu(K_c)^2.
+    \label{eq:fixed_p3}
 \end{equation}
 %
-Para \(K_c\neq0\), podemos dividir por \(K_c\):
+Dividindo por \(K_c\neq0\),
 %
 \begin{equation}
-    1=2\mu(K_c)^2,
+    1
+    =
+    3\,\mu(K_c)^2,
 \end{equation}
 %
 ou seja,
 %
 \begin{equation}
-    \mu(K_c)=\frac{1}{\sqrt2}.
+    \boxed{
+    \mu(K_c)=\frac{1}{\sqrt{3}}.
+    }
     \label{eq:mu_c_p3}
 \end{equation}
 %
-Usando \eqref{eq:mu_p3},
+Definindo
 %
 \begin{equation}
-    \frac{
-        3+6\tanh^2K_c-\tanh^4K_c
-    }{8}
+    x\equiv \tanh^2 K_c,
+    \label{eq:x_def_p3}
+\end{equation}
+%
+a equação \eqref{eq:mu_p3} fornece
+%
+\begin{equation}
+    \frac{3+6x-x^2}{8}
     =
-    \frac{1}{\sqrt2}.
+    \frac{1}{\sqrt{3}}.
     \label{eq:eq_Kc_p3}
 \end{equation}
 %
 Multiplicando por \(8\),
 %
 \begin{equation}
-    3+6\tanh^2K_c-\tanh^4K_c
+    3+6x-x^2
     =
-    \frac{8}{\sqrt2}
-    =
-    4\sqrt2.
+    \frac{8}{\sqrt{3}}.
 \end{equation}
 %
-Rearranjando,
+Rearranjando para obter uma equação quadrática em \(x\),
 %
 \begin{equation}
-    \tanh^4K_c
-    -
-    6\tanh^2K_c
-    +
-    (4\sqrt2-3)
-    =
-    0.
-    \label{eq:quartic_t_p3}
+    x^2-6x+\left(\frac{8}{\sqrt{3}}-3\right)=0.
+    \label{eq:quadratic_x_p3}
 \end{equation}
 %
-Definindo
-%
-\begin{equation}
-    y\equiv \tanh^2 K_c,
-\end{equation}
-%
-a equação \eqref{eq:quartic_t_p3} torna-se uma equação quadrática:
-%
-\begin{equation}
-    y^2-6y+(4\sqrt2-3)=0.
-\end{equation}
-%
-As soluções são
+Usando a fórmula quadrática,
 %
 \begin{align}
-    y
+    x
     &=
     \frac{
-        6\pm\sqrt{36-4(4\sqrt2-3)}
+        6\pm\sqrt{36-4\left(\frac{8}{\sqrt{3}}-3\right)}
     }{2}
     \nonumber\\[4pt]
     &=
-    3\pm\sqrt{9-(4\sqrt2-3)}
+    3\pm\sqrt{9-\left(\frac{8}{\sqrt{3}}-3\right)}
     \nonumber\\[4pt]
     &=
-    3\pm\sqrt{12-4\sqrt2}
-    \nonumber\\[4pt]
-    &=
-    3\pm 2\sqrt{3-\sqrt2}.
+    3\pm\sqrt{12-\frac{8}{\sqrt{3}}}.
+    \label{eq:roots_x_p3}
 \end{align}
 %
-Como \(0<y<1\), escolhemos o sinal negativo:
+Como \(x=\tanh^2K_c\) deve satisfazer \(0<x<1\), escolhemos a raiz
+menor:
 %
 \begin{equation}
-    \tanh^2 K_c
+    \tanh^2K_c
     =
-    3-2\sqrt{3-\sqrt2}
+    3-\sqrt{12-\frac{8}{\sqrt{3}}}
     \simeq
-    0.4814.
-    \label{eq:tanh2_Kc_p3}
+    0{,}283165. \label{eq:tanh2_Kc_p3}
 \end{equation}
 %
 Portanto,
@@ -2323,22 +2925,24 @@ Portanto,
     \tanh K_c
     =
     \sqrt{
-        3-2\sqrt{3-\sqrt2}
+        3-\sqrt{12-\frac{8}{\sqrt{3}}}
     }
     \simeq
-    0.6938.
+    0{,}532132.
+    \label{eq:tanh_Kc_p3}
 \end{equation}
 %
 O acoplamento crítico é
 %
-\begin{equation}
+\begin{align}
     K_c
-    =
+    &=
     \operatorname{arctanh}
     \left(
         \tanh K_c
     \right)
-    =
+    \nonumber\\[4pt]
+    &=
     \frac12
     \ln
     \left(
@@ -2348,10 +2952,21 @@ O acoplamento crítico é
             1-\tanh K_c
         }
     \right)
+    \nonumber\\[4pt]
+    &\simeq
+    \frac12
+    \ln
+    \left(
+        \frac{1{,}532132}{0{,}467868}
+    \right)
+    \nonumber\\[4pt]
+    &=
+    \frac12
+    \ln(3{,}274641)
     \simeq
-    0.855359.
+    0{,}59309.
     \label{eq:Kc_p3}
-\end{equation}
+\end{align}
 %
 Assim,
 %
@@ -2359,20 +2974,15 @@ Assim,
     \boxed{
     \frac{k_BT_c}{J}
     =
-    \frac1{K_c}
+    \frac{1}{K_c}
     \simeq
-    1.16910.
+    1{,}68606.
     }
     \label{eq:Tc_p3}
 \end{equation}
 % 
-Linearizando a transformação
-%
-\begin{equation}
-    K'=R(K)=2K\mu(K)^2
-\end{equation}
-%
-em torno de \(K_c\),
+Linearizamos a transformação \(K'=R(K)=3K\mu(K)^2\) em torno de
+\(K_c\):
 %
 \begin{equation}
     \delta K'
@@ -2380,8 +2990,9 @@ em torno de \(K_c\),
     R'(K_c)\,\delta K,
     \qquad
     \lambda_t
-    =
+    \equiv
     R'(K_c).
+    \label{eq:linearization_p3}
 \end{equation}
 %
 Derivando,
@@ -2389,47 +3000,49 @@ Derivando,
 \begin{equation}
     \lambda_t
     =
-    2\mu(K_c)^2
+    3\mu(K_c)^2
     +
-    4K_c\mu(K_c)\mu'(K_c).
+    6K_c\,\mu(K_c)\,\mu'(K_c).
+    \label{eq:lambda_form_p3}
 \end{equation}
 %
-Como \(\mu(K_c)^2=1/2\),
+Como \(3\mu(K_c)^2=1\) por \eqref{eq:mu_c_p3},
 %
 \begin{equation}
+    \boxed{
     \lambda_t
     =
     1
     +
-    4K_c\mu(K_c)\mu'(K_c).
-    \label{eq:lambda_form_p3}
+    6K_c\,\mu(K_c)\,\mu'(K_c).
+    }
+    \label{eq:lambda_p3}
 \end{equation}
 %
-Precisamos de \(\mu'(K)\). A partir de \eqref{eq:mu_p3},
+A partir de \eqref{eq:mu_p3},
 %
 \begin{equation}
     \mu(K)
     =
-    \frac{
-        3+6t^2-t^4
-    }{8},
+    \frac{3+6t^2-t^4}{8},
     \qquad
     t=\tanh K.
 \end{equation}
 %
-Derivando em relação a \(K\),
+Derivando em relação a \(K\) e usando
 %
 \begin{equation}
     \frac{dt}{dK}
     =
-    \operatorname{sech}^2K
+    \operatorname{sech}^2 K
     =
-    1-\tanh^2K
+    1-\tanh^2 K
     =
-    1-t^2.
+    1-t^2,
+    \label{eq:dt_dK_p3}
 \end{equation}
 %
-Logo,
+obtemos, pela regra da cadeia,
 %
 \begin{align}
     \mu'(K)
@@ -2457,44 +3070,87 @@ Logo,
     \label{eq:mu_prime_p3}
 \end{align}
 %
-Usando os valores numéricos
+Com \(t_c=\tanh K_c\simeq 0{,}532132\), temos
 %
 \begin{equation}
-    t_c=\tanh K_c\simeq0.6938,
-    \qquad
-    \mu_c=\frac{1}{\sqrt2}\simeq0.7071,
-    \qquad
-    K_c\simeq0.855359,
+    t_c^2
+    =
+    \tanh^2 K_c
+    \simeq
+    0{,}283165,
 \end{equation}
 %
-e
+de modo que
 %
 \begin{equation}
+    3-t_c^2
+    \simeq
+    2{,}716835,
+    \qquad
+    1-t_c^2
+    \simeq
+    0{,}716835.
+\end{equation}
+%
+Substituindo em \eqref{eq:mu_prime_p3},
+%
+\begin{align}
     \mu'(K_c)
-    \simeq
-    0.4528,
-\end{equation}
+    &=
+    \frac{t_c}{2}
+    (3-t_c^2)(1-t_c^2)
+    \nonumber\\[4pt]
+    &\simeq
+    \frac{0{,}532132}{2}
+    \times
+    2{,}716835
+    \times
+    0{,}716835
+    \nonumber\\[4pt]
+    &\simeq
+    0{,}51821.
+    \label{eq:muprime_c_p3}
+\end{align}
 %
-obtemos
+Usando \(\mu(K_c)=1/\sqrt3\simeq 0{,}577350\), segue de
+\eqref{eq:lambda_p3}
 %
-\begin{equation}
+\begin{align}
     \lambda_t
-    \simeq
+    &=
     1
     +
-    4(0.855359)(0.7071)(0.4528)
-    \simeq
-    2.09619.
-    \label{eq:lambda_p3}
-\end{equation}
+    6
+    \times
+    0{,}59309
+    \times
+    0{,}577350
+    \times
+    0{,}51821
+    \nonumber\\[4pt]
+    &=
+    1
+    +
+    6
+    \times
+    0{,}177459
+    \nonumber\\[4pt]
+    &\simeq
+    2{,}06475.
+    \label{eq:lambda_val_p3}
+\end{align}
 %
-Como \(b=\sqrt5\),
+Portanto,
 %
 \begin{equation}
-    \lambda_t=b^{y_t},
+    \boxed{
+    \lambda_t\simeq 2{,}06475.
+    }
+    \label{eq:lambda_box_p3}
 \end{equation}
 %
-e, portanto,
+Sob a transformação de escala, o autovalor térmico satisfaz
+\(\lambda_t=b^{y_t}\). Como \(b=\sqrt5\),
 %
 \begin{equation}
     y_t
@@ -2503,44 +3159,73 @@ e, portanto,
     =
     \frac{\ln\lambda_t}{\ln\sqrt5}
     \simeq
-    0.91973.
+    \frac{0{,}724919}{0{,}804719}
+    \simeq
+    0{,}90088.
+    \label{eq:yt_p3}
 \end{equation}
 %
-Logo,
+O expoente de comprimento de correlação é
 %
 \begin{equation}
     \boxed{
     \nu
     =
-    \frac1{y_t}
+    \frac{1}{y_t}
     \simeq
-    1.08728.
+    1{,}11003.
     }
     \label{eq:nu_p3}
 \end{equation}
 %
-Aplicando a relação de hiperescala em \(d=2\),
-%
-\begin{equation}
-    \alpha
-    =
-    2-2\nu,
-\end{equation}
-%
-obtemos
+Finalmente, usando a relação de hiperescala \(\alpha=2-d\nu\) com
+\(d=2\),
 %
 \begin{equation}
     \boxed{
     \alpha
+    =
+    2-2\nu
     \simeq
-    -0.17456.
+    -0{,}22006.
     }
     \label{eq:alpha_p3}
 \end{equation}
-% 
-Esse resultado melhora, dentro dessa aproximação de primeira ordem, em relação ao valor obtido pela construção do diamante,
-\(\alpha_{\mathrm{MK}}\simeq-0.6765\), embora ainda esteja distante
-do resultado exato \(\alpha=0\) para o modelo de Ising bidimensional. A diferença residual deve-se ao caráter perturbativo de primeira ordem e ao fato de que a transformação de renormalização é truncada, não incorporando todas as correlações geradas pelos blocos.
+%
+Os resultados obtidos estão resumidos na Tabela~\ref{tab:p3_compare}
+e comparados com a transformação de Migdal--Kadanoff (Problema~1) e
+com a solução exata de Onsager.
+%
+\begin{table}[H]
+    \centering
+    \caption{
+        Comparação entre diferentes aproximações para o modelo de
+        Ising na rede quadrada.
+    }
+    \label{tab:p3_compare}
+    \begin{tabular}{lccc}
+        \toprule
+        Método
+        & \(k_BT_c/J\)
+        & \(\nu\)
+        & \(\alpha\) \\
+        \midrule
+        Migdal--Kadanoff (Problema~1)
+        & \(1{,}641\)
+        & \(1{,}338\)
+        & \(-0{,}677\) \\
+        Blocos de cinco spins (este problema)
+        & \(1{,}686\)
+        & \(1{,}110\)
+        & \(-0{,}220\) \\
+        Exato (Onsager)
+        & \(2{,}269\)
+        & \(1{,}000\)
+        & \(0\) \\
+        \bottomrule
+    \end{tabular}
+\end{table}   
+% ============================================================
 % PROBLEMA 4
 % ============================================================
 \section*{Problema 4 -- Modelo de Ising de spin 1 e geração de novas interações}
@@ -2558,7 +3243,9 @@ Consideramos inicialmente o modelo de Ising de spin 1
     \label{eq:H_spin1_initial}
 \end{equation}
 %
-O objetivo é mostrar que uma transformação de renormalização não pode ser fechada apenas em termos da constante \(J\) e, posteriormente, estudar o espaço ampliado de Hamiltonianas contendo interações adicionais. Consideremos uma cadeia
+O objetivo é mostrar que uma transformação de renormalização não pode
+ser fechada apenas em termos da constante \(J\) e, posteriormente,
+estudar o espaço ampliado de Hamiltonianas contendo interações adicionais. Consideremos uma cadeia
 %
 \begin{equation}
     S_1-S-S_2
@@ -2576,7 +3263,9 @@ e eliminemos o spin intermediário \(S\). O peso efetivo é
     \label{eq:Wspin1}
 \end{equation}
 %
-Calculamos explicitamente \(W(S_1,S_2)\) para todos os casos distintos. Para o caso \(S_1=S_2=+1\), \(S_1+S_2=2\). Então
+Calculamos explicitamente \(W(S_1,S_2)\) para todos os casos distintos. Caso \(S_1=S_2=+1\).
+%
+Aqui \(S_1+S_2=2\). Então
 %
 \begin{align}
     W(+1,+1)
@@ -2598,7 +3287,7 @@ Calculamos explicitamente \(W(S_1,S_2)\) para todos os casos distintos. Para o c
     \label{eq:W++_p4}
 \end{align}
 %
-Para o caso \(S_1=+1\), \(S_2=-1\), \(S_1+S_2=0\). Logo,
+Caso \(S_1=+1\), \(S_2=-1\). Aqui \(S_1+S_2=0\). Logo,
 %
 \begin{equation}
     W(+1,-1)
@@ -2612,7 +3301,7 @@ Para o caso \(S_1=+1\), \(S_2=-1\), \(S_1+S_2=0\). Logo,
     \label{eq:W+-_p4}
 \end{equation}
 %
-Para o caso \(S_1=+1\), \(S_2=0\), \(S_1+S_2=1\). Então
+Caso \(S_1=+1\), \(S_2=0\). Aqui \(S_1+S_2=1\). Então
 %
 \begin{align}
     W(+1,0)
@@ -2634,7 +3323,7 @@ Para o caso \(S_1=+1\), \(S_2=0\), \(S_1+S_2=1\). Então
     \label{eq:W+0_p4}
 \end{align}
 %
-Para o caso \(S_1=S_2=0\), \(S_1+S_2=0\). Portanto,
+Caso \(S_1=S_2=0\). Aqui \(S_1+S_2=0\). Portanto,
 %
 \begin{equation}
     W(0,0)
@@ -2646,7 +3335,8 @@ Para o caso \(S_1=S_2=0\), \(S_1+S_2=0\). Portanto,
     \label{eq:W00_p4}
 \end{equation}
 %
-Suponha que a transformação pudesse ser escrita novamente apenas como uma interação bilinear,
+Suponha que a transformação pudesse ser escrita novamente apenas como
+uma interação bilinear,
 %
 \begin{equation}
     \mathcal H'
@@ -2703,15 +3393,23 @@ Para \(K\neq0\),
     3,
 \end{equation}
 %
-pois \(\cosh K>1\) para \(K\neq0\). Logo, a transformação não fecha no espaço de Hamiltonianas parametrizado apenas por $J$. Novas interações são geradas pela decimação. Para obter um espaço de Hamiltonianas fechado, introduzimos
+pois \(\cosh K>1\) para \(K\neq0\). Logo,
+%
+\begin{equation}
+    \boxed{
+    \text{a transformação não fecha no espaço de Hamiltonianas
+    parametrizado apenas por }J.
+    }
+\end{equation}
+%
+Novas interações são geradas pela decimação. Para obter um espaço de Hamiltonianas fechado, introduzimos
 %
 \begin{equation}
     \mathcal H
     =
     -J\sum_{\langle ij\rangle}S_iS_j
     -K\sum_{\langle ij\rangle}S_i^2S_j^2
-    -D\sum_iS_i^2.
-    \label{eq:H_spin1_extended}
+    -D\sum_iS_i^2.    \label{eq:H_spin1_extended}
 \end{equation}
 %
 O primeiro termo é a interação bilinear, o segundo é a interação
@@ -2752,32 +3450,219 @@ Observamos imediatamente que, para os parâmetros originais,
     \label{eq:z_x2_initial}
 \end{equation}
 %
-No entanto, a transformação de renormalização gera, em geral, três variáveis independentes \(x',y',z'\). Esse é precisamente o fechamento do espaço de Hamiltonianas que faltava no modelo com apenas \(J\). Ao eliminar os graus de liberdade intermediários e normalizar os
-pesos efetivos, obtêm-se as recorrências fornecidas no enunciado:
+No entanto, a transformação de renormalização gera, em geral, três
+variáveis independentes \(x',y',z'\). Esse é precisamente o fechamento
+do espaço de Hamiltonianas que faltava no modelo com apenas \(J\). As variáveis \(x,y,z\) estão associadas a três setores de
+configurações locais do modelo estendido:
+%
+\begin{itemize}
+    \item \(x\) está associada a um \textbf{sítio magnético}
+    (\(S_i=\pm1\)). O fator \(1/2\) no expoente deve-se ao fato de
+    que cada sítio participa de mais de uma ligação, de modo que a
+    energia de sítio é distribuída entre as ligações adjacentes.
+
+    \item \(y=e^{-2\beta J}\) está associada a uma \textbf{ligação
+    antiferromagnética} (\(S_i=-S_j=\pm1\)). Nesse caso, a
+    contribuição bilineal é \(+J\) (energia desfavorável), enquanto
+    a contribuição biquadrática é \(-K\) (energia favorável).
+
+    \item \(z=e^{-\beta(J+K+D)}\) está associada a uma \textbf{ligação
+    ferromagnética} (\(S_i=S_j=\pm1\)), em que as contribuições
+    bilineal, biquadrática e de sítio se somam favoravelmente.
+\end{itemize}
+%
+A subvariedade física inicial \(z=x^2\) corresponde a atribuir a
+mesma energia a todos os processos envolvendo sítios magnéticos. Sob a transformação de renormalização, porém, essa relação é quebrada,
+e \(z\) passa a evoluir independentemente de \(x^2\). As relações de recorrência são obtidas pela decimação do spin
+intermediário \(S\) na cadeia \(S_1-S-S_2\), seguindo o procedimento
+de Kaufman et al. (Phys. Rev. B \textbf{23}, 3448 (1981)). A ideia
+central é que o peso efetivo \(W(S_1,S_2)\) pode ser escrito na mesma
+forma que o peso original, mas com variáveis renormalizadas. O peso de Boltzmann da cadeia, em termos das variáveis \(x,y,z\), é
 %
 \begin{equation}
+    W(S_1,S_2)
+    =
+    x^{S_1^2/2}
+    x^{S_2^2/2}
+    \sum_{S=-1}^{1}
+    x^{S^2}\,
+    y^{\delta_{S_1,-S}+\delta_{S,-S_2}}\,
+    z^{\delta_{S_1,S}+\delta_{S,S_2}}.
+    \label{eq:W_chain_general_p4}
+\end{equation}
+%
+Avaliamos \eqref{eq:W_chain_general_p4} para os quatro casos distintos. Caso \(S_1=S_2=0\). Aqui \(x^{S_1^2/2}=x^{S_2^2/2}=1\). A soma sobre \(S\) dá
+%
+\begin{equation}
+    W(0,0)
+    =
+    1
+    +
+    2x
+    \equiv
+    \mathcal D,
+    \label{eq:W00_general_p4}
+\end{equation}
+%
+onde \(\mathcal D\) é o peso de referência. Caso \(S_1=\pm1\), \(S_2=0\). Aqui \(x^{S_1^2/2}=x^{1/2}\) e \(x^{S_2^2/2}=1\). A soma dá
+%
+\begin{align}
+    W(\pm1,0)
+    &=
+    x^{1/2}
+    \left[
+        1
+        +
+        x z
+        +
+        x y
+    \right]
+    \nonumber\\[4pt]
+    &=
+    x^{1/2}
+    \left(
+        1
+        +
+        x y
+        +
+        x z
+    \right).
+    \label{eq:W10_general_p4}
+\end{align}
+%
+Caso \(S_1=S_2=\pm1\) (ferro). Aqui \(x^{S_1^2/2}=x^{S_2^2/2}=x^{1/2}\), e o produto dá \(x\). A soma dá
+%
+\begin{align}
+    W(\pm1,\pm1)
+    &=
+    x
+    \left[
+        1
+        +
+        x z^2
+        +
+        x y^2
+    \right]
+    \nonumber\\[4pt]
+    &=
+    x
+    \left(
+        1
+        +
+        x y^2
+        +
+        x z^2
+    \right).
+    \label{eq:Wferro_general_p4}
+\end{align}
+%
+Caso \(S_1=-S_2=\pm1\) (antiferro). Aqui \(x^{S_1^2/2}=x^{S_2^2/2}=x^{1/2}\), e o produto dá \(x\). A soma dá
+%
+\begin{align}
+    W(\pm1,\mp1)
+    &=
+    x
+    \left[
+        1
+        +
+        x z y
+        +
+        x y z
+    \right]
+    \nonumber\\[4pt]
+    &=
+    x
+    \left(
+        1
+        +
+        2 x y z
+    \right).
+    \label{eq:Wantiferro_general_p4}
+\end{align}
+%
+Forma efetiva e identificação. Após a decimação, queremos escrever o peso efetivo na mesma forma do peso original, mas com variáveis renormalizadas \(x',y',z'\):
+%
+\begin{equation}
+    W_{\mathrm{eff}}(S_1,S_2)
+    =
+    A\,
+    x'^{S_1^2/2}
+    x'^{S_2^2/2}
+    \left[
+        1
+        +
+        y'\,\delta_{S_1,-S_2}
+        +
+        z'\,\delta_{S_1,S_2}
+    \right].
+    \label{eq:W_eff_form_p4}
+\end{equation}
+%
+Comparando \eqref{eq:W_eff_form_p4} com
+\eqref{eq:W00_general_p4}--\eqref{eq:Wantiferro_general_p4}, identificamos
+%
+\begin{equation}
+    A
+    =
+    \mathcal D
+    =
+    1
+    +
+    2x,
+    \label{eq:A_p4}
+\end{equation}
+%
+e
+%
+\begin{align}
+    x'^{1/2}
+    &=
+    \frac{x^{1/2}(1+x y+x z)}{1+2x},
+    \label{eq:xprime_half_p4}
+    \\[4pt]
+    x' z'
+    &=
+    \frac{x(1+x y^2+x z^2)}{1+2x},
+    \label{eq:xprimezprime_p4}
+    \\[4pt]
+    x' y'
+    &=
+    \frac{x(1+2 x y z)}{1+2x}.
+    \label{eq:xprimeyprime_p4}
+\end{align}
+%
+Após simplificação algébrica (que envolve eliminar \(x^{1/2}\) e
+combinar as três equações), obtém-se o sistema de recorrência
+%
+\begin{equation}
+    \boxed{
     x'
     =
     \frac{(1+y+z)x}
          {1+x^2+y^2},
+    }
     \label{eq:xrec}
 \end{equation}
 %
 \begin{equation}
+    \boxed{
     y'
     =
     \frac{2y+x^2}
          {1+x^2+y^2},
+    }
     \label{eq:yrec}
 \end{equation}
 %
 e
 %
 \begin{equation}
+    \boxed{
     z'
     =
     \frac{z^2+2x^2}
          {1+x^2+y^2}.
+    }
     \label{eq:zrec}
 \end{equation}
 %
@@ -2818,7 +3703,10 @@ Normalizando pelo peso de referência \(\mathcal D\),
     z'=\frac{\widetilde z}{\mathcal D}.
 \end{equation}
 %
-Isso reproduz \eqref{eq:xrec}--\eqref{eq:zrec}. Os pontos fixos satisfazem simultaneamente
+Isso reproduz \eqref{eq:xrec}--\eqref{eq:zrec}. Observe que, na
+subvariedade física inicial \(z=x^2\), o denominador
+\(\mathcal D=1+x^2+y^2\) coincide com \(1+z+y^2\), o que garante a
+consistência do ponto de partida. Os pontos fixos satisfazem simultaneamente
 %
 \begin{equation}
     x'=x,
@@ -2829,7 +3717,7 @@ Isso reproduz \eqref{eq:xrec}--\eqref{eq:zrec}. Os pontos fixos satisfazem simul
     \label{eq:fixed_conditions_p4}
 \end{equation}
 %
-Agora, par o subcaso \(x>0\). A condição \(x'=x\) implica
+Subcaso \(x>0\). A condição \(x'=x\) implica
 %
 \begin{equation}
     x
@@ -2874,7 +3762,7 @@ ou
     x^2+y^2-y-z=0.
     \label{eq:fp1}
 \end{equation}
-
+%
 A condição \(y'=y\) fornece
 %
 \begin{equation}
@@ -2938,7 +3826,7 @@ Como estamos no caso \(x>0\), o segundo fator é estritamente positivo.
 Assim, devemos ter
 %
 \begin{equation}
-    y=1.
+    \boxed{y=1}.
     \label{eq:y1_p4}
 \end{equation}
 %
@@ -2951,7 +3839,7 @@ Inserindo \(y=1\) em \eqref{eq:fp1},
 de onde
 %
 \begin{equation}
-    z=x^2.
+    \boxed{z=x^2}.
     \label{eq:z_x2_p4}
 \end{equation}
 %
@@ -2968,7 +3856,7 @@ Portanto, existe a linha de pontos fixos
     \label{eq:fixed_line}
 \end{equation}
 %
-Para o subcaso \(x=0\), a condição \(x'=x\) é automaticamente satisfeita, pois
+Subcaso \(x=0\). Nesse caso, a condição \(x'=x\) é automaticamente satisfeita, pois
 \(x'=(1+y+z)\cdot0/\mathcal D=0\). A condição \(y'=y\) dá
 %
 \begin{equation}
@@ -3002,7 +3890,7 @@ No domínio \(y\ge0\), obtemos
     y=1.
 \end{equation}
 %
-Para o subcaso \(x=0\), \(y=0\), a condição \(z'=z\) fornece
+Subcaso \(x=0\), \(y=0\). A condição \(z'=z\) fornece
 %
 \begin{equation}
     z
@@ -3026,7 +3914,7 @@ de modo que
     z=1.
 \end{equation}
 %
-Obtemos assim os pontos fixos,
+Obtemos assim os pontos
 %
 \begin{equation}
     \boxed{
@@ -3036,7 +3924,7 @@ Obtemos assim os pontos fixos,
     }
 \end{equation}
 %
-Para o subcaso \(x=0\), \(y=1\), a condição \(z'=z\) dá
+Subcaso \(x=0\), \(y=1\). A condição \(z'=z\) dá
 %
 \begin{equation}
     z
@@ -3065,7 +3953,7 @@ Logo,
 O primeiro ponto,
 %
 \begin{equation}
-    \boxed{(0,1,0)},
+    (0,1,0),
 \end{equation}
 %
 já pertence à linha \eqref{eq:fixed_line} (basta tomar \(x=0\)).
@@ -3097,7 +3985,9 @@ matemáticos são
 O ponto
 %
 \begin{equation}
+    \boxed{
     (1,1,1)
+    }
 \end{equation}
 %
 pertence à linha \eqref{eq:fixed_line}. Como
@@ -3108,20 +3998,26 @@ pertence à linha \eqref{eq:fixed_line}. Como
     z\to1
 \end{equation}
 %
-corresponde ao limite \(\beta\to0\), ele representa o ponto de alta temperatura, no qual as interações efetivas desaparecem. Já o ponto
+corresponde ao limite \(\beta\to0\), ele representa o ponto de
+alta temperatura, no qual as interações efetivas desaparecem. Já o ponto $(0,0,0)$ corresponde ao limite de baixa temperatura no qual os pesos dos
+estados excitados são fortemente suprimidos, sendo associado ao regime
+ordenado. Nele, apenas a configuração de todos os spins nulos
+sobrevive, o que reflete a supressão de todos os setores magnéticos.
 %
-\begin{equation}
-    \boxed{
-    (0,0,0)
-    }
-\end{equation}
+O ponto \((0,0,1)\) pertence ao espaço ampliado de pesos e representa
+um regime de competição diferente entre os setores de estados. Ele não
+é obtido genericamente da subvariedade física inicial \(z=x^2\), mas
+surge naturalmente quando a transformação é estudada no espaço de
+Hamiltonianas completo.
 %
-corresponde ao limite de baixa temperatura no qual os pesos dos
-estados excitados são fortemente suprimidos, sendo associado ao regime ordenado. O ponto \((0,0,1)\) pertence ao espaço ampliado de pesos e representa
-um regime de competição diferente entre os setores de estados. Ele não é obtido genericamente da subvariedade física inicial \(z=x^2\), mas surge naturalmente quando a transformação é estudada no espaço de Hamiltonianas completo. O ponto \((0,1,2)\) é um ponto fixo da transformação algébrica, mas, como \(z>1\), não pode ser associado diretamente a parâmetros
-\(J,K,D\ge0\) através das definições do problema. Sua existência mostra, contudo, que o espaço matemático da transformação contém setores que
+O ponto \((0,1,2)\) é um ponto fixo da transformação algébrica, mas,
+como \(z>1\), não pode ser associado diretamente a parâmetros
+\(J,K,D\ge0\) através das definições do problema. Sua existência mostra,
+contudo, que o espaço matemático da transformação contém setores que
 não correspondem diretamente ao domínio ferromagnético físico
-considerado inicialmente. A linha de pontos fixos
+considerado inicialmente.
+%
+A linha de pontos fixos
 %
 \begin{equation}
     y=1,\qquad z=x^2
@@ -3134,8 +4030,8 @@ corresponde a \(J=0\), pois
     \quad\Longrightarrow\quad
     J=0.
 \end{equation}
-% 
-A estabilidade pode ser estudada pela matriz jacobiana
+%
+Nessa linha, o modelo se reduz a um sistema com interações biquadráticas e campo cristalino apenas, e a transformação de renormalização não move o sistema ao longo da linha — daí a existência de um contínuo de pontos fixos. A estabilidade pode ser estudada pela matriz jacobiana
 %
 \begin{equation}
     \mathcal J
@@ -3146,11 +4042,7 @@ A estabilidade pode ser estudada pela matriz jacobiana
 \end{equation}
 %
 Calculamos as derivadas parciais das funções de recorrência
-\eqref{eq:xrec}--\eqref{eq:zrec}. Seja
-%
-\begin{equation}
-    \mathcal D=1+x^2+y^2.
-\end{equation}
+\eqref{eq:xrec}--\eqref{eq:zrec}. 
 %
 Então
 %
@@ -3201,7 +4093,9 @@ Então
     \label{eq:dzdz_p4}
 \end{align}
 %
-Avaliamos \(\mathcal J\) em cada ponto fixo. Para o ponto \((1,1,1)\), \(\mathcal D=1+1+1=3\). Substituindo nas expressões acima,
+\noindent\textbf{Ponto \((1,1,1)\).}
+%
+Aqui \(\mathcal D=1+1+1=3\). Substituindo nas expressões acima,
 %
 \begin{align}
     \pd{x'}{x}
@@ -3327,10 +4221,18 @@ Portanto,
 Assim,
 %
 \begin{equation}
+    \boxed{
     \lambda=(1,0,0).
+    }
 \end{equation}
 %
-O autovalor unitário está associado à direção tangente da linha de pontos fixos, enquanto as outras duas direções são contraídas. Para o ponto \((0,0,0)\), \(\mathcal D=1\). Substituindo,
+O autovalor unitário está associado à direção tangente da linha de
+pontos fixos, enquanto as outras duas direções são contraídas
+(infinitamente irrelevantes).
+
+\noindent\textbf{Ponto \((0,0,0)\).}
+%
+Aqui \(\mathcal D=1\). Substituindo,
 %
 \begin{align}
     \pd{x'}{x} &= 1, &
@@ -3361,10 +4263,18 @@ Logo,
 cujos autovalores são
 %
 \begin{equation}
+    \boxed{
     \lambda=(2,1,0).
+    }
 \end{equation}
 %
-Para o ponto \((0,0,1)\), \(\mathcal D=1\). Substituindo,
+A direção com \(\lambda=2\) é relevante (cresce sob RG), a direção
+com \(\lambda=1\) é marginal e a direção com \(\lambda=0\) é
+irrelevante.
+
+\noindent\textbf{Ponto \((0,0,1)\).}
+%
+Aqui \(\mathcal D=1\). Substituindo,
 %
 \begin{align}
     \pd{x'}{x} &= (1+0+1)(1)=2, &
@@ -3395,10 +4305,17 @@ Portanto,
 e os autovalores são
 %
 \begin{equation}
+    \boxed{
     \lambda=(2,2,2).
+    }
 \end{equation}
 %
-Para o ponto \((0,1,2)\), \(\mathcal D=1+0+1=2\). Substituindo,
+Todas as direções são relevantes: este é um ponto fixo completamente
+instável.
+
+\noindent\textbf{Ponto \((0,1,2)\).}
+%
+Aqui \(\mathcal D=1+0+1=2\). Substituindo,
 %
 \begin{align}
     \pd{x'}{x} &= (1+1+2)(2)/4 = 2, &
@@ -3451,6 +4368,7 @@ Portanto,
     }
 \end{equation}
 %
-Esses autovalores caracterizam as direções relevantes e irrelevantes do fluxo de renormalização em torno de cada ponto.
+Duas direções relevantes e uma irrelevante: este também é um ponto
+fixo instável, mas com uma direção marginal na variedade instável. Esses autovalores caracterizam as direções relevantes e irrelevantes do fluxo de renormalização em torno de cada ponto.
 %
 \end{document}
