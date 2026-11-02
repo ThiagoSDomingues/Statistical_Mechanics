@@ -1,1 +1,1050 @@
+\documentclass[12pt,a4paper]{article}
 
+% ============================================================
+% PACOTES
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{amsmath,amssymb,amsfonts,mathtools}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{listings}
+\newcommand{\Prob}{\mathbb{P}}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{tikz}
+
+\geometry{a4paper, margin=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+% ============================================================
+% COMANDOS
+% ============================================================
+\newcommand{\avg}[1]{\left\langle #1\right\rangle}
+\newcommand{\e}[1]{\mathrm{e}^{#1}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\nn}{\mathrm{nn}}
+\newcommand{\thetaT}{\theta}
+
+\begin{document}
+% ============================================================
+% CABEÇALHO
+% ============================================================
+\begin{center}
+    {\Large \textbf{Sexta série de exercícios}}\\[0.6cm]
+    {\large Tópicos de Mecânica Estatística -- Transições de Fases -- 2026}\\[0.2cm]
+    {\large Urna de Ehrenfest e Monte Carlo -- 13/10/2026}\\[0.2cm]
+    {\large Data de Entrega -- 03/11/2026}\\[0.2cm]
+    {\Large \textbf{Autor:} Thiago Siqueira Domingues (Nº USP: 8942194)}
+\end{center}
+%
+\vspace{0.4cm}
+% ============================================================
+% PROBLEMA 1
+% ============================================================
+\section*{Problema 1 -- Modelo das urnas de Ehrenfest}
+%
+Há $N$ bolas numeradas distribuídas entre duas urnas. Denotamos por
+\[
+N_1(k)=n,\qquad N_2(k)=N-n,
+\]
+onde $k=0,1,2,\ldots$ é o número de atualizações realizadas. Em cada atualização escolhe-se uma das $N$ bolas com probabilidade uniforme e transfere-se a bola escolhida para a outra urna. Portanto, exatamente uma bola muda de urna a cada passo. Se o estado atual é $N_1(k)=n$, então a probabilidade de selecionar uma bola da urna 1 é $n/N$, e a de selecionar uma bola da urna 2 é $(N-n)/N$. Consequentemente,
+%
+\begin{align}
+\Prob\bigl(N_1(k+1)=n-1\mid N_1(k)=n\bigr)&=\frac{n}{N}, \label{eq:down}\tag{1}\\
+\Prob\bigl(N_1(k+1)=n+1\mid N_1(k)=n\bigr)&=\frac{N-n}{N}. \label{eq:up}\tag{2}
+\end{align}
+%
+Os estados admissíveis são $n=0,1,\ldots,N$. As fórmulas já respeitam os limites, se $n=0$, a probabilidade de diminuir $n$ é zero; se $n=N$, a probabilidade de aumentar $n$ é zero. Neste problema, cada passo corresponde a um intervalo de tempo $\Delta t$. Para evitar confundir uma variável temporal contínua com o índice inteiro de atualizações, usaremos $k$ nas equações discretas. Se necessário, o tempo físico é $t=k\Delta t$.
+%
+\section*{(a) Simulação, rota para o equilíbrio e flutuações}
+%
+A simulação pode ser implementada da seguinte maneira:
+%
+\begin{enumerate}
+  \item Fixar $N$ e a condição inicial $N_1(0)=N$ (todas as bolas começam na urna 1).
+  \item Em cada passo $k$, gerar $r$ uniformemente em $[0,1)$.
+  \item Se $r<N_1(k)/N$, fazer $N_1(k+1)=N_1(k)-1$; caso contrário, fazer $N_1(k+1)=N_1(k)+1$.
+  \item Registrar $N_1(k)$ e repetir o processo.
+\end{enumerate}
+%
+A desigualdade estrita ou não estrita no teste não altera as probabilidades, pois a probabilidade de obter exatamente um valor real preestabelecido de $r$ é zero. Quando $N_1$ é maior que $N/2$, há mais bolas na urna 1 do que na urna 2 e, portanto, é mais provável escolher uma bola da urna 1 e diminuir $N_1$. Quando $N_1<N/2$, ocorre o contrário. Isso produz uma tendência estatística em direção a $N_1\simeq N/2$.
+
+É importante distinguir a média de uma trajetória individual, uma trajetória não fica parada em $N/2$. Mesmo depois da relaxação, $N_1(k)$ continua mudando e flutuando. O equilíbrio é estatístico, o número de bolas em cada urna é, em média, $N/2$, com flutuações não nulas. A distribuição estacionária e os momentos dessas flutuações serão derivados nos itens (b)--(d).
+
+A distribuição estacionária será demonstrada no item (c) como a distribuição binomial
+%
+\begin{equation}
+  P_n=\Prob_{\mathrm{est}}(N_1=n)=\frac{1}{2^N}\binom{N}{n},\qquad n=0,1,\ldots,N.
+  \label{eq:binomial}
+\end{equation}
+%
+Ela é uma binomial com parâmetros $N$ e $p=1/2$. Assim, como será provado explicitamente no item (c),
+%
+\begin{equation}
+  \avg{N_1}_{\mathrm{est}}=\frac{N}{2},\qquad
+  \Var(N_1)=\avg{(N_1-\avg{N_1})^2}=\frac{N}{4}.
+  \label{eq:meanvar_preview}
+\end{equation}
+%
+O desvio padrão é a raiz quadrada da variância:
+%
+\begin{equation}
+  \boxed{\sigma_{N_1}=\sqrt{\Var(N_1)}=\frac{\sqrt{N}}{2}.}
+  \label{eq:sigma}
+\end{equation}
+%
+A flutuação relativa, definida como desvio padrão dividido pelo valor médio, vale
+%
+\begin{align}
+  \frac{\sigma_{N_1}}{\avg{N_1}_{\mathrm{est}}}
+  &=\frac{\sqrt{N}/2}{N/2}
+   =\frac{\sqrt{N}}{2}\frac{2}{N}
+   =\boxed{\frac{1}{\sqrt{N}}}.
+  \label{eq:relativefluct}
+\end{align}
+%
+Portanto, as flutuações absolutas crescem como $\sqrt{N}$, ao passo que as flutuações relativas diminuem como $N^{-1/2}$. Este é o conteúdo da chamada lei de flutuações $\sqrt{N}$. Para os dois valores pedidos,
+%
+\begin{center}
+\begin{tabular}{@{}cccc@{}}
+\toprule
+$N$ & $\avg{N_1}_{\mathrm{est}}=N/2$ & $\sigma_{N_1}=\sqrt{N}/2$ & $\sigma_{N_1}/\avg{N_1}=1/\sqrt{N}$\\
+\midrule
+$20$  & $10$  & $2.236\ldots$ & $0.2236\ldots\ (22.4\%)$\\
+$200$ & $100$ & $7.071\ldots$ & $0.07071\ldots\ (7.07\%)$\\
+\bottomrule
+\end{tabular}
+\end{center}
+%
+Assim, para $N=20$ esperamos flutuações típicas da ordem de duas bolas ao redor de $10$; para $N=200$, flutuações típicas da ordem de sete bolas ao redor de $100$. O símbolo ``flutuações típicas'' não significa que toda observação esteja necessariamente dentro de exatamente um desvio padrão.
+
+Como a fração $N_1/N$ é uma grandeza limitada entre zero e um, é útil representar $N_1(k)/N$ em função do tempo reescalado $k/N$. A justificativa para essa escolha vem da evolução média exata, derivada no item (d): para $N_1(0)=N$,
+%
+\begin{equation}
+  \frac{\avg{N_1}_k}{N}
+  =\frac{1}{2}\left[1+\left(1-\frac{2}{N}\right)^k\right].
+  \label{eq:meanfraction}
+\end{equation}
+%
+Para $N\gg1$, usamos
+%
+\begin{equation}
+  \ln\left(1-\frac{2}{N}\right)\simeq -\frac{2}{N},
+  \qquad
+  \left(1-\frac{2}{N}\right)^k
+  =\exp\left[k\ln\left(1-\frac{2}{N}\right)\right]
+  \simeq \exp(-2k/N).
+\end{equation}
+%
+Logo,
+%
+\begin{equation}
+  \frac{\avg{N_1}_k}{N}\simeq \frac{1}{2}\left(1+\exp(-2k/N)\right).
+  \label{eq:meancontinuum}
+\end{equation}
+%
+A curva média depende aproximadamente apenas de $k/N$, o que explica por que essa variável é conveniente ao comparar $N=20$ e $N=200$. A figura mostra exemplos de trajetórias simuladas e a média teórica. Uma única realização é ruidosa; o colapso é mais claro na curva média do que em cada trajetória individual.
+%
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{Figures/statistical_mechanics/fig_ehrenfest_problema1.png}
+  \caption{Exemplos de trajetórias simuladas para $N=20$ e $N=200$, usando $N_1(0)=N$. A linha contínua é a média teórica discreta, e a tracejada é a aproximação para $N$ grande. A trajetória permanece flutuando após a relaxação. A realização específica depende da semente do gerador de números aleatórios.}
+  \label{fig:ehrenfest}
+\end{figure}
+%
+\section*{(b) Equação de evolução temporal e taxas de transição}
+%
+Seja
+%
+\begin{equation}
+  P_n(k)\equiv \Prob(N_1(k)=n),\qquad n=0,1,\ldots,N.
+\end{equation}
+%
+A probabilidade de estar no estado $n$ após uma atualização recebe contribuições de apenas dois estados anteriores, $n-1$ e $n+1$, pois em cada passo exatamente uma bola troca de urna. A probabilidade de transição de um estado de origem $n$ para $n+1$ é
+%
+\begin{equation}
+  T_{n\to n+1}=\frac{N-n}{N},
+  \label{eq:Tup}
+\end{equation}
+%
+pois é necessário selecionar uma das $N-n$ bolas da urna 2. Analogamente,
+%
+\begin{equation}
+  T_{n\to n-1}=\frac{n}{N},
+  \label{eq:Tdown}
+\end{equation}
+%
+pois é necessário selecionar uma das $n$ bolas da urna 1. As duas probabilidades somam um:
+\[
+T_{n\to n+1}+T_{n\to n-1}=\frac{N-n}{N}+\frac{n}{N}=\frac{N}{N}= 1.
+\]
+%
+A equação de evolução é, então,
+%
+\begin{align}
+  P_n(k+1)
+  &=P_{n-1}(k)T_{n-1\to n}+P_{n+1}(k)T_{n+1\to n}\nonumber\\
+  &=P_{n-1}(k)\frac{N-(n-1)}{N}+P_{n+1}(k)\frac{n+1}{N}.
+\end{align}
+%
+Portanto,
+%
+\begin{equation}
+  \boxed{P_n(k+1)=P_{n-1}(k)\frac{N-n+1}{N}+P_{n+1}(k)\frac{n+1}{N}.}
+  \label{eq:master}
+\end{equation}
+Adotamos a convenção $P_{-1}(k)=P_{N+1}(k)=0$, de modo que a mesma expressão também vale nos extremos $n=0$ e $n=N$. Na notação do enunciado, os fatores que multiplicam $P_{n-1}$ e $P_{n+1}$ são
+%
+\begin{equation}
+  \boxed{W_1(n)=\frac{N-n+1}{N},\qquad W_2(n)=\frac{n+1}{N}.}
+  \label{eq:W12}
+\end{equation}
+%
+É importante interpretar corretamente os índices: $W_1(n)$ é a probabilidade de transição do estado $n-1$ para o estado $n$, enquanto $W_2(n)$ é a probabilidade de transição do estado $n+1$ para o estado $n$. Por isso, elas são funções do estado de destino $n$ nesta notação.
+
+A formulação assume que, a cada passo, uma bola é escolhida uniformemente entre as $N$ bolas e sua localização é invertida. O estado $N_1(k)$ contém informação suficiente para determinar as probabilidades da próxima atualização; não é necessário conhecer a história anterior. Essa é a propriedade de Markov.
+
+Como verificação, a equação conserva a normalização. Somando \eqref{eq:master} sobre $n$ e fazendo uma mudança de índice,
+%
+\begin{align}
+  \sum_{n=0}^{N}P_n(k+1)
+  &=\sum_{j=0}^{N}P_j(k)\frac{N-j}{N}
+   +\sum_{j=0}^{N}P_j(k)\frac{j}{N}\nonumber\\
+  &=\sum_{j=0}^{N}P_j(k)\frac{N-j+j}{N}\nonumber\\
+  &=\sum_{j=0}^{N}P_j(k)=1.
+\end{align}
+%
+Esse teste ajuda a evitar um erro comum: os dois fatores $W_1(n)$ e $W_2(n)$ não devem ser somados mantendo o mesmo índice de destino como se descrevessem duas saídas do mesmo estado. Para obter as probabilidades de saída de um estado $n$, devem-se usar $T_{n\to n-1}=n/N$ e $T_{n\to n+1}=(N-n)/N$.
+%
+\section*{(c) Distribuição estacionária e momentos}
+%
+Assumindo uma distribuição binomial,
+%
+\begin{equation}
+  P_N (N_1)=\frac{1}{2^N}\binom{N}{N_1}=\frac{1}{2^N}\frac{N!}{N_1!(N-N_1)!}.
+  \label{eq:pi}
+\end{equation}
+%
+Antes de verificar que essa distribuição é uma solução da equação de evolução temporal no equilíbrio ($t \rightarrow \infty$), observamos que ela está normalizada, pois o teorema binomial fornece
+%
+\begin{equation}
+  \sum_{n=0}^{N}P_N(N_1)
+  =\frac{1}{2^N}\sum_{N_1=0}^{N}\binom{N}{N_1}
+  =\frac{(1+1)^N}{2^N}=1.
+\end{equation}
+%
+Para verificar que $P_N$ é estacionária, substituímos a distribuição na equação \eqref{eq:master}. Para $1\leq N_1\leq N-1$, o primeiro termo do lado direito é
+%
+\begin{align}
+  P(N_1-1, t)W_1 = P(N_1-1,t)\frac{N-n+1}{N}
+  &=\frac{1}{2^N}\frac{N!}{(N_1-1)!(N-N_1+1)!}\frac{N-N_1+1}{N}\nonumber\\
+  &=\frac{1}{2^N}\frac{N!}{N}\frac{1}{(N_1-1)!(N-N_1)!}\nonumber\\
+  &=\frac{1}{2^N}\frac{(N-1)!}{(N_1-1)!(N-N_1)!}\nonumber\\
+  &=\frac{1}{2^N}\frac{N!}{N_1!(N-N_1)!}\frac{N_1}{N}\\
+  &=P_{N}(N_1)\frac{N_1}{N}.
+  \label{eq:firststationaryterm}
+\end{align}
+%
+Na penúltima passagem usamos $N!=N(N-1)!$ e $N_1!=N_1(N_1-1)!$. De maneira análoga, o segundo termo é
+%
+\begin{align}
+  P(N_1+1,t) W_2 = P(N_1+1,t) \frac{N_1+1}{N}
+  &=\frac{1}{2^N}\frac{N!}{(N_1+1)!(N-N_1-1)!}\frac{N_1+1}{N}\nonumber\\
+  &=\frac{1}{2^N}\frac{(N-1)!}{N_1!(N-N_1-1)!}\nonumber\\
+  &=\frac{1}{2^N}\frac{N!}{N_1!(N-N_1)!}\frac{N-N_1}{N}\nonumber\\
+  &=P_N(N_1)\frac{N-N_1}{N}.
+  \label{eq:secondstationaryterm}
+\end{align}
+%
+Somando as duas contribuições,
+%
+\begin{align}
+  P(N_1, t + \Delta t) = P(N_1-1,t)W_1+P(N_1+1, t)W_2
+  &=P_N(N_1)\frac{N_1}{N}+P_N(N_1)\frac{N-N_1}{N}\nonumber\\
+  &=P_N(N_1)\frac{N_1+N-N_1}{N}\nonumber\\
+  &=P_N(N_1).
+\end{align}
+%
+Logo, $P_N(N_1, t + \Delta t)=P_N(N_1)$ é uma solução estacionária, ou seja, se o sistema for preparado segundo a distribuição binomial, essa distribuição permanece inalterada após cada atualização. Nos extremos $N_1=0$ e $N_1=N$, a mesma conclusão segue diretamente da equação de evolução com $P_{-1}=P_{N+1}=0$.
+%
+Agora, para calcular expressões para os valores médios ou esperados, por definição,
+%
+\begin{align}
+  \avg{N_1}
+  &=\sum_{N_1=0}^{N}N_1P_n
+   =\frac{1}{2^N}\sum_{N_1=0}^{N}N_1\binom{N}{N_1}.
+\end{align}
+%
+Usamos a identidade combinatória
+%
+\begin{equation}
+  N_1\binom{N}{N_1}=N\binom{N-1}{N_1-1},
+  \label{eq:combmean}
+\end{equation}
+%
+que pode ser verificada diretamente:
+\[
+ N_1\binom{N}{N_1}=N_1\frac{N!}{N_1!(N-N_1)!}
+ =\frac{N!}{(N_1-1)!(N-N_1)!}
+ =N\frac{(N-1)!}{(N_1-1)!(N-N_1)!}.
+\]
+Assim,
+%
+\begin{align}
+  \avg{N_1}
+  &=\frac{N}{2^N}\sum_{N_1=1}^{N}\binom{N-1}{N_1-1}.
+\end{align}
+%
+Definindo $j=N_1-1$, a soma torna-se
+%
+\begin{equation}
+  \sum_{N_1=1}^{N}\binom{N-1}{N_1-1}
+  =\sum_{j=0}^{N-1}\binom{N-1}{j}
+  =(1+1)^{N-1}=2^{N-1}.
+\end{equation}
+%
+Portanto,
+%
+\begin{equation}
+  \boxed{\avg{N_1}=\frac{N}{2^N}2^{N-1}=\frac{N}{2}.}
+  \label{eq:mean}
+\end{equation}
+%
+Antes de calcular o desvio quadrático médio ou variância, é conveniente primeiro calcular o momento fatorial $\avg{N_1(N_1-1)}$. Temos
+%
+\begin{equation}
+  \avg{N_1(N_1-1)}
+  =\frac{1}{2^N}\sum_{N_1=0}^{N}N_1(N_1-1)\binom{N}{N_1}.
+\end{equation}
+%
+A identidade necessária é
+%
+\begin{equation}
+  N_1(N_1-1)\binom{N}{N_1}=N(N-1)\binom{N-2}{N_1-2}.
+  \label{eq:combsecond}
+\end{equation}
+%
+De fato,
+%
+\begin{align*}
+  N_1(N_1-1)\binom{N}{N_1}
+  &=N_1(N_1-1)\frac{N!}{N_1!(N-N_1)!}
+   =\frac{N!}{(N_1-2)!(N-N_1)!}\\
+  &=N(N-1)\frac{(N-2)!}{(N_1-2)!(N-N_1)!}
+   =N(N-1)\binom{N-2}{N_1-2}.
+\end{align*}
+%
+Logo,
+%
+\begin{align}
+  \avg{N_1(N_1-1)}
+  &=\frac{N(N-1)}{2^N}\sum_{N_1=2}^{N}\binom{N-2}{N_1-2}\nonumber\\
+  &=\frac{N(N-1)}{2^N}\sum_{j=0}^{N-2}\binom{N-2}{j}\nonumber\\
+  &=\frac{N(N-1)}{2^N}2^{N-2}\nonumber\\
+  &=\frac{N(N-1)}{4}.
+  \label{eq:factorialmoment}
+\end{align}
+%
+Como $N_1^2=N_1(N_1-1)+N_1$, segue que
+%
+\begin{align}
+  \avg{N_1^2}
+  &=\avg{N_1(N_1-1)}+\avg{N_1}\nonumber\\
+  &=\frac{N(N-1)}{4}+\frac{N}{2}\nonumber\\
+  &=\frac{N^2-N+2N}{4}\nonumber\\
+  &=\frac{N^2+N}{4}.
+  \label{eq:secondmoment}
+\end{align}
+%
+A variância é
+%
+\begin{align}
+  \Var(N_1) = \sigma^2
+  &=\avg{(N_1 - \avg{N_1})^2}\nonumber\\
+  &=\avg{N_1^2}-\avg{N_1}^2\nonumber\\
+  &=\frac{N^2+N}{4}-\left(\frac{N}{2}\right)^2\nonumber\\
+  &=\frac{N^2+N}{4}-\frac{N^2}{4}\nonumber\\
+  &=\boxed{\frac{N}{4}}.
+\end{align}
+%
+Portanto, $\sigma=\sqrt{N}/2$ e $\sigma/\avg{N_1}= \frac{\sqrt{N}/2}{N/2}= 1/\sqrt{N}$, como antecipado no item (a).
+%
+\section*{(d) Evolução temporal do valor esperado}
+%
+Definimos o valor esperado no passo $k$ por
+%
+\begin{equation}
+  m_k\equiv\avg{N_1}_k=\sum_{n=0}^{N}nP_n(k).
+  \label{eq:mk}
+\end{equation}
+Queremos obter uma equação de recorrência para $m_k$ a partir da equação mestra \eqref{eq:master}. Usando \eqref{eq:master}, temos
+%
+\begin{align}
+  m_{k+1}
+  &=\sum_{n=0}^{N}nP_n(k+1)\nonumber\\
+  &=\sum_{n=0}^{N}nP_{n-1}(k)\frac{N-n+1}{N}
+   +\sum_{n=0}^{N}nP_{n+1}(k)\frac{n+1}{N}.
+  \label{eq:meanstart}
+\end{align}
+%
+Vamos tratar as duas somas separadamente, cuidando dos índices. Na primeira soma, fazemos $j=n-1$, isto é, $n=j+1$. Como $n$ varia de $1$ a $N$ para que $P_{n-1}$ seja não nulo, temos
+%
+\begin{align}
+  S_1
+  &=\sum_{n=1}^{N}nP_{n-1}(k)\frac{N-n+1}{N}\nonumber\\
+  &=\sum_{j=0}^{N-1}(j+1)P_j(k)\frac{N-(j+1)+1}{N}\nonumber\\
+  &=\sum_{j=0}^{N-1}(j+1)P_j(k)\frac{N-j}{N}.
+  \label{eq:S1}
+\end{align}
+%
+Na segunda soma, fazemos $j=n+1$, isto é, $n=j-1$. Como $n$ varia de $0$ a $N-1$ para que $P_{n+1}$ seja não nulo,
+%
+\begin{align}
+  S_2
+  &=\sum_{n=0}^{N-1}nP_{n+1}(k)\frac{n+1}{N}\nonumber\\
+  &=\sum_{j=1}^{N}(j-1)P_j(k)\frac{j}{N}.
+  \label{eq:S2}
+\end{align}
+%
+Combinando \eqref{eq:S1} e \eqref{eq:S2}, podemos escrever
+%
+\begin{align}
+  m_{k+1}
+  &=\frac{1}{N}\sum_{j=0}^{N}P_j(k)
+       \left[(j+1)(N-j)+(j-1)j\right].
+  \label{eq:meancombined}
+\end{align}
+%
+Os termos que foram estendidos aos extremos $j=0$ e $j=N$ são nulos quando deveriam estar ausentes: em $j=0$, $(j-1)j=0$; em $j=N$, $(j+1)(N-j)=0$. Expandimos cada produto entre colchetes:
+%
+\begin{align*}
+  (j+1)(N-j)&=jN-j^2+N-j,\\
+  (j-1)j&=j^2-j.
+\end{align*}
+%
+Somando,
+%
+\begin{align}
+  (j+1)(N-j)+(j-1)j
+  &=jN-j^2+N-j+j^2-j\nonumber\\
+  &=jN+N-2j\nonumber\\
+  &=N+j(N-2).
+  \label{eq:bracketidentity}
+\end{align}
+%
+Substituindo \eqref{eq:bracketidentity} em \eqref{eq:meancombined},
+%
+\begin{align}
+  m_{k+1}
+  &=\frac{1}{N}\sum_{j=0}^{N}P_j(k)\left[N+j(N-2)\right]\nonumber\\
+  &=\frac{1}{N}\left[N\sum_{j=0}^{N}P_j(k)+(N-2)\sum_{j=0}^{N}jP_j(k)\right].
+\end{align}
+%
+Usamos agora a normalização $\sum_j P_j(k)=1$ e a definição de média $\sum_j jP_j(k)=m_k$:
+%
+\begin{align}
+  m_{k+1}
+  &=\frac{1}{N}\left[N+(N-2)m_k\right]\nonumber\\
+  &=1+\frac{N-2}{N}m_k.
+\end{align}
+%
+Obtemos a recorrência fundamental:
+%
+\begin{equation}
+  \boxed{m_{k+1}=1+\left(1-\frac{2}{N}\right)m_k.}
+  \label{eq:meanrecurrence}
+\end{equation}
+%
+No regime estacionário da média, $m_{k+1}=m_k=m_\infty$. Substituindo na recorrência,
+%
+\begin{align}
+  m_\infty&=1+\left(1-\frac{2}{N}\right)m_\infty,\\
+  m_\infty-\left(1-\frac{2}{N}\right)m_\infty&=1,\\
+  \left[1-1+\frac{2}{N}\right]m_\infty&=1,\\
+  \frac{2}{N}m_\infty&=1.
+\end{align}
+%
+Consequentemente,
+%
+\begin{equation}
+  {m_\infty=\frac{N}{2},}
+\end{equation}
+%
+em concordância com o resultado do item (c). Para resolver a recorrência, definimos o desvio em relação ao valor fixo,
+%
+\begin{equation}
+  \delta_k\equiv m_k-\frac{N}{2}.
+\end{equation}
+%
+Então
+%
+\begin{align}
+  \delta_{k+1}
+  &=m_{k+1}-\frac{N}{2}\nonumber\\
+  &=1+\left(1-\frac{2}{N}\right)m_k-\frac{N}{2}\nonumber\\
+  &=\left(1-\frac{2}{N}\right)m_k+\left(1-\frac{N}{2}\right).
+\end{align}
+%
+Como
+\[
+1-\frac{N}{2}=-\frac{N-2}{2}=-\left(1-\frac{2}{N}\right)\frac{N}{2},
+\]
+podemos fatorar:
+%
+\begin{align}
+  \delta_{k+1}
+  &=\left(1-\frac{2}{N}\right)\left(m_k-\frac{N}{2}\right)\nonumber\\
+  &=\left(1-\frac{2}{N}\right)\delta_k.
+\end{align}
+%
+Iterando essa relação,
+%
+\begin{equation}
+  \delta_k=\left(1-\frac{2}{N}\right)^k\delta_0,
+\end{equation}
+%
+onde $\delta_0=m_0-N/2$. Portanto, a solução geral é
+%
+\begin{equation}
+  \boxed{\avg{N_1}_k=\frac{N}{2}+\left(m_0-\frac{N}{2}\right)\left(1-\frac{2}{N}\right)^k.}
+  \label{eq:generalsolution}
+\end{equation}
+%
+Se inicialmente todas as bolas estão na urna 1, $m_0=N$, de modo que
+%
+\begin{align}
+  \avg{N_1}_k
+  &=\frac{N}{2}+\left(N-\frac{N}{2}\right)\left(1-\frac{2}{N}\right)^k\nonumber\\
+  &=\frac{N}{2}+\frac{N}{2}\left(1-\frac{2}{N}\right)^k.
+\end{align}
+%
+Logo,
+%
+\begin{equation}
+  \boxed{\avg{N_1}_k=\frac{N}{2}\left[1+\left(1-\frac{2}{N}\right)^k\right].}
+  \label{eq:initialall}
+\end{equation}
+%
+Para $N>2$, o fator $1-2/N$ está entre zero e um. Escrevemos sua potência como
+\[
+\left(1-\frac{2}{N}\right)^k=\exp\left[k\ln\left(1-\frac{2}{N}\right)\right].
+\]
+Definindo o tempo de relaxação em unidades de atualizações por
+%
+\begin{equation}
+  \tau=\frac{-1}{\ln\left(1-\frac{2}{N}\right)},
+  \label{eq:tau}
+\end{equation}
+%
+podemos escrever o fator de decaimento como $\e{-k/\tau}$. Para $N\gg1$, a expansão $\ln(1-x)=-x+O(x^2)$ dá
+%
+\begin{equation}
+  \ln\left(1-\frac{2}{N}\right)\simeq -\frac{2}{N},
+  \qquad
+  \tau\simeq\frac{N}{2}.
+\end{equation}
+%
+Numericamente,
+%
+\begin{center}
+\begin{tabular}{@{}ccc@{}}
+\toprule
+$N$ & $\tau=-1/\ln(1-2/N)$ & Aproximação $N/2$\\
+\midrule
+$20$ & $9.49\ldots$ & $10$\\
+$200$ & $99.50\ldots$ & $100$\\
+\bottomrule
+\end{tabular}
+\end{center}
+%
+Isso explica por que o tempo necessário para relaxar cresce proporcionalmente a $N$. Para comparar sistemas com diferentes tamanhos, representar $N_1/N$ em função de $k/N$ é natural. As flutuações relativas são menores para $N=200$, embora as flutuações absolutas sejam maiores.
+% ============================================================
+% PROBLEMA 2
+% ============================================================
+\section*{Problema 2 -- Algoritmo de Metropolis para o modelo de Ising}
+%
+Consideramos o modelo de Ising ferromagnético, a campo externo nulo, em uma rede quadrada de tamanho linear $N$ e, portanto, com $N_s=N^2$ sítios. Em cada sítio há uma variável de Ising
+\[
+    \sigma_i\in\{-1,+1\},\qquad J>0,
+\]
+e adotaremos condições periódicas de contorno, de modo que todo sítio tenha quatro vizinhos mais próximos. A temperatura reduzida será denotada por
+\[
+    \thetaT\equiv \frac{k_B T}{J},
+\]
+para não confundir a temperatura física $T$ com a temperatura expressa em unidades de $J/k_B$. Também escreveremos
+\[
+    \beta=\frac{1}{k_BT},\qquad \beta J=\frac{1}{\thetaT}.
+\]
+Agora, vamos implementar o algoritmo de Metropolis ara o modelo de Ising de spin-$1/2$ a campo nulo, numa rede quadrada $N \times N$ , a temperatura $T$. O Hamiltoniano, sem campo externo, é
+%
+\begin{equation}
+    \mathcal H(\bm\sigma)
+    =-J\sum_{\langle ij\rangle}\sigma_i\sigma_j,
+    \label{eq:hamiltoniano}
+\end{equation}
+%
+onde $\langle ij\rangle$ indica que a soma é feita uma única vez sobre cada par de vizinhos mais próximos. Suponha que o algoritmo selecione o sítio $i$ e proponha inverter o valor do spin neste sítio,
+%
+\begin{equation}
+    \sigma_i\longrightarrow \sigma_i'=-\sigma_i,
+\end{equation}
+%
+mantendo todos os demais spins inalterados. Queremos obter
+%
+\[
+    \Delta E\equiv \mathcal H(\bm\sigma')-\mathcal H(\bm\sigma).
+\]
+%
+Como somente o spin $i$ muda, todos os termos do Hamiltoniano que não contêm $\sigma_i$ cancelam-se na diferença. A parte da energia associada às quatro ligações que chegam ao sítio $i$, antes da inversão, é
+%
+\begin{equation}
+    E_i^{\mathrm{antes}}
+    =-J\sigma_i\sum_{j\in\nn(i)}\sigma_j.
+    \label{eq:Eantes}
+\end{equation}
+%
+Depois da inversão, substituímos $\sigma_i$ por $-\sigma_i$:
+%
+\begin{align}
+    E_i^{\mathrm{depois}}
+    &=-J(-\sigma_i)\sum_{j\in\nn(i)}\sigma_j\\
+    &=+J\sigma_i\sum_{j\in\nn(i)}\sigma_j.
+    \label{eq:Edepois}
+\end{align}
+%
+Subtraindo a energia inicial da energia final,
+%
+\begin{align}
+    \Delta E
+    &=E_i^{\mathrm{depois}}-E_i^{\mathrm{antes}}\\
+    &=J\sigma_i\sum_{j\in\nn(i)}\sigma_j
+      -\left(-J\sigma_i\sum_{j\in\nn(i)}\sigma_j\right)\\
+    &=J\sigma_i\sum_{j\in\nn(i)}\sigma_j
+      +J\sigma_i\sum_{j\in\nn(i)}\sigma_j\\
+    &=2J\sigma_i\sum_{j\in\nn(i)}\sigma_j.
+\end{align}
+%
+Portanto,
+%
+\begin{equation}
+    \Delta E=2J\sigma_i\sum_{j\in\nn(i)}\sigma_j.
+    \label{eq:deltaE}
+\end{equation}
+%
+Para abreviar, definimos a soma dos quatro spins vizinhos
+%
+\begin{equation}
+    S_i\equiv\sum_{j\in\nn(i)}\sigma_j.
+    \label{eq:Si}
+\end{equation}
+%
+Como cada spin vizinho vale $+1$ ou $-1$, se $n_+$ dos quatro vizinhos estiverem para cima, então haverá $4-n_+$ spins para baixo e
+%
+\begin{align}
+    S_i&=(+1)n_+ +(-1)(4-n_+)\\
+       &=n_+-4+n_+\\
+       &=2n_+-4.
+\end{align}
+%
+Como $n_+=0,1,2,3,4$, segue que
+%
+\begin{equation}
+    S_i\in\{-4,-2,0,2,4\}.
+\end{equation}
+%
+A equação \eqref{eq:deltaE} pode então ser escrita como
+%
+\begin{equation}
+    \frac{\Delta E}{J}=2\sigma_i S_i.
+\end{equation}
+%
+Uma vez que $\sigma_i=\pm1$, os valores possíveis são
+%
+\begin{equation}
+    \frac{\Delta E}{J}\in\{-8,-4,0,4,8\}.
+    \label{eq:deltaEpossiveis}
+\end{equation}
+%
+A tabela abaixo mostra explicitamente como os valores de $S_i$ e do spin central determinam a variação de energia. A última coluna já contém a probabilidade de aceitação que será deduzida na próxima subseção.
+%
+\begin{table}[H]
+\centering
+\caption{Variação de energia para uma inversão local. Usamos $\thetaT=k_BT/J$.}
+\label{tab:deltaE}
+\begin{tabular}{rrrrl}
+\toprule
+$S_i$ & $\sigma_i$ & $\sigma_iS_i$ & $\Delta E/J$ & $p_{\mathrm{aceitar}}$\\
+\midrule
+$+4$ & $+1$ & $+4$ & $+8$ & $\e{{-8/\thetaT}}$\\
+$+4$ & $-1$ & $-4$ & $-8$ & $1$\\
+$+2$ & $+1$ & $+2$ & $+4$ & $\e{{-4/\thetaT}}$\\
+$+2$ & $-1$ & $-2$ & $-4$ & $1$\\
+$0$  & $\pm1$& $0$  & $0$  & $1$\\
+$-2$ & $+1$ & $-2$ & $-4$ & $1$\\
+$-2$ & $-1$ & $+2$ & $+4$ & $\e{-4/\thetaT}$\\
+$-4$ & $+1$ & $-4$ & $-8$ & $1$\\
+$-4$ & $-1$ & $+4$ & $+8$ & $\e{-8/\thetaT}$\\
+\bottomrule
+\end{tabular}
+\end{table}
+%
+Observe a interpretação física:
+%
+\begin{itemize}
+    \item se $\Delta E<0$, a inversão diminui a energia e será aceita;
+    \item se $\Delta E=0$, a energia não muda e a inversão também será aceita;
+    \item se $\Delta E>0$, a inversão aumenta a energia e só será aceita com uma probabilidade menor que um.
+\end{itemize}
+%
+A regra de Metropolis é
+%
+\begin{equation}
+    p_{\mathrm{aceitar}}(\bm\sigma\to\bm\sigma')
+    =\min\left\{1,\e{-\beta\Delta E}\right\}.
+    \label{eq:metropolisbeta}
+\end{equation}
+%
+Isso equivale à forma por partes
+%
+\begin{equation}
+    p_{\mathrm{aceitar}}=
+    \begin{cases}
+        1, & \Delta E\leq0,\\[2mm]
+        \e{-\beta\Delta E}, & \Delta E>0.
+    \end{cases}
+\end{equation}
+%
+Para escrever a expressão em unidades de $J$, definimos
+%
+\[
+    \epsilon\equiv\frac{\Delta E}{J},\qquad
+    \thetaT\equiv\frac{k_BT}{J}.
+\]
+%
+Então
+%
+\begin{align}
+    \beta\Delta E
+    &=\frac{1}{k_BT}\Delta E\\
+    &=\frac{\Delta E/J}{k_BT/J}\\
+    &=\frac{\epsilon}{\thetaT}.
+\end{align}
+%
+Logo, a expressão que pode ser usada diretamente no programa é
+%
+\begin{equation}
+    p_{\mathrm{aceitar}}=\min\left\{1,\e{-\epsilon/\thetaT}\right\}.
+    \label{eq:metropolis_theta}
+\end{equation}
+%
+Em particular, como $\epsilon$ só pode assumir os valores $-8,-4,0,4,8$, só é necessário calcular os dois números
+%
+\begin{equation}
+    p_4=\e{-4/\thetaT},\qquad p_8=\e{-8/\thetaT}
+\end{equation}
+%
+para cada temperatura. Os casos com energia não crescente são aceitos com probabilidade um. Para $\Delta E>0$, sorteia-se $z$ uniformemente em $[0,1)$. A inversão é aceita se
+%
+\begin{equation}
+    z<p_{\mathrm{aceitar}}=\e{-\Delta E/(k_BT)}.
+\end{equation}
+%
+A probabilidade de que isso aconteça é precisamente $p_{\mathrm{aceitar}}$, pois $z$ é uniforme no intervalo unitário. Se $z$ for maior ou igual a essa probabilidade, conserva-se o spin original. A distribuição de equilíbrio que queremos amostrar é
+%
+\begin{equation}
+    P(\bm\sigma)=\frac{1}{Z}\e{-\beta\mathcal H(\bm\sigma)},
+    \qquad
+    Z=\sum_{\{\bm\sigma\}}\e{-\beta\mathcal H(\bm\sigma)}.
+    \label{eq:boltzmann}
+\end{equation}
+%
+Aqui, $Z$ é a função de partição e a soma percorre todas as $2^{N^2}$ configurações de spins possíveis. Considere duas configurações $\bm\sigma$ e $\bm\sigma'$ que diferem apenas pela inversão de um spin. A variação de energia é
+%
+\[
+    \Delta E=\mathcal H(\bm\sigma')-\mathcal H(\bm\sigma).
+\]
+%
+Se a proposta de inverter o spin é simétrica, isto é, a probabilidade de propor a transição é igual à de propor a transição reversa, a regra de Metropolis satisfaz o balanço detalhado. Vamos verificar isso sem omitir casos.
+
+\noindent\textbf{Caso 1: $\Delta E>0$.} A transição direta aumenta a energia, portanto
+%
+\[
+    A(\bm\sigma\to\bm\sigma')=\e{-\beta\Delta E}.
+\]
+%
+Na transição inversa, a variação de energia é $-\Delta E<0$, logo a aceitação é um:
+%
+\[
+    A(\bm\sigma'\to\bm\sigma)=1.
+\]
+%
+Assim,
+%
+\begin{equation}
+    \frac{A(\bm\sigma\to\bm\sigma')}{A(\bm\sigma'\to\bm\sigma)}
+    =\e{-\beta\Delta E}.
+\end{equation}
+%
+\noindent\textbf{Caso 2: $\Delta E<0$.} A transição direta diminui a energia e é aceita com probabilidade um:
+%
+\[
+    A(\bm\sigma\to\bm\sigma')=1.
+\]
+%
+A transição inversa aumenta a energia em $-\Delta E>0$, então
+%
+\[
+    A(\bm\sigma'\to\bm\sigma)=\e{-\beta(-\Delta E)}=\e{\beta\Delta E}.
+\]
+%
+Consequentemente,
+%
+\begin{equation}
+    \frac{A(\bm\sigma\to\bm\sigma')}{A(\bm\sigma'\to\bm\sigma)}
+    =\frac{1}{\e{\beta\Delta E}}=\e{-\beta\Delta E}.
+\end{equation}
+%
+\noindent\textbf{Caso 3: $\Delta E=0$.} As duas transições são aceitas com probabilidade um; a razão é um, igual a $\e0$. Portanto, nos três casos,
+%
+\begin{equation}
+    \frac{A(\bm\sigma\to\bm\sigma')}{A(\bm\sigma'\to\bm\sigma)}
+    =\e{-\beta\Delta E}.
+    \label{eq:razao_aceitacao}
+\end{equation}
+%
+Agora calculemos a razão dos pesos de Boltzmann:
+%
+\begin{align}
+    \frac{P(\bm\sigma')}{P(\bm\sigma)}
+    &=\frac{Z^{-1}\e{-\beta\mathcal H(\bm\sigma')}}
+            {Z^{-1}\e{-\beta\mathcal H(\bm\sigma)}}\\
+    &=\e{-\beta[\mathcal H(\bm\sigma')-\mathcal H(\bm\sigma)]}\\
+    &=\e{-\beta\Delta E}.
+    \label{eq:razao_boltzmann}
+\end{align}
+%
+Comparando \eqref{eq:razao_aceitacao} e \eqref{eq:razao_boltzmann}, obtemos
+%
+\[
+    \frac{P(\bm\sigma')}{P(\bm\sigma)}
+    =\frac{A(\bm\sigma\to\bm\sigma')}{A(\bm\sigma'\to\bm\sigma)}.
+\]
+%
+Multiplicando cruzado,
+%
+\begin{equation}
+    P(\bm\sigma)A(\bm\sigma\to\bm\sigma')
+    =P(\bm\sigma')A(\bm\sigma'\to\bm\sigma).
+    \label{eq:balance_detalhado}
+\end{equation}
+%
+Esta é a condição de balanço detalhado para a atualização local (o fator da proposta simétrica cancela dos dois lados). Ela implica que a distribuição de Boltzmann é estacionária para cada atualização local. Uma varredura sistemática é uma composição dessas atualizações; cada atualização preserva a distribuição de Boltzmann, e por isso uma varredura completa também a preserva, ainda que a composição ordenada não precise ser reversível como uma única transição global. Juntamente com a ergodicidade (toda configuração é alcançável a partir de qualquer outra por uma sequência finita de inversões), isso garante que a distribuição de Boltzmann é a
+\emph{única} distribuição estacionária da cadeia, e que a cadeia converge para ela independentemente da configuração inicial~\cite{NewmanBarkema1999,LandauBinder2005}. Uma implementação que segue a ordem sequencial descrita no enunciado é:
+%
+\begin{enumerate}
+    \item Inicializar a matriz de spins, por exemplo, com $\sigma_{ij}=+1$ em todos os sítios.
+    \item Percorrer os sítios em uma ordem fixa. Um \emph{passo de Monte Carlo} (MCS, do inglês \textit{Monte Carlo step}) consiste em visitar todos os $N^2$ sítios uma vez.
+    \item Para cada sítio $(i,j)$, somar os quatro vizinhos e calcular
+    \[
+        \epsilon=\frac{\Delta E}{J}=2\sigma_{ij}
+        (\sigma_{i+1,j}+\sigma_{i-1,j}+\sigma_{i,j+1}+\sigma_{i,j-1}),
+    \]
+    com os índices tomados periodicamente.
+    \item Se $\epsilon\leq0$, inverter o spin. Se $\epsilon>0$, inverter com probabilidade $\exp(-\epsilon/\thetaT)$, usando um número aleatório uniforme.
+    \item Repetir muitas varreduras. As primeiras são usadas para termalização e descartadas; as seguintes são usadas para medir observáveis.
+\end{enumerate}
+%
+O enunciado pede uma ordem sequencial. Em outras implementações, escolhem-se sítios aleatoriamente. Nos dois casos, a regra local de aceitação deve ser implementada com a mesma variação de energia; a escolha concreta do esquema de atualização afeta as correlações temporais e a eficiência da simulação.
+% ============================================================
+Após a termalização, a cadeia de Metropolis gera configurações distribuídas de acordo com a medida de Boltzmann \eqref{eq:boltzmann}. Não é necessário que uma configuração microscópica específica seja visitada muitas vezes: em sistemas grandes, até configurações típicas individualmente possuem probabilidades muito pequenas. O sentido de ``representativas'' é que as configurações amostradas reproduzem as propriedades estatísticas de equilíbrio, como energia média, magnetização e suas flutuações.
+%
+Os regimes físicos são:
+%
+\begin{itemize}
+    \item \textbf{Baixa temperatura, $T<T_c$:} o acoplamento ferromagnético favorece alinhamento. As configurações típicas têm grandes regiões de spins iguais e, longe de $T_c$, o módulo da magnetização é elevado. Ainda há defeitos térmicos e paredes de domínio a temperatura não nula.
+    \item \textbf{Alta temperatura, $T>T_c$:} a energia térmica compete fortemente com o alinhamento. As configurações são desordenadas e a magnetização por sítio tende a zero quando o tamanho do sistema cresce.
+    \item \textbf{Próximo de $T_c$:} surgem flutuações de grande escala e domínios correlacionados. O sistema relaxa lentamente e são necessárias séries maiores para obter médias confiáveis.
+\end{itemize}
+%
+A magnetização por sítio de uma configuração é
+%
+\begin{equation}
+    m(\bm\sigma)=\frac{1}{N^2}\sum_{i=1}^{N^2}\sigma_i.
+    \label{eq:magnetizacao}
+\end{equation}
+%
+A transformação global $\sigma_i\mapsto-\sigma_i$ deixa o Hamiltoniano sem campo inalterado, pois cada produto de vizinhos satisfaz
+%
+\[
+    (-\sigma_i)(-\sigma_j)=\sigma_i\sigma_j.
+\]
+%
+Logo, cada configuração de magnetização $m$ tem uma configuração de mesma energia e magnetização $-m$. Como seus pesos de Boltzmann são iguais, para uma rede finita a campo nulo resulta exatamente
+%
+\begin{equation}
+    \langle m\rangle=0.
+\end{equation}
+%
+Isso vale inclusive abaixo de $T_c$ se o ensemble de equilíbrio incluir ambos os setores, com magnetizações positiva e negativa. Para caracterizar a ordem ferromagnética em uma simulação finita, mede-se portanto o módulo:
+%
+\begin{equation}
+    \langle |m|\rangle\simeq\frac{1}{M}\sum_{k=1}^{M}|m_k|,
+    \label{eq:media_modulo}
+\end{equation}
+%
+onde $m_k$ é a magnetização da $k$-ésima configuração amostrada após a termalização e $M$ é o número de medidas. O \emph{número de medidas} $M$ é o número de varreduras realizadas \emph{após} a termalização, durante as quais se coletam os valores dos observáveis
+(magnetização, energia, etc.) a cada varredura. É importante distinguir duas afirmações: para qualquer $N$ finito e campo nulo, a média simétrica $\langle m\rangle$ é zero; já o limite termodinâmico pode apresentar magnetização espontânea não nula para $T<T_c$, quando uma fase é selecionada. O uso de $|m|$ é uma maneira prática de acompanhar a ordem sem cancelar contribuições de sinais opostos. Uma simulação atinge um regime compatível com equilíbrio quando seus observáveis já não mostram uma deriva sistemática causada pela condição inicial e passam a flutuar em torno de médias estáveis. Na prática, monitoram-se ao menos
+%
+\[
+    m_k,\qquad |m_k|,\qquad e_k\equiv\frac{\mathcal H_k}{N^2},
+\]
+%
+ao longo das varreduras.
+%
+A estabilização visual não é, sozinha, prova suficiente de equilíbrio. A estabilização visual não é, sozinha, prova suficiente de equilíbrio. Recomenda-se o
+seguinte protocolo~\cite{NewmanBarkema1999,LandauBinder2005}:
+%
+\begin{enumerate}
+    \item Descartar um intervalo inicial de termalização de $N_{\mathrm{term}}$ MCS.
+    \item Comparar séries que partem de condições iniciais distintas (todos os spins para
+          cima e spins aleatórios); se convergirem para as mesmas médias, há evidência de
+          equilíbrio.
+    \item Repetir a simulação com diferentes sementes aleatórias e verificar a
+          reprodutibilidade dos resultados.
+    \item Verificar a estabilidade das médias ao dobrar sucessivamente $N_{\mathrm{term}}$
+          e $M$: se as médias não se alteram significativamente, a simulação é
+          suficientemente longa.
+    \item Estimar a autocorrelação temporal $\tau$ e os erros estatísticos por blocagem,
+          Jackknife ou Bootstrap.
+\end{enumerate}
+%
+Configurações consecutivas não são independentes. Se a magnetização muda lentamente, contar cada varredura como uma medida independente subestima o erro. O número efetivo de amostras independentes pode ser muito menor que $M$. Perto da temperatura crítica, o tempo de relaxação cresce com o tamanho do sistema. Para dinâmica local de Metropolis no modelo de Ising bidimensional, o comportamento assintótico é frequentemente descrito por
+%
+\begin{equation}
+    \tau\sim |t|^{-z\nu},\qquad t=\frac{T-T_c}{T_c},
+\end{equation}
+%
+com $\nu=1$ e um expoente dinâmico $z$ aproximadamente igual a $2.17$ para esta classe de atualização local. Esse expoente é dinâmico e depende do algoritmo; não deve ser confundido com o expoente estático $\nu$.
+%
+Para o modelo de Ising bidimensional na rede quadrada, no limite termodinâmico e a campo
+nulo, a temperatura crítica exata foi obtida por Onsager em 1944~\cite{Onsager1944}
+(com a relação de dualidade de Kramers--Wannier~\cite{KramersWannier1941}):
+%
+\begin{equation}
+    \frac{k_BT_c}{J}=\thetaT_c
+    =\frac{2}{\ln(1+\sqrt{2})}\simeq 2.269185.
+    \label{eq:Tc}
+\end{equation}
+%
+Em uma rede finita, não há uma singularidade termodinâmica verdadeira, as grandezas variam suavemente com a temperatura e a região crítica é arredondada. Para uma rede de tamanho linear $N$, a escala característica de arredondamento obedece, em termos de escala,
+%
+\begin{equation}
+    \Delta T\sim N^{-1/\nu};
+\end{equation}
+%
+para o Ising 2D, $\nu=1$, então essa escala diminui como $N^{-1}$. Ao aumentar $N$, o comportamento crítico se torna mais nítido, mas a magnetização não sofre um salto finito no modelo bidimensional, sua magnetização espontânea tende continuamente a zero quando $T\to T_c^-$. Como referência teórica para conferir a simulação, a magnetização espontânea exata no
+limite termodinâmico foi derivada por Yang em 1952~\cite{Yang1952}:
+%
+\begin{equation}
+    m_{\infty}(\thetaT)=
+    \begin{cases}
+    \left[1-\sinh^{-4}\!\left(\dfrac{2}{\thetaT}\right)\right]^{1/8},
+        & \thetaT<\thetaT_c,\\[3mm]
+    0, & \thetaT\geq\thetaT_c.
+    \end{cases}
+    \label{eq:magnetizacao_exata}
+\end{equation}
+%
+Para tamanho finito, $\langle|m|\rangle$ geralmente permanece positivo mesmo acima de $T_c$; por isso os pontos simulados não precisam coincidir com a curva do limite termodinâmico. Para cada temperatura reduzida $\thetaT$:
+%
+\begin{enumerate}
+    \item inicialize a rede;
+    \item execute $N_{\mathrm{term}}$ MCS de termalização e descarte as configurações produzidas nesse intervalo;
+    \item execute mais $M$ MCS e calcule $m_k$ pela equação \eqref{eq:magnetizacao};
+    \item calcule a média de $|m|$ pela equação \eqref{eq:media_modulo};
+    \item repita para uma faixa de temperaturas que cubra valores abaixo e acima de $\thetaT_c$;
+    \item represente $\langle |m|\rangle$ em função de $\thetaT$, idealmente com barras de erro estimadas por blocagem ou por réplicas independentes.
+\end{enumerate}
+%
+A Figura~\ref{fig:magnetizacao} mostra um exemplo ilustrativo para uma rede de tamanho finito, junto da curva exata \eqref{eq:magnetizacao_exata}. Os parâmetros exatos da simulação e a semente aleatória estão documentados no script fornecido. As diferenças perto de $T_c$ são esperadas para uma rede finita e para uma simulação de duração limitada; antes de usar dados como estimativas quantitativas, é necessário testar a convergência e aumentar os tempos de termalização e medição.
+%
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\linewidth]{Figures/statistical_mechanics/monte_carlo.png}
+    \caption{$\langle|m|\rangle$ obtido por Metropolis para redes $N\times N$ de tamanhos
+    $N=4,10,20,30,40,60,100$, comparado à magnetização espontânea exata no limite
+    termodinâmico (curva de Yang~\cite{Yang1952}). O eixo horizontal é $\widetilde T=
+    k_BT/J$, a temperatura reduzida, equivalente à notação $kT/K_{\mathrm{nn}}$ de
+    Landau~\cite{Landau1976}. As curvas simuladas acima de $\widetilde T_c$ não são nulas
+    porque o tamanho é finito e a média é feita do módulo. As barras de erro são estimadas
+    por blocagem; na região crítica, autocorrelações longas exigem testes adicionais de
+    convergência~\cite{NightingaleBlote1996}. O código que gera esta figura está disponível
+    no repositório do \href{https://github.com/ThiagoSDomingues/Statistical_Mechanics/tree/main/Listas/Lista_6}{Github}.}
+    \label{fig:magnetizacao}
+\end{figure}
+%
+O algoritmo de Metropolis descrito aqui neste problema foi implementado e o arquivo \texttt{metropolis\_ising.py} está disponível na minha página do \href{https://github.com/ThiagoSDomingues/Statistical_Mechanics/tree/main/Listas/Lista_6}{Github}. A Figura~\ref{fig:magnetizacao} reproduz o estilo do gráfico de Landau~\cite{Landau1976}
+para redes de tamanhos $N=4,10,20,30,40,60,100$, comparando $\langle|m|\rangle$ com a
+curva exata de Yang~\eqref{eq:magnetizacao_exata}. Este arquivo implementa a atualização sequencial com condições periódicas, descarta um intervalo de termalização e estima $\langle|m|\rangle$ e sua incerteza por blocos.  Aumentar o tamanho e o número de varreduras melhora alguns aspectos da análise, mas também aumenta o custo computacional. Em particular, o número de MCS necessário não é universal, deve ser determinado por testes de convergência para cada tamanho e faixa de temperatura. 
+% ============================================================
+% Referências
+% ============================================================
+\begin{thebibliography}{99}
+ 
+\bibitem{Onsager1944}
+L.~Onsager,
+\textit{Crystal Statistics. I. A Two-Dimensional Model with an Order-Disorder Transition},
+Physical Review \textbf{65}, 117 (1944).
+\url{https://doi.org/10.1103/PhysRev.65.117}
+ 
+\bibitem{KramersWannier1941}
+H.~A.~Kramers e G.~H.~Wannier,
+\textit{Statistics of the Two-Dimensional Ferromagnet. Part I},
+Physical Review \textbf{60}, 252 (1941).
+\url{https://doi.org/10.1103/PhysRev.60.252}
+ 
+\bibitem{Yang1952}
+C.~N.~Yang,
+\textit{The Spontaneous Magnetization of a Two-Dimensional Ising Model},
+Physical Review \textbf{85}, 808 (1952).
+\url{https://doi.org/10.1103/PhysRev.85.808}
+ 
+\bibitem{NightingaleBlote1996}
+M.~P.~Nightingale e H.~W.~J.~Blöte,
+\textit{Dynamic Exponent of the Two-Dimensional Ising Model and Monte Carlo Computation
+of the Subdominant Eigenvalue of the Stochastic Matrix},
+Physical Review Letters \textbf{76}, 4548 (1996).
+\url{https://doi.org/10.1103/PhysRevLett.76.4548}
+ 
+\bibitem{Landau1976}
+D.~P.~Landau,
+\textit{Finite-size behavior of the Ising square lattice},
+Physical Review B \textbf{13}, 2997 (1976).
+\url{https://doi.org/10.1103/PhysRevB.13.2997}
+ 
+\bibitem{NewmanBarkema1999}
+M.~E.~J.~Newman e G.~T.~Barkema,
+\textit{Monte Carlo Methods in Statistical Physics},
+Oxford University Press, Oxford (1999).
+ 
+\bibitem{LandauBinder2005}
+D.~P.~Landau e K.~Binder,
+\textit{A Guide to Monte Carlo Simulations in Statistical Physics},
+3ª~ed., Cambridge University Press (2009).
+
+ 
+\end{thebibliography}
+
+\end{document}
