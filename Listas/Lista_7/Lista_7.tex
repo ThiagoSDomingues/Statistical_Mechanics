@@ -1,1 +1,734 @@
+\documentclass[12pt,a4paper]{article}
 
+% ============================================================
+% PACOTES
+% ============================================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usepackage{amsmath,amssymb,amsfonts,mathtools}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{microtype}
+
+\geometry{margin=2.5cm}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+% ============================================================
+% COMANDOS
+% ============================================================
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\avg}[1]{\left\langle #1\right\rangle}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\sech}{\operatorname{sech}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\erf}{\operatorname{erf}}
+\newcommand{\D}{\mathcal{D}}
+
+% ============================================================
+% DOCUMENTO
+% ============================================================
+\begin{document}
+%
+\begin{center}
+    {\Large\bfseries Sétima Série de Exercícios}\\[0.6cm]
+    {\large Tópicos de Mecânica Estatística -- Transições de Fases -- 2026}\\[0.2cm]
+    {\large Campos aleatórios e vidros de spin}\\[0.2cm]
+    {\large Data de Entrega -- 13/11/2026}\\[0.2cm]
+    {\Large \textbf{Autor:} Thiago Siqueira Domingues (Nº USP: 8942194)}
+\end{center}
+% ============================================================
+% ============================================================
+\section*{Problema 1 -- Modelo de Ising com campos aleatórios}
+% ============================================================
+
+Considere o modelo de Ising totalmente conectado com Hamiltoniano
+%
+\begin{equation}
+    \mathcal{H}
+    =
+    -\frac{J}{2N}
+    \left(\sum_{i}\sigma_i\right)^2
+    -\sum_{i}H_i\sigma_i,
+    \qquad \sigma_i=\pm1,\quad J>0,
+    \label{eq:rfim_H}
+\end{equation}
+%
+onde os campos $H_i$ são variáveis aleatórias \emph{quenched},
+independentes e identicamente distribuídas.
+
+%------------------------------------------------------------
+\subsection*{(i) Distribuição bimodal}
+%------------------------------------------------------------
+
+Consideramos $p(H_i)=\tfrac{1}{2}[\delta(H_i-H)+\delta(H_i+H)]$.
+Pela transformação de Hubbard--Stratonovich, a função de partição
+no limite $N\to\infty$ é dominada pelo mínimo da energia livre
+efetiva por sítio~\cite{Aharony1978a}:
+%
+\begin{equation}
+    f(m)
+    =
+    \frac{Jm^2}{2}
+    -\frac{1}{2\beta}\ln\bigl[2\cosh\beta(Jm+H)\bigr]
+    -\frac{1}{2\beta}\ln\bigl[2\cosh\beta(Jm-H)\bigr].
+    \label{eq:free_energy_bimodal}
+\end{equation}
+%
+A condição $\partial f/\partial m=0$ fornece a equação de autoconsistência
+%
+\begin{equation}
+    \boxed{
+    m
+    =
+    \frac{1}{2}\bigl[
+        \tanh\beta(Jm+H)
+        +
+        \tanh\beta(Jm-H)
+    \bigr].
+    }
+    \label{eq:self_consistency_bimodal}
+\end{equation}
+%
+Por simetria, $m=0$ é sempre solução; a simetria $m\to-m$ garante
+que a magnetização espontânea emerge continuamente ou descontinuamente.
+
+\paragraph{Linha crítica contínua.}
+Expandindo $f(m)$ em torno de $m=0$, a instabilidade do estado
+paramagnético ocorre quando $\partial^2 f/\partial m^2|_{m=0}=0$, ou seja,
+%
+\begin{equation}
+    \beta J\sech^2(\beta H)=1.
+    \label{eq:continuous_bimodal}
+\end{equation}
+%
+Introduzindo $x\equiv H/k_BT$, a linha crítica admite a parametrização exata
+%
+\begin{equation}
+    t\equiv\frac{k_BT}{J}=\sech^2 x,
+    \qquad
+    h\equiv\frac{H}{J}=x\sech^2 x.
+    \label{eq:critical_line}
+\end{equation}
+%
+Para $H=0$ ($x=0$) recuperamos a temperatura crítica do modelo de Ising puro:
+$k_BT_c=J$.
+
+\paragraph{Ponto tricrítico.}
+Para investigar a natureza da transição, expandimos
+\eqref{eq:self_consistency_bimodal} em potências de $m$
+com $y=\beta Jm$ e $x=\beta H$ fixo:
+%
+\begin{equation}
+    0
+    =
+    \underbrace{\bigl(\beta J\sech^2 x-1\bigr)}_{A}\,m
+    +
+    \underbrace{\frac{(\beta J)^3}{3}\sech^2 x\,(3\tanh^2 x-1)}_{-B}\,m^3
+    +O(m^5).
+    \label{eq:landau_equation}
+\end{equation}
+%
+A transição é de segunda ordem quando $A=0$ com $B>0$, e de primeira ordem
+quando $B$ muda de sinal. O ponto tricrítico (TCP) ocorre em $A=B=0$
+simultaneamente, impondo
+%
+\begin{equation}
+    \tanh^2 x_{\mathrm{tc}}=\frac{1}{3}
+    \;\Longrightarrow\;
+    \sech^2 x_{\mathrm{tc}}=\frac{2}{3}.
+    \label{eq:tcp_condition}
+\end{equation}
+%
+Substituindo na condição crítica \eqref{eq:continuous_bimodal}:
+%
+\begin{equation}
+    \boxed{
+    \frac{k_BT_{\mathrm{tc}}}{J}=\frac{2}{3},
+    \qquad
+    \frac{H_{\mathrm{tc}}}{J}
+    =\frac{2}{3}\operatorname{artanh}\!\left(\frac{1}{\sqrt{3}}\right)
+    \simeq 0.439.
+    }
+    \label{eq:tcp}
+\end{equation}
+
+\paragraph{Linha de primeira ordem e limite $T\to0$.}
+Abaixo do TCP, a fronteira de equilíbrio satisfaz simultaneamente
+a equação de autoconsistência e a condição de coexistência de fases
+$f(m_\star)=f(0)$, que se escreve explicitamente
+%
+\begin{equation}
+    \frac{Jm_\star^2}{2}
+    =
+    \frac{1}{2\beta}
+    \ln\!\left[
+        \frac{
+        \cosh\beta(Jm_\star+H)\,\cosh\beta(Jm_\star-H)
+        }{
+        \cosh^2(\beta H)
+        }
+    \right].
+    \label{eq:coexistence}
+\end{equation}
+%
+Este sistema determina numericamente a linha de primeira ordem.
+A $T=0$, a comparação direta de energias --- estado ferromagnético
+($e_F=-J/2$) versus estado com cada spin alinhado ao seu campo
+($e_R=-H$) --- dá a fronteira
+%
+\begin{equation}
+    \boxed{H_c(T=0)=\frac{J}{2}.}
+\end{equation}
+%
+O diagrama de fases completo é mostrado na Fig.~\ref{fig:rfim_phase_diagram}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=5.5, >=stealth]
+
+  % eixos
+  \draw[->] (-0.02,0) -- (1.08,0) node[right, font=\small] {$H/J$};
+  \draw[->] (0,-0.02) -- (0,1.12) node[above, font=\small] {$k_BT/J$};
+  \node[below left, font=\small] at (0,0) {$0$};
+
+  % marcações
+  \draw (0.439, 0.012) -- (0.439,-0.012);
+  \node[below, font=\tiny] at (0.439,0) {$H_{\rm tc}/J$};
+  \draw (0.5, 0.012) -- (0.5,-0.012);
+  \node[below, font=\tiny] at (0.5,0) {$\tfrac{1}{2}$};
+  \draw (1.0, 0.012) -- (1.0,-0.012);
+  \node[below, font=\tiny] at (1.0,0) {$1$};
+  \draw (0.010,0.667) -- (-0.010,0.667);
+  \node[left, font=\tiny] at (0,0.667) {$\tfrac{2}{3}$};
+  \draw (0.010,1.0) -- (-0.010,1.0);
+  \node[left, font=\tiny] at (0,1.0) {$1$};
+
+  % linha de segunda ordem: t = sech^2(x), h = x sech^2(x)
+  \draw[thick, samples=200, domain=0:0.6585,
+        /pgf/fpu, /pgf/fpu/output format=fixed]
+    plot ({(\x)/cosh(\x)/cosh(\x)}, {1/cosh(\x)/cosh(\x)});
+
+  % linha de primeira ordem (amostrada numericamente)
+  \draw[thick, dashed]
+    plot[smooth] coordinates {
+      (0.439, 0.667)
+      (0.455, 0.570)
+      (0.470, 0.460)
+      (0.482, 0.340)
+      (0.492, 0.210)
+      (0.498, 0.100)
+      (0.500, 0.000)
+    };
+
+  % pontos especiais
+  \filldraw (0,1) circle (0.4pt);
+  \node[right, font=\footnotesize] at (0.008,1.05) {$T_c$};
+  \filldraw (0.439,0.667) circle (0.4pt);
+  \node[above right, font=\footnotesize] at (0.439,0.667) {TCP};
+  \filldraw (0.500,0) circle (0.4pt);
+
+  % rótulos de fase
+  \node[font=\normalsize\bfseries] at (0.12, 0.76) {FM};
+  \node[font=\normalsize\bfseries] at (0.72, 0.76) {PM};
+
+  % anotações
+  \node[font=\scriptsize] at (0.19, 0.50) {\rotatebox{-52}{2ª ordem}};
+  \node[font=\scriptsize] at (0.56, 0.32) {\rotatebox{-80}{1ª ordem}};
+
+\end{tikzpicture}
+\caption{Diagrama de fases do RFIM de campo médio com distribuição
+bimodal, reproduzindo a Fig.~1 de Aharony~\cite{Aharony1978a}.
+FM: fase ferromagnética; PM: fase paramagnética.
+A linha sólida é a fronteira de segunda ordem
+[$k_BT/J = \sech^2(H/k_BT)$, Eq.~\eqref{eq:critical_line}],
+que termina no ponto tricrítico TCP $\approx(0.439,\,0.667)$.
+A linha tracejada é de primeira ordem e alcança $T=0$ em $H/J=1/2$.}
+\label{fig:rfim_phase_diagram}
+\end{figure}
+%
+%------------------------------------------------------------
+\subsection*{(ii) Distribuição gaussiana}
+%------------------------------------------------------------
+
+Consideramos agora $p(H_i) = (2\pi H^2)^{-1/2}\exp(-H_i^2/2H^2)$,
+com $H$ o desvio-padrão. A equação de autoconsistência torna-se
+%
+\begin{equation}
+    m
+    =
+    \int_{-\infty}^{\infty}\dd H_i\;p(H_i)\,
+    \tanh\bigl[\beta(Jm+H_i)\bigr].
+    \label{eq:self_consistency_gaussian}
+\end{equation}
+%
+Expandindo para $m$ pequeno e usando $z=H_i/H$, a condição de
+instabilidade do estado paramagnético é~\cite{SchneiderPytte1977}
+%
+\begin{equation}
+    \boxed{
+    1
+    =
+    \frac{1}{t\sqrt{2\pi}}
+    \int_{-\infty}^{\infty}\dd z\;
+    \e^{-z^2/2}
+    \sech^2\!\left(\frac{d}{t}z\right),
+    }
+    \label{eq:critical_gaussian}
+\end{equation}
+%
+onde $t=k_BT/J$ e $d=H/J$.
+Esta equação define implicitamente a linha crítica — sempre contínua,
+pois o coeficiente $B$ da expansão de Landau satisfaz $B>0$ em todo o
+diagrama para a distribuição gaussiana~\cite{Aharony1978a}.
+
+\paragraph{Limite $T\to0$.}
+Quando $\beta\to\infty$, $\tanh[\beta(Jm+H_i)]\to\sgn(Jm+H_i)$,
+e a equação de estado \eqref{eq:self_consistency_gaussian} reduz-se a
+%
+\begin{equation}
+    m = \erf\!\left(\frac{Jm}{\sqrt{2}\,H}\right),
+    \label{eq:gaussian_T0}
+\end{equation}
+%
+onde $\erf(x)=\frac{2}{\sqrt{\pi}}\int_0^x\e^{-u^2}\dd u$.
+Expandindo para $m$ pequeno: $\erf(x)\approx\frac{2}{\sqrt{\pi}}x$,
+a condição de instabilidade de $m=0$ a $T=0$ fornece
+%
+\begin{equation}
+    \boxed{
+    \frac{H_c(0)}{J} = \sqrt{\frac{2}{\pi}} \simeq 0.798.
+    }
+    \label{eq:gaussian_Hc0}
+\end{equation}
+
+\paragraph{Comparação com a distribuição bimodal.}
+A ausência de ponto tricrítico na distribuição gaussiana tem origem
+no sinal do coeficiente de Landau $B$. Aharony~\cite{Aharony1978a}
+mostrou que $B \propto -p''(0)$: para a gaussiana $p''(0)<0$
+implica $B>0$ em todo o diagrama, garantindo transição contínua.
+Para a distribuição bimodal, $p''(0)>0$ para campos suficientemente
+intensos, tornando $B<0$ e gerando a transição de primeira ordem
+com ponto tricrítico. A diferença é portanto ditada pela curvatura
+da distribuição em $H=0$. O diagrama de fases é mostrado na Fig.~\ref{fig:rfim_gaussian_phase_diagram}.
+%
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=5.5, >=stealth]
+
+  % eixos
+  \draw[->] (-0.02,0) -- (1.00,0)
+    node[right, font=\small] {$H/J$};
+  \draw[->] (0,-0.02) -- (0,1.12)
+    node[above, font=\small] {$k_BT/J$};
+  \node[below left, font=\small] at (0,0) {$0$};
+
+  % marcações
+  \draw (0.798, 0.012) -- (0.798,-0.012);
+  \node[below, font=\small] at (0.798,0) {$\sqrt{2/\pi}$};
+  \draw (0.010,1.0) -- (-0.010,1.0);
+  \node[left, font=\small] at (0,1.0) {$1$};
+
+  % linha crítica contínua (pontos numéricos)
+  \draw[thick]
+    plot[smooth, tension=0.6] coordinates {
+      (0.000, 1.000)
+      (0.072, 0.950)
+      (0.145, 0.900)
+      (0.213, 0.850)
+      (0.277, 0.800)
+      (0.336, 0.750)
+      (0.391, 0.700)
+      (0.440, 0.650)
+      (0.484, 0.600)
+      (0.523, 0.550)
+      (0.557, 0.500)
+      (0.587, 0.450)
+      (0.613, 0.400)
+      (0.634, 0.350)
+      (0.652, 0.300)
+      (0.667, 0.250)
+      (0.678, 0.200)
+      (0.688, 0.150)
+      (0.694, 0.100)
+      (0.697, 0.050)
+      (0.798, 0.000)
+    };
+
+  % pontos especiais
+  \filldraw (0,1) circle (0.4pt);
+  \node[right, font=\footnotesize] at (0.008,1.0) {$T_c$};
+  \filldraw (0.798,0) circle (0.4pt);
+
+  % rótulos de fase
+  \node[font=\normalsize\bfseries] at (0.18, 0.60) {FM};
+  \node[font=\normalsize\bfseries] at (0.72, 0.70) {PM};
+
+  % anotação
+  \node[font=\scriptsize] at (0.42, 0.44)
+    {\rotatebox{-60}{2ª ordem}};
+
+\end{tikzpicture}
+\caption{Diagrama de fases do RFIM de campo médio com distribuição
+gaussiana, seguindo Schneider e Pytte~\cite{SchneiderPytte1977}. A convenção de Schneider e Pytte~\cite{SchneiderPytte1977} usa os eixos invertidos ($2J/\sigma$ vs.\ $k_BT/\sigma$),
+o que transforma a curva crescente aqui em decrescente, mas
+representa o mesmo diagrama físico. FM: fase ferromagnética; PM: fase paramagnética. A fronteira é sempre de segunda ordem [Eq.~\eqref{eq:critical_gaussian}],
+parte de $(0,1)$ e termina em $H_c(0)/J=\sqrt{2/\pi}\approx0.798$
+a $T=0$ [Eq.~\eqref{eq:gaussian_Hc0}].
+Não há ponto tricrítico.}
+\label{fig:rfim_gaussian_phase_diagram}
+\end{figure}
+%
+%------------------------------------------------------------
+\subsection*{(iii) Método das réplicas}
+%------------------------------------------------------------
+
+Para desordem \emph{quenched}, a grandeza termodinâmica relevante é
+a energia livre média $\overline{F} = -\beta^{-1}\overline{\ln Z}$.
+O cálculo direto de $\overline{\ln Z}$ é difícil; o método das
+réplicas contorna isso pela identidade
+%
+\begin{equation}
+    \overline{\ln Z}
+    =
+    \lim_{n\to 0}\frac{\overline{Z^n}-1}{n}.
+    \label{eq:replica_identity}
+\end{equation}
+%
+Introduzimos $n$ cópias do sistema com a mesma realização de $\{H_i\}$.
+A função de partição replicada é
+%
+\begin{equation}
+    Z^n
+    =
+    \sum_{\{\sigma_i^a\}}
+    \exp\!\left[
+        \frac{\beta J}{2N}
+        \sum_{a=1}^{n}
+        \!\left(\sum_{i}\sigma_i^a\right)^{\!2}
+        +
+        \beta\sum_{i}H_i\sum_{a}\sigma_i^a
+    \right].
+    \label{eq:Zn}
+\end{equation}
+%
+Realizando a média sobre os campos, que são independentes entre sítios,
+%
+\begin{equation}
+    \overline{Z^n}
+    =
+    \sum_{\{\sigma_i^a\}}
+    \exp\!\left[
+        \frac{\beta J}{2N}
+        \sum_{a}\!\left(\sum_i\sigma_i^a\right)^{\!2}
+    \right]
+    \prod_{i}
+    \overline{\exp\!\left(\beta H_i\sum_a\sigma_i^a\right)}.
+    \label{eq:Zn_avg}
+\end{equation}
+
+\paragraph{Distribuição bimodal.}
+Para $p(H_i)=\frac{1}{2}[\delta(H_i-H)+\delta(H_i+H)]$:
+%
+\begin{equation}
+    \overline{\exp\!\left(\beta H_i\sum_a\sigma_i^a\right)}
+    =
+    \cosh\!\left(\beta H\sum_a\sigma_i^a\right).
+    \label{eq:avg_bimodal}
+\end{equation}
+%
+Desacoplando a interação ferromagnética por Hubbard--Stratonovich
+e impondo a condição de ponto de sela na ação efetiva com o ansatz
+simétrico $m_a = m$, recupera-se a equação de autoconsistência
+\eqref{eq:self_consistency_bimodal}.
+
+\paragraph{Distribuição gaussiana.}
+Para $p(H_i)=\mathcal{N}(0,H^2)$, a média é o gerador de momentos:
+%
+\begin{equation}
+    \overline{\exp\!\left(\beta H_i\sum_a\sigma_i^a\right)}
+    =
+    \exp\!\left[\frac{\beta^2 H^2}{2}\!\left(\sum_a\sigma_i^a\right)^{\!2}\right].
+    \label{eq:avg_gaussian}
+\end{equation}
+%
+O termo quadrático em $\sum_a\sigma_i^a$ acopla as réplicas entre si
+e induz um parâmetro de ordem de vidro de spins
+$q_{\rm EA} = \overline{\langle\sigma_i\rangle^2}$.
+Contudo, Schneider e Pytte~\cite{SchneiderPytte1977} mostraram que,
+para o RFIM com campo médio infinito, a solução de réplicas é
+\emph{exata}: não há quebra de simetria entre réplicas, e o parâmetro
+$q_{\rm EA}$ descreve a fase de spins independentes ($m=0$, $q_{\rm EA}\neq0$),
+não uma fase de vidro de spins com correlações.
+No ansatz simétrico $m_a=m$, a condição estacionária reproduz
+a equação de autoconsistência \eqref{eq:self_consistency_gaussian}.
+
+\paragraph{Conclusão.}
+O método das réplicas recupera, para ambas as distribuições, as equações
+de campo médio dos itens (i) e (ii). A diferença essencial é que, para
+campos gaussianos, a média \eqref{eq:avg_gaussian} gera um acoplamento
+inter-réplica $(\sum_a\sigma_i^a)^2$, o que pode, em princípio,
+sinalizar uma fase de vidro de spins. Para o RFIM, porém, esse acoplamento
+não implica correlações entre spins — a fase desordenada é de spins
+\emph{independentes} alinhados pelos campos locais.
+%
+\section*{Problema 2 -- Modelo de vidros de spin de van Hemmen}
+% ============================================================
+Vou seguir a construção de van Hemmen~\cite{vanHemmen1982}, completando
+os passos algébricos que o artigo deixa em aberto.
+
+\subsection*{Hamiltoniano e variáveis macroscópicas}
+O Hamiltoniano de $N$ spins de Ising, sem campo externo, é
+%
+\begin{equation}
+    \mathcal{H}_N
+    =
+    -\frac{J_0}{N}\sum_{i<j}\sigma_i\sigma_j
+    -\sum_{i<j}J_{ij}\sigma_i\sigma_j,
+    \qquad
+    J_{ij}=\frac{J}{N}\left(\xi_i\eta_j+\xi_j\eta_i\right),
+    \label{eq:vh_H}
+\end{equation}
+%
+com $J>0$, $J_0\ge0$. As variáveis $\xi_i,\eta_i$ são independentes, de
+média nula e variância unitária. O ponto-chave é que $\mathcal{H}_N$
+depende dos spins apenas através de três somas. Definimos
+%
+\begin{equation}
+    m_N=\frac1N\sum_i\sigma_i,\qquad
+    q_{1N}=\frac1N\sum_i\xi_i\sigma_i,\qquad
+    q_{2N}=\frac1N\sum_i\eta_i\sigma_i .
+    \label{eq:vh_vars}
+\end{equation}
+%
+(Aqui $m_N$, $q_{1N}$ e $q_{2N}$ são funções da configuração de spins;
+as médias térmicas só aparecem depois, no limite $N\to\infty$.)
+Como $\sum_{i<j}\sigma_i\sigma_j=\tfrac12(N^2m_N^2-N)$ e
+$\sum_{i<j}J_{ij}\sigma_i\sigma_j=J N q_{1N}q_{2N}+O(1)$, resulta, com
+$K_0=\beta J_0$ e $K=\beta J$,
+%
+\begin{equation}
+    -\beta\mathcal{H}_N
+    =
+    N\left(\tfrac12K_0m_N^2+Kq_{1N}q_{2N}\right)
+    \equiv N\,Q(\mathbf{m}_N),
+    \qquad
+    \mathbf{m}_N=(m_N,q_{1N},q_{2N}).
+    \label{eq:vh_Q}
+\end{equation}
+%
+Em vez de somar sobre $2^N$ configurações, passamos a somar sobre o
+vetor $\mathbf{m}$ de três componentes; falta o ``jacobiano'' dessa
+mudança de variáveis, que é a entropia associada a cada valor de $\mathbf{m}$.
+
+\subsection*{Entropia por grandes desvios}
+Seja $E_s(X)=2^{-N}\mathrm{Tr}(X)$ a média sobre configurações de spin
+(spins independentes, $\pm1$ equiprováveis). A probabilidade de
+$\mathbf{m}_N$ estar perto de $\mathbf{m}$ é, pela teoria de grandes
+desvios (Cramér), $\exp[-N c^*(\mathbf{m})]\,d\mathbf{m}$, onde
+$c^*$ é a transformada de Legendre
+%
+\begin{equation}
+    c(\mathbf{t})=\lim_{N\to\infty}\frac1N\ln E_s\!\left(e^{\mathbf{t}\cdot N\mathbf{m}_N}\right)
+    =\avg{\ln\cosh(t_0+t_1\xi+t_2\eta)}_{\xi,\eta},
+    \qquad
+    c^*(\mathbf{m})=\sup_{\mathbf{t}}\left[\mathbf{m}\cdot\mathbf{t}-c(\mathbf{t})\right].
+    \label{eq:vh_c}
+\end{equation}
+%
+A função $c$ é convexa e $c^*\ge0$, e $-c^*$ é a entropia média (a menos
+de $\ln2$ da normalização). A energia livre por sítio é então
+%
+\begin{equation}
+    -\beta f
+    =\lim_{N\to\infty}\frac1N\ln\mathrm{Tr}\,e^{-\beta\mathcal{H}_N}
+    =\ln2+\max_{\mathbf{m}}\left[Q(\mathbf{m})-c^*(\mathbf{m})\right].
+    \label{eq:vh_f_max}
+\end{equation}
+%
+\subsection*{Equações de autoconsistência}
+Pela convexidade de $c^*$, o máximo em \eqref{eq:vh_f_max} ocorre em
+$q_1=q_2\equiv q$. No máximo, $\nabla Q=\nabla c^*=\mathbf{t}$, ou seja
+$t_0=K_0m$, $t_1=Kq_2$, $t_2=Kq_1$, e $\nabla c=\mathbf{m}$ fornece
+%
+\begin{equation}
+    m=\avg{\tanh\!\big[K_0m+Kq(\xi+\eta)\big]}_{\xi,\eta},\qquad
+    q=\avg{\tfrac12(\xi+\eta)\tanh\!\big[K_0m+Kq(\xi+\eta)\big]}_{\xi,\eta}.
+    \label{eq:vh_sc}
+\end{equation}
+%
+Para $\xi,\eta=\pm1$ com probabilidade $\tfrac12$ (a distribuição
+bimodal usada no artigo para o diagrama de fases), a média tem quatro termos e
+%
+\begin{equation}
+    \begin{aligned}
+    m&=\tfrac14\left[\tanh(K_0m+2Kq)+2\tanh(K_0m)+\tanh(K_0m-2Kq)\right],\\
+    q&=\tfrac14\left[\tanh(K_0m+2Kq)-\tanh(K_0m-2Kq)\right].
+    \end{aligned}
+    \label{eq:vh_sc4}
+\end{equation}
+%
+A energia livre nos pontos estacionários é
+$f=\tfrac12J_0m^2+Jq^2-\beta^{-1}\avg{\ln2\cosh[\beta(J_0m+J(\xi+\eta)q)]}$;
+entre soluções distintas vale a de menor $f$.
+
+\subsection*{Fases}
+As soluções especiais de \eqref{eq:vh_sc4} são três (mais a mista):
+paramagneto \textbf{P} ($m=q=0$); ferromagneto \textbf{F} ($m\neq0$,
+$q=0$); vidro de spins \textbf{SG} ($m=0$, $q\neq0$); e fase mista
+\textbf{M} ($m\neq0$, $q\neq0$).
+
+\paragraph{Interpretação por cores.}
+Como $\xi_i\eta_i=\pm1$, dividimos os sítios em \emph{azuis}
+($\xi_i\eta_i=+1$) e \emph{vermelhos} ($\xi_i\eta_i=-1$). Se $i,j$ têm
+cores diferentes, $\xi_i\eta_j+\xi_j\eta_i=\xi_i\eta_j(1+\xi_i\eta_i\xi_j\eta_j)\!\cdot\!\ldots=0$:
+a interação aleatória só liga sítios de mesma cor, enquanto a
+ferromagnética é cega à cor. Para $J_0=0$ os dois subsistemas desacoplam;
+após a transformação de Mattis $\sigma_i\to\xi_i\sigma_i$ o azul vira
+ferromagneto (ordena em $k_BT=J$) e o vermelho, antiferromagneto
+totalmente frustrado, permanece desordenado até $T=0$. Com $J_0>0$ o
+vermelho pode ordenar ferromagneticamente, ganhando energia pelo termo
+$J_0$, o que dá a fase mista, com $K_0=\beta J_0\approx2$.
+
+\subsection*{Diagrama de fases}
+Em $(\alpha,t)=(J_0/J,\;k_BT/J)$ as fronteiras são:
+%
+\begin{itemize}
+    \item \textbf{P--SG:} $t=1$ para $\alpha<1$ (de \eqref{eq:vh_sc4}, $q\simeq Kq$). Para $\alpha>1$, P--F em $t=\alpha$.
+    \item \textbf{SG--M} (contínua): linearizando $m$ em torno da solução SG,
+    %
+    \begin{equation}
+        t=\frac{\alpha}{2}\left[1+\mathrm{sech}^2\!\left(\frac{2q}{t}\right)\right],
+        \qquad q=\tfrac12\tanh\!\left(\frac{2q}{t}\right),
+        \label{eq:vh_SGM}
+    \end{equation}
+    %
+    que vai de $t\simeq\alpha/2$ em $T\to0$ (o vermelho ordena em $K_0=2$)
+    até a diagonal $t=\alpha$ perto de $(1,1)$.
+    \item \textbf{M--F} (primeira ordem): em $T=0$, com $\sigma_i=\xi_i$ nos azuis e
+    $\sigma_i=+1$ nos vermelhos, $m=q=\tfrac12$ e $f=-\tfrac18J_0-\tfrac14J$,
+    contra $f=-\tfrac12J_0$ da fase F. Logo M--F em $\alpha=\tfrac23$.
+    \item \textbf{SG--F} (primeira ordem, $t\gtrsim0{,}38$): obtida numericamente por
+    comparação das energias livres das soluções de \eqref{eq:vh_sc4}; o salto
+    de $m$ vai a zero em $(1,1)$.
+\end{itemize}
+%
+O ponto $(1,1)$ é \textbf{triplo}: encontro de P, SG e F. Há ainda um
+ponto triplo SG/M/F em $(\alpha,t)\approx(0{,}75;\,0{,}38)$.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=4.2,>=stealth,font=\small]
+  \draw[->] (0,0) -- (1.55,0) node[right] {$\alpha=J_0/J$};
+  \draw[->] (0,0) -- (0,1.22) node[above] {$t=k_BT/J$};
+  \foreach \x in {0.5,1,1.5}{\draw (\x,0.015)--(\x,-0.015) node[below]{$\x$};}
+  \foreach \y in {0.5,1}{\draw (0.015,\y)--(-0.015,\y) node[left]{$\y$};}
+  % P-SG e P-F
+  \draw[very thick] (0,1) -- (1,1);
+  \draw[very thick] (1,1) -- (1.2,1.2);
+  % SG-M (contínua)
+  \draw[thick,smooth] plot coordinates {(0,0) (0.080,0.040) (0.160,0.080) (0.240,0.120) (0.320,0.160) (0.400,0.200) (0.480,0.240) (0.558,0.280) (0.635,0.320) (0.691,0.350) (0.726,0.370) (0.749,0.383)};
+  % M-F (1a ordem)
+  \draw[thick,dashed,smooth] plot coordinates {(0.667,0) (0.667,0.050) (0.667,0.100) (0.669,0.150) (0.676,0.200) (0.690,0.250) (0.710,0.300) (0.728,0.340) (0.739,0.360) (0.749,0.383)};
+  % SG-F (1a ordem)
+  \draw[thick,dashed,smooth] plot coordinates {(0.749,0.383) (0.787,0.450) (0.836,0.550) (0.879,0.650) (0.918,0.750) (0.953,0.850) (0.976,0.920) (0.988,0.960) (1,1)};
+  \fill (1,1) circle (0.4pt) node[above left] {$(1,1)$};
+  \fill (0.749,0.383) circle (0.4pt);
+  \node at (0.55,1.1) {P};
+  \node at (0.35,0.62) {SG};
+  \node at (0.50,0.10) {M};
+  \node at (1.15,0.40) {F};
+  \node at (1.30,1.30) [font=\scriptsize] {};
+\end{tikzpicture}
+\caption{Diagrama de fases do modelo de van Hemmen ($\xi,\eta=\pm1$), calculado
+numericamente a partir de \eqref{eq:vh_sc4} e das energias livres. Linhas
+cheias: transições contínuas; tracejadas: primeira ordem. $(1,1)$ é ponto triplo.}
+\label{fig:vh_phase}
+\end{figure}
+
+\subsection*{Comparação com o modelo de Sherrington--Kirkpatrick}
+O modelo SK tem o mesmo termo ferromagnético, mas acoplamentos aleatórios
+independentes com $\overline{J_{ij}^2}=J^2/N$. Na aproximação RS,
+%
+\begin{equation}
+    m=\int\!Dz\,\tanh\!\big[\beta(J_0m+J\sqrt q\,z)\big],\qquad
+    q=\int\!Dz\,\tanh^2\!\big[\beta(J_0m+J\sqrt q\,z)\big].
+\end{equation}
+%
+As instabilidades de P ($t=\alpha$ e $t=1$) coincidem com as do van Hemmen. A
+fronteira RS SG--F ($m\to0$) é $\alpha=t\big/\!\int\!Dz\,\mathrm{sech}^2(\sqrt q\,z/t)$ e a linha de
+Almeida--Thouless é $1=t^{-2}\!\int\!Dz\,\mathrm{sech}^4[(\alpha m+\sqrt q\,z)/t]$.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=4.2,>=stealth,font=\small]
+  \draw[->] (0,0) -- (1.55,0) node[right] {$\alpha=J_0/J$};
+  \draw[->] (0,0) -- (0,1.22) node[above] {$t=k_BT/J$};
+  \foreach \x in {0.5,1,1.5}{\draw (\x,0.015)--(\x,-0.015) node[below]{$\x$};}
+  \foreach \y in {0.5,1}{\draw (0.015,\y)--(-0.015,\y) node[left]{$\y$};}
+  \draw[very thick] (0,1) -- (1,1);
+  \draw[very thick] (1,1) -- (1.2,1.2);
+  % F-SG (RS, m->0)
+  \draw[thick,smooth] plot coordinates {(1,1) (1.002,0.910) (1.008,0.830) (1.015,0.770) (1.026,0.690) (1.040,0.610) (1.053,0.550) (1.072,0.470) (1.089,0.410) (1.114,0.330) (1.143,0.250) (1.167,0.190) (1.201,0.110) (1.229,0.050)};
+  % AT
+  \draw[thick,dotted,smooth] plot coordinates {(1,1) (1.013,0.880) (1.029,0.820) (1.051,0.760) (1.079,0.700) (1.102,0.660) (1.140,0.600) (1.186,0.540) (1.239,0.480) (1.279,0.440) (1.348,0.380) (1.429,0.320) (1.526,0.260)};
+  \fill (1,1) circle (0.4pt) node[above left] {$(1,1)$};
+  \node at (0.5,0.5) {SG};
+  \node at (1.40,0.15) {F+SG};
+  \node at (1.40,0.75) {F};
+\end{tikzpicture}
+\caption{Diagrama do modelo SK (RS) no mesmo plano. Linha cheia: $m\to0$ (SG--F);
+pontilhada: AT (a RS é instável abaixo dela). A SG é RSB para todo $\alpha<1$.}
+\label{fig:sk_phase}
+\end{figure}
+
+\paragraph{Diferença.} No van Hemmen há só três parâmetros de ordem
+$(m,q_1,q_2)$ e a solução é exata sem réplicas, com uma fase mista bem
+localizada em baixo $\alpha$ e $T$ (o vermelho ordenando). No SK, a desordem
+extensiva exige RSB: a região entre a linha RS SG--F e a AT é instável, e
+a fronteira SG--F ocorre em $\alpha\gtrsim1$, não em $\alpha<1$ como no van Hemmen.
+%
+\begin{thebibliography}{99}
+\bibitem{Aharony1978a}
+  A.~Aharony,
+  \textit{Tricritical points in systems with random fields},
+  Phys.\ Rev.\ B \textbf{18}, 3318 (1978).
+
+\bibitem{Aharony1978b}
+  A.~Aharony,
+  \textit{Spin-flop multicritical points in systems with random fields
+  and in spin glasses},
+  Phys.\ Rev.\ B \textbf{18}, 3328 (1978).
+
+\bibitem{SchneiderPytte1977}
+  T.~Schneider e E.~Pytte,
+  \textit{Random-field instability of the ferromagnetic state},
+  Phys.\ Rev.\ B \textbf{15}, 1519 (1977).
+
+\bibitem{vanHemmen1982}
+  J.~L.\ van Hemmen,
+  \textit{Classical Spin-Glass Model},
+  Phys.\ Rev.\ Lett.\ \textbf{49}, 409 (1982).
+  
+\end{thebibliography}
+
+\end{document}
