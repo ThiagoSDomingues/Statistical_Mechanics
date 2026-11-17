@@ -1,0 +1,997 @@
+\documentclass[10pt,aspectratio=169]{beamer}
+
+% ─── PACOTES ──────────────────────────────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[portuguese]{babel}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,decorations.pathreplacing}
+\graphicspath{{Figures/}}
+
+% ─── TEMA ─────────────────────────────────────────────────────────────────────
+\usepackage{appendixnumberbeamer}
+\usetheme{Boadilla}
+\usecolortheme{whale}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+
+\definecolor{qcdRed}{HTML}{C0392B}
+\definecolor{qcdBlue}{HTML}{2980B9}
+\definecolor{qcdGreen}{HTML}{1E8449}
+\definecolor{qcdGray}{HTML}{555555}
+
+% ─── BLOCOS personalizados ────────────────────────────────────────────────────
+\setbeamercolor{block title}{bg=qcdBlue!20,fg=qcdBlue!60!black}
+\setbeamercolor{block body}{bg=qcdBlue!5}
+\setbeamercolor{alertblock title}{bg=qcdRed!20,fg=qcdRed!70!black}
+\setbeamercolor{alertblock body}{bg=qcdRed!5}
+\setbeamercolor{exampleblock title}{bg=qcdGreen!20,fg=qcdGreen!60!black}
+\setbeamercolor{exampleblock body}{bg=qcdGreen!5}
+
+% ─── INFORMAÇÕES ──────────────────────────────────────────────────────────────
+\title[Modelo Esférico Quântico]{Modelo Esférico Quântico Elementar}
+\subtitle{Uma Abordagem Didática e Exatamente Solúvel}
+\author[T.~S.~Domingues]{Thiago Siqueira Domingues\\[2pt]
+  {\small\normalfont Baseado em: P.~F.~Bienzobaz \& S.~R.~Salinas (2013)}}
+\institute[IFUSP]{Instituto de Física -- Universidade de São Paulo}
+\date{Tópicos de Mecânica Estatística, 2026}
+
+% ─── MACRO ÚTIL ───────────────────────────────────────────────────────────────
+\newcommand{\eq}[1]{\textcolor{qcdBlue!70!black}{\small(#1)}}
+
+% ──────────────────────────────────────────────────────────────────────────────
+\begin{document}
+% ──────────────────────────────────────────────────────────────────────────────
+
+% --- CAPA ---
+\begin{frame}
+  \titlepage
+  \vfill
+  {\footnotesize\color{qcdGray}
+    Rev.\ Bras.\ Ens.\ Fís.\ \textbf{35}, 3311 (2013)}
+\end{frame}
+
+% --- ROTEIRO ---
+\begin{frame}{Roteiro}
+  \tableofcontents
+\end{frame}
+
+% --- PERGUNTA DO SEMINÁRIO ---
+\begin{frame}{A pergunta deste seminário}
+  \begin{block}{Qual é o modelo mais simples, resolvido \emph{exatamente}, que tenha\ldots}
+    \begin{enumerate}
+      \item uma transição de fase térmica cujo mecanismo se possa ver acontecer?
+      \item um defeito clássico a baixas temperaturas que a mecânica quântica corrige?
+      \item uma transição de fase \textbf{quântica}, a $T=0$?
+    \end{enumerate}
+  \end{block}
+  \medskip
+  \uncover<2->{%
+  \begin{exampleblock}{Resposta do artigo}
+    Modelo esférico médio, com interação de campo médio (Curie-Weiss), mais uma energia cinética
+    $\frac g2\sum_rp_r^2$. \\ Tudo se reduz a \textbf{integrais gaussianas} e \textbf{osciladores harmônicos}.
+  \end{exampleblock}}
+  \uncover<3->{%
+  \begin{alertblock}{Três mensagens para levar}
+    (1) $\mu$ ``gruda'' em $J/2$: mecanismo de Bose-Einstein. \
+    (2) $g>0$ restaura a 3\textsuperscript{a} lei. \
+    (3) Ponto crítico quântico em $g_c=4J$, mesmos expoentes de campo médio.
+  \end{alertblock}}
+\end{frame}
+
+\section{Contexto histórico}
+
+% --- 1a: contexto ---
+\begin{frame}{Modelos exatamente solúveis em mecânica estatística}
+  \begin{block}{Por que modelos exatos?}
+    Testam hipóteses sem aproximações, revelam mecanismos de transição de fase.
+  \end{block}
+  \medskip
+  \begin{itemize}
+    \item<1-> \textbf{Modelo de Ising (Onsager 1944):} solução exata 2D, mas extremamente complexa.
+    \item<2-> \textbf{Modelo Gaussiano (Kac):} substitui $S_r=\pm1$ por $S_r\in\mathbb{R}$
+      com peso $e^{-\frac{b}{2}\sum S_r^2}$.
+      \begin{itemize}
+        \item<3-> \alert{Catástrofe de baixas temperaturas:} integral diverge para $T<T_c$.
+      \end{itemize}
+    \item<4-> \textbf{Modelo Esférico (Berlin \& Kac, 1952):} vínculo geométrico rígido:
+      \[
+        \delta\!\left(\sum_{r=1}^N S_r^2 - N\right)
+      \]
+    \item<5-> \textbf{Modelo Esférico Médio (Lewis \& Wannier, 1952):} vínculo satisfeito
+      em média via potencial químico $\mu$; equivalente termodinamicamente.
+  \end{itemize}
+\end{frame}
+
+% --- 1b: ilustração dos vínculos ---
+\begin{frame}{Três maneiras de limitar os spins (caso $N=2$)}
+  \centering
+  \begin{columns}[T]
+    \column{.31\textwidth}\centering
+    \uncover<1->{%
+      \begin{tikzpicture}[scale=.85]
+        \draw[->](-1.8,0)--(1.8,0)node[right]{$S_1$};
+        \draw[->](0,-1.8)--(0,1.8)node[above]{$S_2$};
+        \foreach \x/\y in {1/1,1/-1,-1/1,-1/-1}{\fill[qcdRed](\x,\y)circle(3pt);}
+      \end{tikzpicture}\\[1mm]
+      \small\textbf{Ising:} $S_r=\pm1$}
+    \column{.31\textwidth}\centering
+    \uncover<2->{%
+      \begin{tikzpicture}[scale=.85]
+        \foreach \r/\o in {1.7/8,1.3/16,.9/30,.5/50}{%
+          \fill[qcdBlue!\o](0,0)circle(\r);}
+        \draw[->](-1.8,0)--(1.8,0)node[right]{$S_1$};
+        \draw[->](0,-1.8)--(0,1.8)node[above]{$S_2$};
+      \end{tikzpicture}\\[1mm]
+      \small\textbf{Gaussiano:} peso $e^{-b S^2}$}
+    \column{.31\textwidth}\centering
+    \uncover<3->{%
+      \begin{tikzpicture}[scale=.85]
+        \draw[->](-1.8,0)--(1.8,0)node[right]{$S_1$};
+        \draw[->](0,-1.8)--(0,1.8)node[above]{$S_2$};
+        \draw[very thick,qcdBlue](0,0)circle({sqrt(2)});
+        \foreach \x/\y in {1/1,1/-1,-1/1,-1/-1}{\fill[qcdRed](\x,\y)circle(3pt);}
+      \end{tikzpicture}\\[1mm]
+      \small\textbf{Esférico:} $\sum S_r^2=N$}
+  \end{columns}
+  \medskip
+  \uncover<4->{\alert{A esfera contém todos os estados de Ising,
+    permite spins contínuos e nunca diverge.}}
+\end{frame}
+
+\section{Modelo clássico (Curie-Weiss)}
+
+% --- 1b2: esférico x esférico médio ---
+\begin{frame}{Esférico ou esférico médio: o vínculo vale sempre ou em média?}
+  \begin{columns}[c]
+    \column{.52\textwidth}
+    \includegraphics[width=\linewidth]{fig_medio.pdf}
+    \column{.45\textwidth}
+    \begin{itemize}
+      \item<1-> \textbf{Esférico} (Berlin-Kac): $\sum_rS_r^2=N$ \emph{exatamente}. Ensemble canônico.
+      \item<2-> \textbf{Esférico médio} (Lewis-Wannier): $\sum_rS_r^2$ flutua; $\mu$ é escolhido para que a média seja $N$.
+        Análogo ao grande canônico, com $\mu$ conjugado a $\sum S^2$ em vez do número de partículas.
+      \item<3-> A largura relativa é $\sim\sqrt{2/N}$: para $N\to\infty$ as duas descrições coincidem
+        para $m$, $\chi$, $s$\ldots
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+% --- 1c: família de modelos lado a lado ---
+\begin{frame}{Uma família de modelos: o que muda em cada passo}
+  \small
+  Em todos: \ $\mathcal H=-\frac12\sum_{\mathbf r,\mathbf r'}J_{\mathbf r\mathbf r'}S_{\mathbf r}S_{\mathbf r'}-H\sum_{\mathbf r}S_{\mathbf r}$, \ $S_{\mathbf r}\in\mathbb R$.
+  \medskip
+
+  \renewcommand{\arraystretch}{1.6}
+  \begin{tabular}{@{}lll@{}}
+    \toprule
+    \textbf{Modelo} & \textbf{Função de partição} & \textbf{O que limita os spins}\\
+    \midrule
+    Gaussiano (Kac) & $\int d^NS\;e^{-\beta\mathcal H}\,e^{-\frac b2\sum S^2}$ & peso fixo; diverge para $T<T_c$\\
+    Esférico (Berlin-Kac) & $\int d^NS\;e^{-\beta\mathcal H}\,\delta\big(N-\sum S^2\big)$ & vínculo rígido, ensemble canônico\\
+    Esférico médio (Lewis-Wannier) & $\int d^NS\;e^{-\beta\mathcal H}\,e^{-\beta\mu\sum S^2}$ & $\mu$ ajustado: $\langle\sum S^2\rangle=N$\\
+    \midrule
+    \alert{+ Curie-Weiss} & $J_{\mathbf r\mathbf r'}\to J/N$ & todos com todos\\
+    \alert{+ quântico} & $\mathcal H\to\mathcal H+\frac g2\sum p^2$, \ $[S_{\mathbf r},p_{\mathbf r'}]=i\delta_{\mathbf r\mathbf r'}$ & flutuações de ponto zero\\
+    \bottomrule
+  \end{tabular}
+  \medskip
+
+  \uncover<2->{O $\mu$ faz o papel de um multiplicador de Lagrange (análogo ao potencial químico do grande canônico):
+  $\sum S^2$ flutua, mas com desvio relativo $\sim1/\sqrt N$.}
+\end{frame}
+
+% --- 2a: hamiltoniana ---
+\begin{frame}{Versão Curie-Weiss: interação de alcance infinito}
+  \begin{columns}[c]
+    \column{.38\textwidth}
+    \begin{tikzpicture}[scale=.85,every node/.style={circle,fill=qcdBlue,inner sep=1.8pt}]
+      \foreach \i in {0,...,5}{\node(a\i)at({60*\i}:1.1){};}
+      \foreach \i/\j in {0/1,1/2,2/3,3/4,4/5,5/0}{\draw[gray](a\i)--(a\j);}
+    \end{tikzpicture}\\[1mm]{\small curto alcance}
+    \column{.38\textwidth}
+    \uncover<2->{%
+      \begin{tikzpicture}[scale=.85,every node/.style={circle,fill=qcdRed,inner sep=1.8pt}]
+        \foreach \i in {0,...,5}{\node(b\i)at({60*\i}:1.1){};}
+        \foreach \i in {0,...,5}{\foreach \j in {0,...,5}{%
+          \ifnum\i<\j\draw[gray!70](b\i)--(b\j);\fi}}
+      \end{tikzpicture}\\[1mm]{\small alcance infinito: $J_{r,r'}=J/N$}}
+  \end{columns}
+  \bigskip
+  \begin{block}<3->{Hamiltoniana de campo médio}
+    \[
+      \mathcal{H}(\{S_r\}) =
+        -\frac{J}{2N}\!\left(\sum_{r=1}^N S_r\right)^{\!2}
+        - H\sum_{r=1}^N S_r, \qquad J>0
+    \]
+    O fator $1/N$ assegura extensividade no limite termodinâmico.
+  \end{block}
+\end{frame}
+
+% --- 2b: função de partição exata ---
+\begin{frame}{Função de partição: solução exata por integrais gaussianas}
+  \begin{block}{Função de partição $Z_N(\beta,H,\mu)$}
+    Potencial químico $\mu$ impõe o vínculo $\langle\sum_r S_r^2\rangle=N$:
+    \[
+      Z_N = \!\int\!\!\cdots\!\!\int \mathrm{d}^N\!S\;
+        \exp\!\left[\frac{\beta J}{2N}\!\left(\sum_r S_r\right)^{\!2}
+        +\beta H\!\sum_r S_r - \beta\mu\!\sum_r S_r^2\right]
+    \]
+  \end{block}
+  \begin{block}<2->{Resultado exato $(\mu>J/2$, qualquer $N)$}
+    \[
+      Z_N = \left(\frac{\pi}{\beta}\right)^{\!N/2}
+        \left(\frac{1}{\mu}\right)^{\!\frac{N-1}{2}}
+        \!\!\left(\mu-\tfrac{J}{2}\right)^{-1/2}
+        \exp\!\left[\frac{N\beta H^2}{4(\mu-J/2)}\right]
+    \]
+    Rotação ortogonal: $x_0=\frac1{\sqrt N}\sum_rS_r$ (modo coletivo, sente $\mu-\frac J2$ e $H$)
+    $+$ $N-1$ modos transversais (sentem só $\mu$). Cada um é uma gaussiana \eq{Eq.~14}.
+  \end{block}
+  \uncover<3->{
+    \begin{alertblock}{}
+      $\mu=J/2$ é o \textbf{potencial químico crítico} — a função de partição diverge aqui.
+    \end{alertblock}}
+\end{frame}
+
+% --- 3a: mecanismo da transição ---
+\begin{frame}{Mecanismo da transição: o ``grudamento'' de $\mu$}
+  \begin{columns}[c]
+    \column{.52\textwidth}
+    \includegraphics[width=\linewidth]{fig_mu.pdf}
+    \column{.44\textwidth}
+    \begin{block}{Vínculo esférico ($H=0$, $N\to\infty$)}
+      \[
+        \mu(T)=\begin{cases}
+          \dfrac{k_BT}{2} & T>T_c\\[6pt]
+          \dfrac{J}{2}\;(\text{const.}) & T\le T_c
+        \end{cases}
+      \]
+      com $k_BT_c=J$.
+    \end{block}
+    \medskip
+    \uncover<2->{
+      \begin{itemize}
+        \item Acima de $T_c$: $\mu$ cresce com $T$.
+        \item Abaixo de $T_c$: $\mu$ ``gruda'' em $J/2$.
+        \item \textbf{Analogia direta} com condensação de Bose-Einstein.
+      \end{itemize}}
+  \end{columns}
+\end{frame}
+
+% --- 3b: sucessos e falhas ---
+\begin{frame}{Sucessos e anomalias do modelo clássico}
+  \begin{columns}
+    \column{.48\textwidth}
+    \begin{block}{Sucessos (expoentes de campo médio)}
+      \begin{itemize}
+        \item<1-> Magnetização espontânea:
+          \[m_0=\pm\sqrt{1-T/T_c}\quad(\beta_{cr}=\tfrac{1}{2})\]
+        \item<2-> Suscetibilidade:
+          \[\chi\propto(T/T_c-1)^{-1}\quad(\gamma=1)\]
+      \end{itemize}
+    \end{block}
+    \column{.48\textwidth}
+    \begin{alertblock}<3->{Falha a baixas temperaturas}
+      Entropia por sítio na fase ordenada:
+      \[s(T)=\tfrac{k_B}{2}\!\left[\ln\!\left(\tfrac{2\pi T}{T_c}\right)+1\right]\]
+      \begin{itemize}
+        \item<4-> \textbf{Viola a 3\textsuperscript{a} lei:} $s\to-\infty$ quando $T\to0$.
+        \item<5-> Calor específico constante — sem congelamento quântico.
+      \end{itemize}
+    \end{alertblock}
+  \end{columns}
+\end{frame}
+
+% --- 3c: figura anomalias ---
+\begin{frame}{Visualizando sucessos e anomalias}
+  \centering
+  \includegraphics[width=.92\linewidth]{fig_anomalias.pdf}
+  \uncover<2->{\\\smallskip
+  \alert{Esquerda: magnetização e calor específico bem descritos.
+    Direita: entropia diverge para $-\infty$ quando $T\to0$ — viola a 3\textsuperscript{a} lei.}}
+\end{frame}
+
+\section{Transições de fase quânticas}
+
+% --- 4a: o que é uma TPQ ---
+\begin{frame}{O que é uma transição de fase quântica?}
+  \begin{columns}[c]
+    \column{.52\textwidth}
+    \begin{block}{Transições clássicas ($T>0$)}
+      \begin{itemize}
+        \item Governadas por flutuações \textbf{térmicas}.
+        \item Ponto crítico em $T=T_c$, campo $H=0$.
+      \end{itemize}
+    \end{block}
+    \bigskip
+    \begin{alertblock}<2->{Transições quânticas ($T=0$)}
+      \begin{itemize}
+        \item Governadas por flutuações \textbf{quânticas} (princípio de incerteza).
+        \item Ponto crítico quântico (PCQ) em $T=0$, parâmetro não-térmico $g=g_c$.
+        \item Influência do PCQ sentida a $T>0$ na \emph{região quântica crítica}.
+      \end{itemize}
+    \end{alertblock}
+    \column{.44\textwidth}
+    \uncover<2->{%
+    \begin{tikzpicture}[scale=1.0]
+      % axes
+      \draw[->](0,0)--(3.0,0)node[right]{$g$};
+      \draw[->](0,0)--(0,2.5)node[above]{$T$};
+      % phase boundary sketch
+      \draw[thick,qcdBlue,domain=0:1.5,samples=60,smooth]
+        plot(\x,{2.0*(1-(\x/1.5)^2)^0.5});
+      % regions
+      \node[qcdBlue] at (0.5,1.0){ordenada};
+      \node[qcdGray] at (2.55,0.7){desordenada};
+      % QCP
+      \fill[qcdRed](1.5,0)circle(3pt);
+      \node[below,qcdRed] at (1.5,0){PCQ};
+      % classical Tc
+      \fill[qcdGray](0,2.0)circle(3pt);
+      \node[left,qcdGray] at (0,2.0){$T_c$};
+      % quantum critical region
+      \fill[qcdRed!25,opacity=0.5](1.5,0)--(1.05,2.3)--(2.4,2.3)--cycle;
+      \node[qcdRed,align=center,font=\tiny] at (1.75,2.55){região quântica crítica};
+    \end{tikzpicture}}
+  \end{columns}
+\end{frame}
+
+\section{Modelo esférico quântico elementar}
+
+% --- 5: hamiltoniana quântica ---
+\begin{frame}{Formulando o modelo esférico quântico elementar}
+  \begin{block}{Hamiltoniana quântica}
+    Adiciona-se energia cinética com parâmetro quântico $g$:
+    \[
+      \mathcal{H}_{EQ} = \frac{g}{2}\sum_{r=1}^N p_r^2
+        - \frac{J}{2N}\!\left(\sum_{r=1}^N S_r\right)^{\!2}
+        - H\sum_{r=1}^N S_r
+    \]
+  \end{block}
+  \begin{block}<2->{Relações canônicas de comutação}
+    \[[S_r,p_{r'}]=i\,\delta_{r,r'}, \qquad
+      [S_r,S_{r'}]=[p_r,p_{r'}]=0\]
+    \emph{Nota:} $S_r$ são números reais contínuos, \textbf{não} componentes de momento angular.
+  \end{block}
+  \begin{block}<3->{Operadores bosônicos}
+    \[S_r=\frac{1}{\sqrt{2}}\!\left(\frac{g}{2\mu}\right)^{\!1/4}\!\!(a_r+a_r^\dagger),
+      \quad
+      p_r=\frac{-i}{\sqrt{2}}\!\left(\frac{2\mu}{g}\right)^{\!1/4}\!\!(a_r-a_r^\dagger),
+      \quad [a_r,a_{r'}^\dagger]=\delta_{r,r'}\]
+  \end{block}
+\end{frame}
+
+% --- 6: diagonalização ---
+\begin{frame}{Diagonalização: osciladores harmônicos independentes}
+  \begin{columns}[c]
+    \column{.52\textwidth}
+    \begin{block}{Transformação de Bogoliubov (modo $q=0$)}
+      \[\hat{b}_0 = u\,\hat{a}_0 - v\,\hat{a}_0^\dagger + w, \quad u^2-v^2=1\]
+      Elimina termos não-diagonais $\hat{a}_0^2,(\hat{a}_0^\dagger)^2$ e campo $H$.
+    \end{block}
+    \medskip
+    \begin{block}<2->{Hamiltoniana diagonalizada \eq{Eq.~59}}
+      \[\mathcal{H}_{EQ}+\mu\sum_r S_r^2=\sum_q\omega_q\!\left(\hat{b}_q^\dagger\hat{b}_q+\tfrac{1}{2}\right)
+        -\frac{H^2N}{4(\mu-J/2)}\]
+    \end{block}
+    \column{.44\textwidth}
+    \uncover<3->{\includegraphics[height=.36\textheight]{fig_omega.pdf}}
+    \uncover<3->{\\\scriptsize
+      Azul: os $N-1$ modos $q\neq0$, só sentem $\mu$.
+      Vermelho: o modo coletivo $q=0$, sente a interação; vai a zero em $\mu=J/2$
+      (\alert{modo mole}). Cinza: $\omega_0$ imaginária, oscilador invertido, $Z$ diverge.}
+  \end{columns}
+  \uncover<4->{\begin{block}{Frequências dos modos normais \eq{Eq.~60}}
+    \[\omega_q=\begin{cases}
+      \omega_0=\sqrt{2g\mu}\,\sqrt{1-J/(2\mu)} & q=0\\
+      \omega\;=\sqrt{2g\mu} & q\neq0
+    \end{cases}\qquad \text{real apenas para }\mu>J/2\]
+  \end{block}}
+\end{frame}
+
+% --- 7: função de partição quântica ---
+\begin{frame}{Função de partição quântica exata}
+  \begin{block}{Traço no espaço de Fock \eq{Eq.~63}}
+    \[\Xi_{QE} =
+      \exp\!\left[\frac{\beta N H^2}{4(\mu-J/2)}\right]
+      2^{-N}\!\left[\sinh\!\frac{\beta\omega_0}{2}\right]^{\!-1}
+      \!\!\left[\sinh\!\frac{\beta\omega}{2}\right]^{\!-(N-1)}
+    \]
+    Válida para $\mu>J/2$ e qualquer $N$.
+  \end{block}
+  \begin{block}<2->{Vínculo esférico quântico ($N\to\infty$, $H=0$) \eq{Eq.~65}}
+    \[
+      1 = \frac{1}{2}\!\sqrt{\frac{g}{2\mu}}\,\coth\!\left(\frac{\sqrt{2g\mu}}{2k_BT}\right)
+    \]
+    No limite $g\to0$: $\coth(x)\approx 1/x$, recupera-se $\mu=k_BT/2$ (clássico).
+  \end{block}
+  \begin{exampleblock}<3->{}
+    \centering
+    O mesmo resultado é obtido via \textbf{integrais de trajetória} em tempo imaginário
+    (frequências de Matsubara $\omega_n=2n\pi/\beta$).
+  \end{exampleblock}
+\end{frame}
+
+% --- 8: formalismo de integrais de trajetória (opcional/backup se precisar cortar) ---
+\begin{frame}{Formalismo de integrais de trajetória}
+  \begin{block}{Função de partição via ação funcional \eq{Eq.~68}}
+    Tempo imaginário $\tau=it$, $S_r(0)=S_r(\beta)$:
+    \[\mathcal{Z}=\int\!\mathcal{D}S_r(\tau)\,
+      \exp\!\left\{\int_0^\beta\!d\tau\left[
+        -\frac{1}{2g}\sum_r\!\dot{S}_r^2
+        +\frac{J}{2N}\!\left(\sum_r S_r\right)^{\!2}
+        +H\!\sum_r S_r-\mu\!\sum_r S_r^2\right]\right\}\]
+  \end{block}
+  \begin{columns}[c]
+    \column{.48\textwidth}
+    \begin{block}<2->{Frequências de Matsubara}
+      $\omega_n=2n\pi/\beta$ + identidade:
+      \[\prod_{n=1}^\infty\!\left[1+\!\left(\frac{\omega\beta}{n\pi}\right)^{\!2}\right]
+        =\frac{\sinh(\omega\beta)}{\omega\beta}\]
+      Recupera exatamente a Eq.~(63).
+    \end{block}
+    \column{.48\textwidth}
+    \uncover<2->{%
+    \begin{tikzpicture}[scale=.9]
+      \draw[->](0,0)--(4.5,0)node[right]{$\tau$};
+      \draw[->](0,-1.3)--(0,1.5)node[above]{$S_r(\tau)$};
+      \draw(4,.06)--(4,-.06)node[below]{$\beta$};
+      \draw[very thick,qcdBlue,smooth,tension=.7]
+        plot coordinates{(0,.5)(.8,1.1)(1.6,.0)(2.4,-.8)(3.2,.4)(4,.5)};
+      \draw[thick,qcdRed,dashed,smooth,tension=.7]
+        plot coordinates{(0,.5)(1,-.3)(2,.8)(3,-.2)(4,.5)};
+      \fill(0,.5)circle(2pt)(4,.5)circle(2pt);
+      \node[right,qcdBlue] at (4.0,0.5){\tiny$S_r(0)=S_r(\beta)$};
+    \end{tikzpicture}}
+  \end{columns}
+\end{frame}
+
+\section{Diagrama de fases e expoentes críticos}
+
+% --- 9: diagrama de fases ---
+\begin{frame}{Diagrama de fases quântico $g$-$T$}
+  \begin{columns}
+    \column{.50\textwidth}
+    \begin{block}{Fronteira crítica \eq{Eq.~66}}
+      \[1=\frac{1}{2}\sqrt{\frac{g}{J}}\,\coth\!\left[\frac{\sqrt{gJ}}{2k_BT}\right]\]
+    \end{block}
+    \begin{block}<2->{Limites notáveis}
+      \begin{itemize}
+        \item Limite clássico $g\to0$:
+          $\coth(x)\approx1/x\;\Rightarrow\;k_BT_c=J$
+        \item Ponto crítico quântico $T=0$:
+          $\coth(\infty)=1\;\Rightarrow\;g_c=4J$
+      \end{itemize}
+    \end{block}
+    \column{.47\textwidth}
+    \uncover<3->{\includegraphics[width=\linewidth]{fig_fase.pdf}}
+  \end{columns}
+\end{frame}
+
+% --- 9b: lendo o diagrama ---
+\begin{frame}{Lendo o diagrama: dois botões que destroem a ordem}
+  \begin{columns}[c]
+    \column{.44\textwidth}
+    \includegraphics[width=\linewidth]{fig_fase.pdf}
+    \column{.54\textwidth}
+    \begin{itemize}
+      \item<1-> \textbf{Origem física:} a $\mu=J/2$, o vínculo exige
+        $\langle S^2\rangle_{q\neq0}=\frac12\sqrt{g/J}\coth\frac{\beta\sqrt{gJ}}2\le1$.
+        O que ``sobra'' até 1 vai para o condensado: $m_0^2$.
+      \item<2-> \textbf{Térmico} ($\coth x\approx\frac1x$): $\langle S^2\rangle\approx k_BT/J$ \
+        $\Rightarrow$ ordem some em $k_BT_c=J$.
+      \item<3-> \textbf{Quântico} ($\coth\to1$): flutuação de ponto zero $\frac12\sqrt{g/J}$ \
+        $\Rightarrow$ ordem some em $g_c=4J$, sem calor.
+      \item<4-> \textbf{Entre os dois:} $k_BT_c\simeq J-\frac g{12}$ para $g$ pequeno e
+        $k_BT_c\simeq\frac{2J}{\ln[4g_c/(g_c-g)]}$ perto de $g_c$.
+    \end{itemize}
+    \uncover<5->{\alert{Calor e incerteza competem pelo mesmo ``orçamento'' $\sum_rS_r^2=N$.}}
+  \end{columns}
+\end{frame}
+
+% --- 10: expoentes criticos ---
+\begin{frame}{Expoentes críticos quânticos}
+  \begin{block}{Magnetização espontânea em $T=0$, $g\to g_c^-$ \eq{Eq.~77}}
+    \[m_0^2=1-\tfrac{1}{2}\sqrt{g/J}\quad\Rightarrow\quad
+      m_0\propto(g_c-g)^{1/2},\quad\beta_g=\tfrac{1}{2}\]
+  \end{block}
+  \begin{block}<2->{Suscetibilidade em $T=0$, $g\to g_c^+$ \eq{Eq.~81}}
+    \[\chi\propto(g-g_c)^{-1},\quad\gamma_g=1\]
+  \end{block}
+  \uncover<3->{%
+  \begin{columns}[c]
+    \column{.46\textwidth}
+    \includegraphics[height=.42\textheight]{fig_expoentes.pdf}
+    \column{.50\textwidth}
+    \begin{table}\centering\small
+      \begin{tabular}{lcc}
+        \toprule
+        \textbf{Expoente} & \textbf{Clássico} & \textbf{Quântico}\\
+        \midrule
+        $\beta$ (magnet.) & $\frac{1}{2}$ & $\frac{1}{2}$\\
+        $\gamma$ (suscet.) & $1$ & $1$\\
+        \bottomrule
+      \end{tabular}
+    \end{table}
+    \medskip
+    Mesma \textbf{classe de universalidade de campo médio}
+    pelas duas rotas.
+  \end{columns}}
+\end{frame}
+
+\section{Correção das anomalias clássicas}
+
+% --- 11a: entropia quântica ---
+\begin{frame}{Restauração da 3\textsuperscript{a} lei da termodinâmica}
+  \begin{block}{Entropia quântica na fase ordenada \eq{Eq.~85}}
+    \[\frac{s(T,g)}{k_B} =
+      -\ln 2 - \ln\sinh\!\left[\frac{\sqrt{gJ}}{2k_BT}\right]
+      +\frac{\sqrt{gJ}}{2k_BT}\,\coth\!\left[\frac{\sqrt{gJ}}{2k_BT}\right]\]
+  \end{block}
+  \begin{columns}[c]
+    \column{.50\textwidth}
+    \uncover<2->{\includegraphics[width=\linewidth]{fig_entropia_a.pdf}}
+    \column{.46\textwidth}
+    \begin{exampleblock}<3->{Teorema de Nernst restaurado}
+      \[\lim_{T\to0}s(T,g)=0\quad\checkmark\]
+      As flutuações de ponto zero do parâmetro quântico $g$
+      ``congelam'' os graus de liberdade a $T=0$.
+    \end{exampleblock}
+    \begin{block}<4->{Não-comutatividade dos limites}
+      \[\lim_{g\to0}\lim_{T\to0}s\;\neq\;\lim_{T\to0}\lim_{g\to0}s\]
+    \end{block}
+  \end{columns}
+\end{frame}
+
+% --- 11b: entropia regime g->0 ---
+\begin{frame}{Detalhe: o que o modelo quântico recupera quando $g\to0$}
+  \centering
+  \includegraphics[width=.70\linewidth]{fig_entropia_b.pdf}
+  \medskip
+
+  \small
+  \begin{itemize}
+    \item A curva azul ($g=0{,}02J$) \alert{não} cai sobre a clássica (vermelha); cai sobre a verde:
+      clássica $+$ entropia dos momentos $\frac{k_B}2[1+\ln(k_BT/2\pi g)]$.
+    \item O modelo quântico tem \textbf{dois} graus de liberdade por sítio ($S_r$ e $p_r$); o clássico, só $S_r$.
+    \item Para $k_BT\lesssim\sqrt{gJ}$ (linha pontilhada), a quantização dos níveis domina e $s\to0$.
+  \end{itemize}
+\end{frame}
+
+% --- 11b2: calor específico ---
+\begin{frame}{Calor específico: de constante a ``congelado''}
+  \begin{columns}[c]
+    \column{.50\textwidth}
+    \includegraphics[width=\linewidth]{fig_calor.pdf}
+    \column{.46\textwidth}
+    \begin{block}{Fase ordenada: forma de Einstein}
+      \[\frac c{k_B}=\frac{x^2}{\sinh^2x},\qquad x=\frac{\sqrt{gJ}}{2k_BT}\]
+    \end{block}
+    \begin{itemize}
+      \item<2-> $T\to0$: $c\sim e^{-\sqrt{gJ}/k_BT}$. Há um \emph{gap} $\omega=\sqrt{gJ}$ para excitar os modos.
+      \item<3-> $k_BT\gg\sqrt{gJ}$: $c\to k_B$, não $k_B/2$: cada sítio tem agora $S_r$ \emph{e} $p_r$.
+    \end{itemize}
+  \end{columns}
+\end{frame}
+
+% --- 11c: magnetização com g variável ---
+\begin{frame}{Magnetização espontânea: variando $g$}
+  \centering
+  \includegraphics[height=.68\textheight]{fig_magnetizacao.pdf}\\[2pt]
+  À medida que $g$ aumenta (flutuações quânticas crescem),
+  $T_c$ diminui e a fase ordenada encolhe até desaparecer em $g_c=4J$.
+\end{frame}
+
+\section{Conclusões e extensões}
+
+% --- 12: conclusões ---
+\begin{frame}{Conclusões}
+  \begin{enumerate}
+    \item<1-> \textbf{Valor didático:} sistema exatamente solúvel para ensino de
+      transições térmicas \emph{e} quânticas num mesmo modelo.
+    \item<2-> \textbf{Mecanismo unificado:} o ``grudamento'' de $\mu$ em $J/2$
+      é análogo direto da condensação de Bose-Einstein.
+    \item<3-> \textbf{Correção das anomalias:} flutuações de ponto zero ($g>0$)
+      restauram a 3\textsuperscript{a} lei sem alterar os expoentes críticos.
+    \item<4-> \textbf{Ponto crítico quântico:} $g_c=4J$ em $T=0$;
+      expoentes de campo médio $\beta_g=\frac{1}{2}$, $\gamma_g=1$.
+  \end{enumerate}
+\end{frame}
+
+% --- 12b: campos aleatórios ---
+\begin{frame}{Extensão: campos aleatórios}
+  \begin{block}{Troca: $H\sum_rS_r\;\to\;\sum_rH_rS_r$, \ $\langle H_r\rangle=0$, \ $\langle H_rH_{r'}\rangle=\Delta^2\delta_{rr'}$}
+    Cada modo de Fourier vira um oscilador \emph{deslocado} pelo seu campo $\hat H_{\mathbf q}$.
+    O espectro não muda; muda o vínculo, que ganha um termo de desordem.
+  \end{block}
+  \uncover<2->{%
+  \begin{block}{Superfície crítica (ver B19)}
+    \[1=\underbrace{\frac{\Delta^2}{J^2}}_{\text{desordem}}
+      +\underbrace{\frac12\sqrt{\frac gJ}\coth\frac{\sqrt{gJ}}{2k_BT}}_{\text{térmico + quântico}}\]
+  \end{block}}
+  \uncover<3->{%
+  Desordem, calor e incerteza dividem o mesmo orçamento $\sum_rS_r^2=N$.
+  Segundo os autores, não há ponto tricrítico e as flutuações de desordem são mais relevantes que as quânticas
+  (Vojta e Schreiber, 1996).}
+\end{frame}
+
+% --- FIM ---
+\begin{frame}{}
+  \centering\Large
+  \textcolor{qcdBlue}{\textbf{Obrigado!}}\\[12pt]
+  \normalsize
+  Dúvidas e discussão
+  \vfill
+  {\footnotesize P.~F.~Bienzobaz \& S.~R.~Salinas,
+    Rev.\ Bras.\ Ens.\ Fís.\ \textbf{35}, 3311 (2013)}
+\end{frame}
+
+% ─── BACKUP ────────────────────────────────────────────────────────────────────
+\appendix
+\setbeamertemplate{footline}{\hfill\usebeamerfont{footline}\usebeamercolor[fg]{footline}Apoio \insertframenumber/\inserttotalframenumber\hspace{2mm}\vspace{1mm}}
+
+\begin{frame}
+  \centering\Large\textcolor{qcdBlue}{\textbf{Material de apoio}}\\[8pt]
+  \normalsize Passagens algébricas completas e erratas\\[14pt]
+  \small
+  \begin{tabular}{ll}
+    B1--B3 & Ferramentas, modelo gaussiano, função delta\\
+    B4--B10 & Modelo esférico médio clássico\\
+    B11--B15 & Quantização canônica e integrais de trajetória\\
+    B16--B18 & Termodinâmica quântica\\
+    B19 & Campos aleatórios\\
+    B20 & Erratas do artigo
+  \end{tabular}
+\end{frame}
+
+% B1
+\begin{frame}{B1. Ferramentas}
+  \small
+  \begin{block}{Integral gaussiana \eq{art.~12--13}}
+    \[\int_{-\infty}^{\infty}e^{-ax^2+bx}\,dx=\sqrt{\frac\pi a}\,e^{b^2/4a}\quad(a>0):\qquad
+      -ax^2+bx=-a\Big(x-\frac b{2a}\Big)^2+\frac{b^2}{4a}\]
+  \end{block}
+  \begin{block}{Oscilador harmônico quântico, $h=\frac g2p^2+\frac k2S^2$, $\Omega=\sqrt{gk}$}
+    \[z=\sum_{n\ge0}e^{-\beta\Omega(n+\frac12)}=\frac{1}{2\sinh(\beta\Omega/2)},\qquad
+      \langle S^2\rangle=\frac{g}{2\Omega}\coth\frac{\beta\Omega}2\;\xrightarrow{\beta\Omega\to0}\;\frac1{\beta k}\]
+  \end{block}
+  \begin{block}{Por que derivar a $\mu$ fixo}
+    $Z_N\simeq Z_E\,e^{-\beta\mu N}\Rightarrow f=-\frac1{\beta N}\ln Z_E=\phi_N-\mu$, com $\phi_N=-\frac1{\beta N}\ln Z_N$.\\
+    O vínculo é $\partial f/\partial\mu=0$, logo $s=-\partial_Tf$ e $m=-\partial_Hf$ podem ser tomadas a $\mu$ fixo.
+  \end{block}
+\end{frame}
+
+% B2
+\begin{frame}{B2. Rede hipercúbica, $\hat J(\mathbf q)$ e a catástrofe gaussiana}
+  \small
+  \begin{columns}[T]
+    \column{.5\textwidth}
+    \begin{block}{Transformada das interações}
+      $J(\mathbf r-\mathbf r')$ invariante por translação $\Rightarrow$ autovetores $e^{i\mathbf q\cdot\mathbf r}/\sqrt N$:
+      \[\sum_{\mathbf r'}J(\mathbf r-\mathbf r')\frac{e^{i\mathbf q\cdot\mathbf r'}}{\sqrt N}=\hat J(\mathbf q)\frac{e^{i\mathbf q\cdot\mathbf r}}{\sqrt N}\]
+      \[\hat J(\mathbf q)=\sum_{\mathbf h}J(\mathbf h)e^{i\mathbf q\cdot\mathbf h}\]
+      Primeiros vizinhos ($\mathbf h=\pm\mathbf e_i$, $2d$ vizinhos):
+      \[\hat J(\mathbf q)=2J\sum_{i=1}^d\cos q_i\le\hat J(0)=2dJ\]
+    \end{block}
+    \column{.46\textwidth}
+    \begin{block}{Convergência \eq{art.~2}}
+      \[\frac\beta2\sum J_{\mathbf r\mathbf r'}S_{\mathbf r}S_{\mathbf r'}-\frac b2\sum S_{\mathbf r}^2
+        =-\frac12\sum_{\mathbf q}\big[b-\beta\hat J(\mathbf q)\big]|\hat S_{\mathbf q}|^2\]
+      Converge $\iff b>\beta\hat J(\mathbf q)\;\forall\mathbf q\iff b>2dJ\beta$:
+      \[k_BT_c=\frac{2dJ}{b}\]
+      Abaixo de $T_c$ o modo $\mathbf q=0$ deixa de ser gaussiano decrescente.
+    \end{block}
+    {\footnotesize O artigo dá $dJ/b$: fator 2 na definição de $b$ (ver B20).}
+  \end{columns}
+\end{frame}
+
+% B3
+\begin{frame}{B3. Representação integral da delta \eq{art.~6}}
+  \small
+  \begin{block}{Da representação de Fourier à de Bromwich}
+    \[\delta(x)=\frac1{2\pi}\int_{-\infty}^{\infty}e^{ikx}dk\;\xrightarrow{\;s=ik\;}\;
+      \delta(x)=\frac1{2\pi i}\int_{-i\infty}^{i\infty}e^{sx}ds\]
+    Com $s=c+ik$: $\frac1{2\pi i}\int_{c-i\infty}^{c+i\infty}e^{sx}ds=e^{cx}\delta(x)=\delta(x)$ para qualquer $c$ real.
+  \end{block}
+  \begin{block}{Escolha de $c$}
+    \[\delta\Big(N-\sum_rS_r^2\Big)=\frac1{2\pi i}\int_{c-i\infty}^{c+i\infty}ds\,\exp\Big[s\Big(N-\sum_rS_r^2\Big)\Big]\]
+    As integrais em $S$ têm coeficientes $2s-\beta\hat J(\mathbf q)$: convergem absolutamente se
+    $c>\frac\beta2\hat J(0)$, o que permite trocar a ordem das integrações.
+  \end{block}
+  {\footnotesize Na Eq.~(6) impressa falta o termo $sN$ e o sinal negativo de $\sum S^2$.}
+\end{frame}
+
+% B4
+\begin{frame}{B4. Curie-Weiss: $Z_N$ para qualquer $N$ \eq{art.~11--14}}
+  \small
+  Rotação ortogonal com $x_0=\frac1{\sqrt N}\sum_rS_r$: \ $\sum S^2=\sum_i x_i^2$, \ $(\sum S)^2=Nx_0^2$, \ jacobiano $=1$.
+  \[\text{expoente}=-\beta\Big(\mu-\frac J2\Big)x_0^2+\beta H\sqrt N\,x_0-\beta\mu\sum_{i=1}^{N-1}x_i^2\]
+  \begin{columns}[T]
+    \column{.48\textwidth}
+    \begin{block}{$N-1$ modos transversais}
+      \[\Big(\frac\pi{\beta\mu}\Big)^{\frac{N-1}2}\]
+    \end{block}
+    \column{.48\textwidth}
+    \begin{block}{Modo coletivo ($a=\beta(\mu-\frac J2)$, $b=\beta H\sqrt N$)}
+      \[\Big(\frac{\pi}{\beta(\mu-\frac J2)}\Big)^{\frac12}\exp\Big[\frac{N\beta H^2}{4(\mu-\frac J2)}\Big]\]
+    \end{block}
+  \end{columns}
+  \[Z_N=\Big(\frac\pi\beta\Big)^{N/2}\exp\Big[\frac{N\beta H^2}{4(\mu-\frac J2)}\Big]\Big(\frac1\mu\Big)^{\frac{N-1}2}\Big(\mu-\frac J2\Big)^{-\frac12},\qquad\mu>\frac J2\]
+\end{frame}
+
+% B5
+\begin{frame}{B5. Vínculo, solução exata de $\mu$ e o condensado \eq{art.~15--17}}
+  \small
+  \[-\frac1\beta\partial_\mu\ln Z_N=N\;\Rightarrow\;
+    \beta=\frac{\beta H^2}{4(\mu-\frac J2)^2}+\frac{N-1}N\frac1{2\mu}+\frac1{2N}\frac1{\mu-\frac J2}
+    \;\xrightarrow{H=0}\;\beta=\frac1{2\mu}+\frac1N\frac{J}{4\mu(\mu-\frac J2)}\]
+  \begin{block}{Raiz com $\mu>J/2$ (analítica em $\beta$ para $N$ finito)}
+    \[4N\beta\mu^2-2N(1+\beta J)\mu+(N-1)J=0\;\Rightarrow\;
+      \mu=\frac1{4\beta}\Big[1+\beta J+\sqrt{(1-\beta J)^2+\tfrac{4\beta J}N}\Big]\]
+    $N\to\infty$: $\sqrt{\cdot}\to|1-\beta J|$, logo $\mu=\frac1{2\beta}$ ($\beta J<1$) e $\mu=\frac J2$ ($\beta J>1$).
+  \end{block}
+  \begin{exampleblock}{Fase ordenada: o modo $x_0$ condensa}
+    \[\mu-\frac J2\simeq\frac{J}{2N(\beta J-1)}=\mathcal O\Big(\frac1N\Big),\qquad
+      \frac{\langle x_0^2\rangle}N=\frac1{2N\beta(\mu-\frac J2)}\to1-\frac T{T_c}\]
+  \end{exampleblock}
+\end{frame}
+
+% B6
+\begin{frame}{B6. Fourier para interações gerais \eq{art.~18--24}}
+  \small
+  \[S_{\mathbf r}=\frac1{\sqrt N}\sum_{\mathbf q}\hat S_{\mathbf q}e^{i\mathbf q\cdot\mathbf r},\qquad
+    \hat S_{-\mathbf q}=\hat S_{\mathbf q}^*,\qquad\sum_{\mathbf r}e^{i(\mathbf q-\mathbf q')\cdot\mathbf r}=N\delta_{\mathbf q\mathbf q'}\]
+  \[\sum_{\mathbf r}S_{\mathbf r}^2=\sum_{\mathbf q}|\hat S_{\mathbf q}|^2,\qquad
+    \sum_{\mathbf r\mathbf r'}J_{\mathbf r\mathbf r'}S_{\mathbf r}S_{\mathbf r'}=\sum_{\mathbf q}\hat J(\mathbf q)|\hat S_{\mathbf q}|^2,\qquad
+    \sum_{\mathbf r}S_{\mathbf r}=N^{1/2}\hat S_0\]
+  \[Q=2\sum_{\mathbf q>0}\Big[\tfrac12\beta\hat J(\mathbf q)-\beta\mu\Big]|\hat S_{\mathbf q}|^2
+    +\Big[\tfrac12\beta\hat J(0)-\beta\mu\Big]\hat S_0^2+\beta H\,N^{1/2}\hat S_0\]
+  \begin{block}{Variáveis reais: $\hat S_{\pm\mathbf q}=\frac{x_{\mathbf q}\pm iy_{\mathbf q}}{\sqrt2}$, $\hat S_0=x_0$}
+    $\sum_{\mathbf q}|\hat S_{\mathbf q}|^2=x_0^2+\sum_{\mathbf q>0}(x_{\mathbf q}^2+y_{\mathbf q}^2)$.
+    Base real de senos e cossenos $\sqrt{2/N}\cos(\mathbf q\cdot\mathbf r)$, $\sqrt{2/N}\sin(\mathbf q\cdot\mathbf r)$: ortonormal, jacobiano 1.
+  \end{block}
+\end{frame}
+
+% B7
+\begin{frame}{B7. Função de partição e vínculo gerais \eq{art.~26--29}}
+  \small
+  Cada par $(x_{\mathbf q},y_{\mathbf q})$: peso $e^{-\beta[\mu-\frac12\hat J(\mathbf q)](x^2+y^2)}\Rightarrow\pi/\beta[\mu-\frac12\hat J(\mathbf q)]$.
+  \[\frac1N\ln Z_N=\frac12\ln\pi-\frac1{2N}\sum_{\mathbf q}\ln\Big[\beta\mu-\frac12\beta\hat J(\mathbf q)\Big]+\frac{\beta H^2}{4[\mu-\frac12\hat J(0)]}\]
+  \begin{block}{Vínculo esférico geral}
+    \[\beta=\frac1{2N}\sum_{\mathbf q}\frac1{\mu-\frac12\hat J(\mathbf q)}+\frac{\beta H^2}{4[\mu-\frac12\hat J(0)]^2}\]
+  \end{block}
+  \begin{block}{Curie-Weiss: $J(\mathbf h)=J/N\;\forall\mathbf h\Rightarrow\hat J(\mathbf q)=J\delta_{\mathbf q,0}$}
+    Um termo $1/(\mu-\frac J2)$ e $N-1$ termos $1/\mu$: recupera-se exatamente B5.
+  \end{block}
+\end{frame}
+
+% B8
+\begin{frame}{B8. Ensemble canônico: ponto de sela \eq{art.~30--33}}
+  \small
+  \[Z_E=\frac1{2\pi i}\int_{c-i\infty}^{c+i\infty}ds\,e^{N\Phi(s)},\quad
+    \Phi=s+\frac12\ln\pi-\frac1{2N}\sum_{\mathbf q}\ln\Big[s-\frac\beta2\hat J(\mathbf q)\Big]+\frac{\beta^2H^2}{4[s-\frac\beta2\hat J(0)]}\]
+  \begin{block}{Sela $\Phi'(s^*)=0$, com $s=\beta\mu$}
+    \[1=\frac1{2N}\sum_{\mathbf q}\frac1{s-\frac\beta2\hat J(\mathbf q)}+\frac{\beta^2H^2}{4[s-\frac\beta2\hat J(0)]^2}
+      \;\Longleftrightarrow\;\text{vínculo de B7}\]
+  \end{block}
+  \begin{block}{Equivalência}
+    $-\frac1{\beta N}\ln Z_E=\phi_N-\mu+\mathcal O(N^{-1}\ln N)$: mesma termodinâmica, tomando
+    $N\to\infty$ \emph{antes} de $H\to0$ (Yan e Wannier).
+  \end{block}
+\end{frame}
+
+% B9
+\begin{frame}{B9. Forma de Kastner--Schnetz \eq{art.~34}}
+  \small
+  $x_0=\sqrt Nz$; os demais $N-1$ eixos com $\rho=|\mathbf x_\perp|$, e $\Omega_n=2\pi^{n/2}/\Gamma(n/2)$:
+  \[\int d^{N-1}x_\perp\,\delta\big(N(1-z^2)-\rho^2\big)=\frac{\Omega_{N-1}}2\big[N(1-z^2)\big]^{\frac{N-3}2}\]
+  Como $\sum_rS_r=Nz$, o expoente é $\beta Nz(\frac J2z+H)$. Dividindo pela área da esfera,
+  $\int d^NS\,\delta(N-\sum S^2)=\pi^{N/2}N^{\frac{N-2}2}/\Gamma(\frac N2)$, as potências de $N$ cancelam ($J=1$):
+  \[\frac{Z_E^{CW}}{Z_E^{CW}|_{\beta=0}}=\frac{\Gamma(\frac N2)}{\Gamma(\frac{N-1}2)\sqrt\pi}\int_{-1}^1dz\,(1-z^2)^{\frac{N-3}2}e^{\beta Nz(\frac12z+H)}\]
+  \begin{exampleblock}{Verificação ($N\to\infty$)}
+    Máximo de $\frac12\ln(1-z^2)+\beta z(\frac z2+H)$: com $H=0$, $z=0$ ou $z^2=1-T/T_c$.
+  \end{exampleblock}
+\end{frame}
+
+% B10
+\begin{frame}{B10. Termodinâmica clássica \eq{art.~35--44}}
+  \footnotesize
+  \begin{columns}[T]
+    \column{.49\textwidth}
+    \begin{block}{Magnetização e suscetibilidade}
+      \[m_N=\frac{1}{N\beta}\partial_H\ln Z_N=\frac{H}{2(\mu-\frac J2)},\qquad\chi_N=\frac1{2(\mu-\frac J2)}\]
+      Vínculo: $\beta=\beta m^2+\frac{N-1}N\frac1{2\mu}+\frac1{2N(\mu-J/2)}$\\
+      $N\to\infty$: $m^2=1-\frac1{2\beta\mu}$; $T<T_c$: $m_0^2=1-T/T_c$.\\
+      $T>T_c$: $\chi=\frac{\beta}{1-\beta J}$. \ ($\mu$ é par em $H$: $\partial_H\mu|_0=0$.)
+    \end{block}
+    \column{.49\textwidth}
+    \begin{block}{Entropia ($k_B=1$)}
+      \[s_N=\partial_T\Big(\frac TN\ln Z_N\Big)_\mu=\frac12\ln\pi T+\frac12-\frac{N-1}{2N}\ln\mu-\frac{\ln(\mu-\frac J2)}{2N}\]
+      $T>T_c$, $\mu=\frac T2$: $s=\frac12[\ln2\pi+1]$\\
+      $T<T_c$, $\mu=\frac J2$: $s=\frac12[\ln\frac{2\pi T}{T_c}+1]\to-\infty$\\
+      (o último termo é $\mathcal O(\ln N/N)$ nas duas fases)\\
+      $c=T\partial_Ts=\frac12$ ($T<T_c$), $0$ ($T>T_c$).
+    \end{block}
+  \end{columns}
+\end{frame}
+
+% B11
+\begin{frame}{B11. Quantização canônica \eq{art.~47--54}}
+  \footnotesize
+  \[S_r=\tfrac1{\sqrt2}\big(\tfrac g{2\mu}\big)^{1/4}(a_r+a_r^\dagger),\quad
+    p_r=\tfrac{-i}{\sqrt2}\big(\tfrac{2\mu}g\big)^{1/4}(a_r-a_r^\dagger),\quad
+    [S_r,p_r]=-\tfrac i2[a+a^\dagger,a-a^\dagger]=i\]
+  \begin{block}{Parte local ($\epsilon\equiv\sqrt{2g\mu}$)}
+    \[\frac g2p_r^2+\mu S_r^2=\frac\epsilon4\big[(a+a^\dagger)^2-(a-a^\dagger)^2\big]=\epsilon\Big(a_r^\dagger a_r+\frac12\Big)\]
+  \end{block}
+  \begin{block}{Fourier: $a_r=N^{-1/2}\sum_{\mathbf q}e^{i\mathbf q\cdot\mathbf r}\hat a_{\mathbf q}$, \ $\sum_ra_r=\sqrt N\hat a_0$}
+    \[\mathcal H+\mu\sum S^2=\epsilon\sum_{\mathbf q}\Big(\hat a_{\mathbf q}^\dagger\hat a_{\mathbf q}+\frac12\Big)
+      -\frac J4\Big(\frac g{2\mu}\Big)^{\frac12}(\hat a_0+\hat a_0^\dagger)^2
+      -H\Big(\frac g{2\mu}\Big)^{\frac14}\Big(\frac N2\Big)^{\frac12}(\hat a_0+\hat a_0^\dagger)\]
+    Os modos $\mathbf q\neq0$ já são diagonais, com $\omega=\sqrt{2g\mu}$.
+  \end{block}
+\end{frame}
+
+% B12
+\begin{frame}{B12. Modo $q=0$: a rota direta}
+  \small
+  Coordenadas coletivas canônicas: $\tilde S_0=N^{-1/2}\sum_rS_r$, \ $\tilde p_0=N^{-1/2}\sum_rp_r$, \ $[\tilde S_0,\tilde p_0]=i$.
+  \[h_0=\frac g2\tilde p_0^2+\Big(\mu-\frac J2\Big)\tilde S_0^2-H\sqrt N\tilde S_0
+    =\frac g2\tilde p_0^2+\Big(\mu-\frac J2\Big)\Big(\tilde S_0-\frac{H\sqrt N}{2(\mu-\frac J2)}\Big)^2-\frac{NH^2}{4(\mu-\frac J2)}\]
+  \begin{exampleblock}{Oscilador deslocado com mola $k_0=2(\mu-\frac J2)$}
+    \[\omega_0=\sqrt{gk_0}=\sqrt{2g\mu}\,\Big(1-\frac J{2\mu}\Big)^{1/2}\]
+    Real só para $\mu>J/2$; $\omega_0\to0$ quando $\mu\to J/2$ (modo mole).
+    O deslocamento só gera a constante $-NH^2/4(\mu-\frac J2)$.
+  \end{exampleblock}
+\end{frame}
+
+% B13
+\begin{frame}{B13. Modo $q=0$: transformação de Bogoliubov \eq{art.~55--58}}
+  \footnotesize
+  Com $\lambda=\frac{J\epsilon}{8\mu}$: \ $h_0=A\,\hat a_0^\dagger\hat a_0-\frac B2(\hat a_0^2+\hat a_0^{\dagger2})+\dots$, \ $A=\epsilon-2\lambda$, $B=2\lambda$.
+  \begin{block}{$\hat b_0=u\hat a_0-v\hat a_0^\dagger$, \ $u^2-v^2=1$}
+    Anular $\hat b_0^2+\hat b_0^{\dagger2}$: \ $Auv=\frac B2(u^2+v^2)\Rightarrow u^2+v^2=\frac A{\omega_0}$, \ $2uv=\frac B{\omega_0}$
+    \[\omega_0=\sqrt{A^2-B^2}=\epsilon\sqrt{1-J/2\mu},\qquad
+      u^2,v^2=\pm\frac12+\frac12\Big(\frac{4\mu}J-1\Big)\Big[\Big(\frac{4\mu}J-1\Big)^2-1\Big]^{-\frac12}\]
+  \end{block}
+  \begin{block}{Translação}
+    $\hat a_0\to\hat a_0+\alpha$, com
+    $\alpha^2=\frac{H^2N}2\big(\frac g{2\mu}\big)^{\frac12}\frac1{2g\mu}\big(1-\frac J{2\mu}\big)^{-2}$ (é o $w^2$ da Eq.~58).\\
+    Em $\hat b_0$: $w=(u-v)\alpha$, com $(u-v)^2=\sqrt{1-J/2\mu}$. Não altera $\Xi$.
+  \end{block}
+\end{frame}
+
+% B14
+\begin{frame}{B14. $\Xi$, vínculo quântico e o termo $\ln\beta g$ \eq{art.~63--65}}
+  \footnotesize
+  \[\Xi_N=e^{\frac{\beta NH^2}{4(\mu-J/2)}}\,2^{-N}\Big(\sinh\frac{\beta\omega_0}2\Big)^{-1}\Big(\sinh\frac{\beta\omega}2\Big)^{-N+1}\]
+  \begin{block}{Vínculo: $\partial_\mu\phi_N=1$, com $\partial_\mu\omega=g/\omega$}
+    \[1=\frac{H^2}{4(\mu-\frac J2)^2}+\frac1N\frac g{2\omega_0}\coth\frac{\beta\omega_0}2+\frac{N-1}{2N}\Big(\frac g{2\mu}\Big)^{\frac12}\coth\frac{\beta\omega}2\]
+    Cada termo é $\langle S^2\rangle$ de um oscilador. $g\to0$: $\frac g{2\Omega}\coth\frac{\beta\Omega}2\to\frac g{\beta\Omega^2}$, recupera-se (15).
+  \end{block}
+  \begin{block}{Termo extra para $g\to0$}
+    \[\phi^{\rm q}-\phi^{\rm cl}\to\frac1{2\beta}\ln(2\pi\beta g)\quad
+      \Big(\text{momentos: }\int\frac{dp}{2\pi}e^{-\beta gp^2/2}=(2\pi\beta g)^{-\frac12}\Big)\]
+    Não depende de $H$ nem de $\mu$: não muda $m$, $\chi$ nem o vínculo; muda $s$.
+  \end{block}
+\end{frame}
+
+% B15
+\begin{frame}{B15. Integrais de trajetória \eq{art.~67--71}}
+  \footnotesize
+  \begin{block}{Legendre: $\dot S_r=gp_r$}
+    \[\mathcal L=\frac1{2g}\sum_r\dot S_r^2+\frac J{2N}\Big(\sum_rS_r\Big)^2+H\sum_rS_r-\mu\sum_rS_r^2\]
+  \end{block}
+  \begin{block}{Matsubara: $S_{\mathbf r}(\tau)=(\beta/N)^{1/2}\sum_{\mathbf q,n}e^{i(\mathbf q\cdot\mathbf r+\omega_n\tau)}S_{\mathbf q}(\omega_n)$, \ $\omega_n=2\pi n/\beta$}
+    \[S_E=\sum_{\mathbf q,n}\beta^2\Big[\frac{\omega_n^2}{2g}+\mu-\frac J2\delta_{\mathbf q0}\Big]|S_{\mathbf q}(\omega_n)|^2-\Big(\frac\beta N\Big)^{\frac12}N\beta H\,S_0(0)\]
+  \end{block}
+  \begin{block}{Produto infinito}
+    \[\prod_n(\omega_n^2+\Omega^2)^{-\frac12}\propto\frac1\Omega\Big[\prod_{n\ge1}\Big(1+\frac{x^2}{\pi^2n^2}\Big)\Big]^{-1}=\frac1\Omega\frac{x}{\sinh x},\quad x=\frac{\beta\Omega}2\]
+    Normalização fixada pelo limite clássico $z\to1/\beta\Omega$: $z=1/2\sinh(\beta\Omega/2)$. Recupera-se (63).
+  \end{block}
+\end{frame}
+
+% B16
+\begin{frame}{B16. Curva crítica \eq{art.~66}}
+  \small
+  $\mu=J/2$, $H=0$, $N\to\infty$: \ $(g/2\mu)^{1/2}=(g/J)^{1/2}$, \ $\omega=\sqrt{gJ}$
+  \[1=\frac12\sqrt{\frac gJ}\coth\frac{\sqrt{gJ}}{2k_BT}\;\Longrightarrow\;
+    k_BT_c(g)=\frac{\sqrt{gJ}}{2\,\mathrm{artanh}\big(\frac12\sqrt{g/J}\big)},\quad0\le g<4J\]
+  \begin{columns}[T]
+    \column{.48\textwidth}
+    \begin{block}{$g\to0$: $\coth y\simeq\frac1y+\frac y3$}
+      \[1=\frac{k_BT}J+\frac g{12k_BT}\Rightarrow k_BT_c\simeq J-\frac g{12}\]
+    \end{block}
+    \column{.48\textwidth}
+    \begin{block}{$g\to g_c=4J$: $\coth y\simeq1+2e^{-2y}$}
+      \[k_BT_c\simeq\frac{2J}{\ln[4g_c/(g_c-g)]}\]
+      Vai a zero só logaritmicamente.
+    \end{block}
+  \end{columns}
+\end{frame}
+
+% B17
+\begin{frame}{B17. Magnetização e suscetibilidade quânticas \eq{art.~73--82}}
+  \small
+  $m_N=-\partial_H\phi_N=H/2(\mu-\frac J2)$ (igual ao clássico). Com o vínculo:
+  \[m^2=1-\frac12\Big(\frac g{2\mu}\Big)^{\frac12}\coth\frac{\beta\omega}2,\qquad
+    m_0^2=1-\frac12\sqrt{\frac gJ}\coth\Big[\frac\beta2\sqrt{gJ}\Big]\]
+  \begin{columns}[T]
+    \column{.48\textwidth}
+    \begin{block}{$T=0$, $g\to g_c^-$}
+      \[m_0^2=1-\sqrt{g/g_c}\simeq-\frac{g-g_c}{2g_c}\]
+      $m_0\propto(g_c-g)^{1/2}$, \ $\beta_g=\frac12$
+    \end{block}
+    \column{.48\textwidth}
+    \begin{block}{$T=0$, $g>g_c$: $\coth\to1\Rightarrow\mu=g/8$}
+      \[\chi=\frac1{2(\frac g8-\frac J2)}=\frac4{g-g_c}\]
+      $\gamma_g=1$. \ $g\to0$: $\mu=\frac1{2\beta}$, $\chi=\frac\beta{1-\beta J}$.
+    \end{block}
+  \end{columns}
+\end{frame}
+
+% B18
+\begin{frame}{B18. Entropia e calor específico quânticos \eq{art.~83--85}}
+  \small
+  $s=\beta^2\partial_\beta\phi_N$ a $\mu$ fixo; para cada oscilador, com $x=\beta\Omega/2$:
+  \[\frac s{k_B}=-\ln(2\sinh x)+x\coth x\;\simeq\;(1+2x)e^{-2x}\;\xrightarrow{T\to0}\;0\]
+  \begin{columns}[T]
+    \column{.48\textwidth}
+    \begin{block}{Calor específico (fase ordenada, $\Omega=\sqrt{gJ}$)}
+      \[\frac c{k_B}=-x\frac{ds}{dx}=\frac{x^2}{\sinh^2x}\]
+      Einstein: $\to0$ exponencialmente; $\to1$ para $k_BT\gg\sqrt{gJ}$ (dois graus de liberdade, $S$ e $p$).
+    \end{block}
+    \column{.48\textwidth}
+    \begin{block}{Limite $g\to0$}
+      \[s^{\rm q}\to s^{\rm cl}+\frac{k_B}2\Big[1+\ln\frac{k_BT}{2\pi g}\Big]\]
+      $\lim_{g\to0}\lim_{T\to0}s=0$, \ mas $\lim_{T\to0}\lim_{g\to0}(s-s_{\rm extra})=-\infty$.
+    \end{block}
+  \end{columns}
+\end{frame}
+
+% B19
+\begin{frame}{B19. Campos aleatórios (derivação própria)}
+  \small
+  $H\sum_rS_r\to\sum_rH_rS_r$, \ $\langle H_r\rangle=0$, \ $\langle H_rH_{r'}\rangle=\Delta^2\delta_{rr'}$; \
+  em Fourier, $\sum_rH_rS_r=\sum_{\mathbf q}\hat H_{\mathbf q}\hat S_{-\mathbf q}$.
+  \begin{block}{Cada modo vira um oscilador deslocado}
+    Constante $-\sum_{\mathbf q}|\hat H_{\mathbf q}|^2/4[\mu-\frac12\hat J(\mathbf q)]$; o vínculo ganha
+    $\frac1N\sum_{\mathbf q}\frac{|\hat H_{\mathbf q}|^2}{4[\mu-\frac12\hat J(\mathbf q)]^2}\to\frac{\Delta^2}{4\mu^2}$ \ (modos $\mathbf q\neq0$, autopromediante).
+  \end{block}
+  \begin{block}{Superfície crítica ($\mu=J/2$)}
+    \[1=\frac{\Delta^2}{J^2}+\frac12\sqrt{\frac gJ}\coth\frac{\sqrt{gJ}}{2k_BT}\]
+    $g=0$: $k_BT_c=J(1-\Delta^2/J^2)$. \quad $T=0$: $\frac12\sqrt{g_c/J}=1-\Delta^2/J^2$.
+  \end{block}
+  {\footnotesize Conferir com T.~Vojta e M.~Schreiber, PRB \textbf{53}, 8211 (1996).
+  A afirmação do artigo sobre a relevância da desordem refere-se ao comportamento crítico, não analisado aqui.}
+\end{frame}
+
+% B20
+\begin{frame}{B20. Erratas e observações sobre o texto impresso}
+  \footnotesize
+  \begin{tabular}{@{}lp{.78\textwidth}@{}}
+    \toprule
+    \textbf{Eq.} & \textbf{Correção sugerida}\\
+    \midrule
+    p.~3311-1 & $k_BT_c=2dJ/b$ com o peso $e^{-\frac b2S^2}$ da Eq.~(2); $dJ/b$ corresponde a $e^{-bS^2}$ (fator 2 na definição de $b$)\\
+    (5) & $S_{\mathbf r}S_{\mathbf r'}$ (impresso $S_{\mathbf r}S_{\mathbf r}$)\\
+    (6) & expoente $s\,(N-\sum_{\mathbf r}S_{\mathbf r}^2)$\\
+    (20), (22) & termo de campo $\beta H\,N^{+1/2}\hat S_0$\\
+    (21) & $e^{i\mathbf q\cdot\mathbf h}$ (impresso $e^{i\mathbf r\cdot\mathbf h}$)\\
+    (26) & produto $\prod_{\mathbf q>0}\pi/[\dots]$, sem ``$\ln$''\\
+    (31), (33) & denominador do termo de campo ao quadrado, como em (28)\\
+    (41) & a expressão impressa é $\phi_N$; a entropia é (42)\\
+    (53) & soma em $\mathbf q$ (impresso $\sum_{\mathbf r}$)\\
+    (58) & dá o deslocamento $\alpha$ de $\hat a_0$; em $\hat b_0$, $w=(u-v)\alpha$ (convenção; não afeta $\Xi$)\\
+    (59) & o lado esquerdo é $-Q_{CW}/\beta=\mathcal H+\mu\sum S^2$\\
+    \bottomrule
+  \end{tabular}\\[4pt]
+  Nenhuma altera os resultados físicos. Derivações completas em B1--B18.
+\end{frame}
+
+\end{document}
