@@ -40,6 +40,7 @@
 \date{Tópicos de Mecânica Estatística, 2026}
 
 % ─── MACRO ÚTIL ───────────────────────────────────────────────────────────────
+\newcommand{\lista}[1]{\textcolor{qcdGreen!70!black}{\small(#1)}}
 \newcommand{\eq}[1]{\textcolor{qcdBlue!70!black}{\small(#1)}}
 
 % ──────────────────────────────────────────────────────────────────────────────
@@ -57,6 +58,9 @@
 % --- ROTEIRO ---
 \begin{frame}{Roteiro}
   \tableofcontents
+  \vfill
+  {\footnotesize\color{qcdGray}Ligações com as listas da disciplina:
+   \lista{L$n$ P$m$} = Lista $n$, Problema $m$; \ \lista{LQ} = lista do Ising quântico; \ \lista{LS} = lista suplementar.}
 \end{frame}
 
 % --- PERGUNTA DO SEMINÁRIO ---
@@ -86,7 +90,7 @@
 
 % --- 1a: contexto ---
 \begin{frame}{Modelos exatamente solúveis em mecânica estatística}
-  \begin{block}{Por que modelos exatos?}
+  \begin{block}{Por que modelos exatos? \lista{LS: Onsager; L4 P3}}
     Testam hipóteses sem aproximações, revelam mecanismos de transição de fase.
   \end{block}
   \medskip
@@ -153,8 +157,8 @@
     \begin{itemize}
       \item<1-> \textbf{Esférico} (Berlin-Kac): $\sum_rS_r^2=N$ \emph{exatamente}. Ensemble canônico.
       \item<2-> \textbf{Esférico médio} (Lewis-Wannier): $\sum_rS_r^2$ flutua; $\mu$ é escolhido para que a média seja $N$.
-        Análogo ao grande canônico, com $\mu$ conjugado a $\sum S^2$ em vez do número de partículas.
-      \item<3-> A largura relativa é $\sim\sqrt{2/N}$: para $N\to\infty$ as duas descrições coincidem
+        Análogo ao grande canônico, com $\mu$ conjugado a $\sum S^2$ em vez do número de partículas \lista{gás de rede: L3 P3}.
+      \item<3-> A largura relativa é $\sim\sqrt{2/N}$ \lista{lei $1/\sqrt N$: L6 P1}: para $N\to\infty$ as duas descrições coincidem
         para $m$, $\chi$, $s$\ldots
     \end{itemize}
   \end{columns}
@@ -202,7 +206,7 @@
       \end{tikzpicture}\\[1mm]{\small alcance infinito: $J_{r,r'}=J/N$}}
   \end{columns}
   \bigskip
-  \begin{block}<3->{Hamiltoniana de campo médio}
+  \begin{block}<3->{Hamiltoniana de campo médio \lista{L3 P2; L7 P1}}
     \[
       \mathcal{H}(\{S_r\}) =
         -\frac{J}{2N}\!\left(\sum_{r=1}^N S_r\right)^{\!2}
@@ -214,7 +218,7 @@
 
 % --- 2b: função de partição exata ---
 \begin{frame}{Função de partição: solução exata por integrais gaussianas}
-  \begin{block}{Função de partição $Z_N(\beta,H,\mu)$}
+  \begin{block}{Função de partição $Z_N(\beta,H,\mu)$ \lista{identidade gaussiana: L3 P2}}
     Potencial químico $\mu$ impõe o vínculo $\langle\sum_r S_r^2\rangle=N$:
     \[
       Z_N = \!\int\!\!\cdots\!\!\int \mathrm{d}^N\!S\;
@@ -244,7 +248,7 @@
     \column{.52\textwidth}
     \includegraphics[width=\linewidth]{fig_mu.pdf}
     \column{.44\textwidth}
-    \begin{block}{Vínculo esférico ($H=0$, $N\to\infty$)}
+    \begin{block}{Vínculo esférico ($H=0$, $N\to\infty$)}\lista{sem transição com $N$ finito: LS S1}\\
       \[
         \mu(T)=\begin{cases}
           \dfrac{k_BT}{2} & T>T_c\\[6pt]
@@ -267,7 +271,7 @@
 \begin{frame}{Sucessos e anomalias do modelo clássico}
   \begin{columns}
     \column{.48\textwidth}
-    \begin{block}{Sucessos (expoentes de campo médio)}
+    \begin{block}{Sucessos (campo médio) \lista{L1 P5, P7; L2 P4}}
       \begin{itemize}
         \item<1-> Magnetização espontânea:
           \[m_0=\pm\sqrt{1-T/T_c}\quad(\beta_{cr}=\tfrac{1}{2})\]
@@ -276,7 +280,7 @@
       \end{itemize}
     \end{block}
     \column{.48\textwidth}
-    \begin{alertblock}<3->{Falha a baixas temperaturas}
+    \begin{alertblock}<3->{Falha a baixas temperaturas \lista{salto de $c$: L1 P8}}
       Entropia por sítio na fase ordenada:
       \[s(T)=\tfrac{k_B}{2}\!\left[\ln\!\left(\tfrac{2\pi T}{T_c}\right)+1\right]\]
       \begin{itemize}
@@ -309,7 +313,7 @@
       \end{itemize}
     \end{block}
     \bigskip
-    \begin{alertblock}<2->{Transições quânticas ($T=0$)}
+    \begin{alertblock}<2->{Transições quânticas ($T=0$) \lista{LQ}}
       \begin{itemize}
         \item Governadas por flutuações \textbf{quânticas} (princípio de incerteza).
         \item Ponto crítico quântico (PCQ) em $T=0$, parâmetro não-térmico $g=g_c$.
@@ -370,7 +374,7 @@
 \begin{frame}{Diagonalização: osciladores harmônicos independentes}
   \begin{columns}[c]
     \column{.52\textwidth}
-    \begin{block}{Transformação de Bogoliubov (modo $q=0$)}
+    \begin{block}{Bogoliubov (modo $q=0$) \lista{LQ; LS S1}}
       \[\hat{b}_0 = u\,\hat{a}_0 - v\,\hat{a}_0^\dagger + w, \quad u^2-v^2=1\]
       Elimina termos não-diagonais $\hat{a}_0^2,(\hat{a}_0^\dagger)^2$ e campo $H$.
     \end{block}
@@ -460,7 +464,7 @@
     \begin{block}{Fronteira crítica \eq{Eq.~66}}
       \[1=\frac{1}{2}\sqrt{\frac{g}{J}}\,\coth\!\left[\frac{\sqrt{gJ}}{2k_BT}\right]\]
     \end{block}
-    \begin{block}<2->{Limites notáveis}
+    \begin{block}<2->{Limites notáveis \lista{gap que fecha: LQ Ex.~1}}
       \begin{itemize}
         \item Limite clássico $g\to0$:
           $\coth(x)\approx1/x\;\Rightarrow\;k_BT_c=J$
@@ -500,7 +504,7 @@
     \[m_0^2=1-\tfrac{1}{2}\sqrt{g/J}\quad\Rightarrow\quad
       m_0\propto(g_c-g)^{1/2},\quad\beta_g=\tfrac{1}{2}\]
   \end{block}
-  \begin{block}<2->{Suscetibilidade em $T=0$, $g\to g_c^+$ \eq{Eq.~81}}
+  \begin{block}<2->{Suscetibilidade em $T=0$, $g\to g_c^+$ \eq{Eq.~81} \lista{universalidade: L4 P1}}
     \[\chi\propto(g-g_c)^{-1},\quad\gamma_g=1\]
   \end{block}
   \uncover<3->{%
@@ -605,7 +609,7 @@
 
 % --- 12b: campos aleatórios ---
 \begin{frame}{Extensão: campos aleatórios}
-  \begin{block}{Troca: $H\sum_rS_r\;\to\;\sum_rH_rS_r$, \ $\langle H_r\rangle=0$, \ $\langle H_rH_{r'}\rangle=\Delta^2\delta_{rr'}$}
+  \begin{block}{\lista{L7 P1} \ Troca: $H\sum_rS_r\;\to\;\sum_rH_rS_r$, \ $\langle H_r\rangle=0$, \ $\langle H_rH_{r'}\rangle=\Delta^2\delta_{rr'}$}
     Cada modo de Fourier vira um oscilador \emph{deslocado} pelo seu campo $\hat H_{\mathbf q}$.
     O espectro não muda; muda o vínculo, que ganha um termo de desordem.
   \end{block}
@@ -671,7 +675,7 @@
   \small
   \begin{columns}[T]
     \column{.5\textwidth}
-    \begin{block}{Transformada das interações}
+    \begin{block}{Transformada das interações \lista{L8 P1}}
       $J(\mathbf r-\mathbf r')$ invariante por translação $\Rightarrow$ autovetores $e^{i\mathbf q\cdot\mathbf r}/\sqrt N$:
       \[\sum_{\mathbf r'}J(\mathbf r-\mathbf r')\frac{e^{i\mathbf q\cdot\mathbf r'}}{\sqrt N}=\hat J(\mathbf q)\frac{e^{i\mathbf q\cdot\mathbf r}}{\sqrt N}\]
       \[\hat J(\mathbf q)=\sum_{\mathbf h}J(\mathbf h)e^{i\mathbf q\cdot\mathbf h}\]
@@ -679,7 +683,7 @@
       \[\hat J(\mathbf q)=2J\sum_{i=1}^d\cos q_i\le\hat J(0)=2dJ\]
     \end{block}
     \column{.46\textwidth}
-    \begin{block}{Convergência \eq{art.~2}}
+    \begin{block}{Convergência \eq{art.~2} \lista{L8 P1}}
       \[\frac\beta2\sum J_{\mathbf r\mathbf r'}S_{\mathbf r}S_{\mathbf r'}-\frac b2\sum S_{\mathbf r}^2
         =-\frac12\sum_{\mathbf q}\big[b-\beta\hat J(\mathbf q)\big]|\hat S_{\mathbf q}|^2\]
       Converge $\iff b>\beta\hat J(\mathbf q)\;\forall\mathbf q\iff b>2dJ\beta$:
@@ -707,7 +711,7 @@
 \end{frame}
 
 % B4
-\begin{frame}{B4. Curie-Weiss: $Z_N$ para qualquer $N$ \eq{art.~11--14}}
+\begin{frame}{B4. Curie-Weiss: $Z_N$ para qualquer $N$ \eq{art.~11--14} \lista{L3 P2}}
   \small
   Rotação ortogonal com $x_0=\frac1{\sqrt N}\sum_rS_r$: \ $\sum S^2=\sum_i x_i^2$, \ $(\sum S)^2=Nx_0^2$, \ jacobiano $=1$.
   \[\text{expoente}=-\beta\Big(\mu-\frac J2\Big)x_0^2+\beta H\sqrt N\,x_0-\beta\mu\sum_{i=1}^{N-1}x_i^2\]
@@ -771,7 +775,7 @@
 \end{frame}
 
 % B8
-\begin{frame}{B8. Ensemble canônico: ponto de sela \eq{art.~30--33}}
+\begin{frame}{B8. Ensemble canônico: ponto de sela \eq{art.~30--33} \lista{sela: L3 P2}}
   \small
   \[Z_E=\frac1{2\pi i}\int_{c-i\infty}^{c+i\infty}ds\,e^{N\Phi(s)},\quad
     \Phi=s+\frac12\ln\pi-\frac1{2N}\sum_{\mathbf q}\ln\Big[s-\frac\beta2\hat J(\mathbf q)\Big]+\frac{\beta^2H^2}{4[s-\frac\beta2\hat J(0)]}\]
@@ -779,7 +783,7 @@
     \[1=\frac1{2N}\sum_{\mathbf q}\frac1{s-\frac\beta2\hat J(\mathbf q)}+\frac{\beta^2H^2}{4[s-\frac\beta2\hat J(0)]^2}
       \;\Longleftrightarrow\;\text{vínculo de B7}\]
   \end{block}
-  \begin{block}{Equivalência}
+  \begin{block}{Equivalência \lista{troca de ensemble: L3 P3; $\langle m\rangle=0$ com $N$ finito: L6 P2}}
     $-\frac1{\beta N}\ln Z_E=\phi_N-\mu+\mathcal O(N^{-1}\ln N)$: mesma termodinâmica, tomando
     $N\to\infty$ \emph{antes} de $H\to0$ (Yan e Wannier).
   \end{block}
@@ -851,7 +855,7 @@
 \end{frame}
 
 % B13
-\begin{frame}{B13. Modo $q=0$: transformação de Bogoliubov \eq{art.~55--58}}
+\begin{frame}{B13. Modo $q=0$: Bogoliubov \eq{art.~55--58} \lista{LQ Ex.~3; LS S1}}
   \footnotesize
   Com $\lambda=\frac{J\epsilon}{8\mu}$: \ $h_0=A\,\hat a_0^\dagger\hat a_0-\frac B2(\hat a_0^2+\hat a_0^{\dagger2})+\dots$, \ $A=\epsilon-2\lambda$, $B=2\lambda$.
   \begin{block}{$\hat b_0=u\hat a_0-v\hat a_0^\dagger$, \ $u^2-v^2=1$}
@@ -955,7 +959,7 @@
 \end{frame}
 
 % B19
-\begin{frame}{B19. Campos aleatórios (derivação própria)}
+\begin{frame}{B19. Campos aleatórios (derivação própria) \lista{L7 P1}}
   \small
   $H\sum_rS_r\to\sum_rH_rS_r$, \ $\langle H_r\rangle=0$, \ $\langle H_rH_{r'}\rangle=\Delta^2\delta_{rr'}$; \
   em Fourier, $\sum_rH_rS_r=\sum_{\mathbf q}\hat H_{\mathbf q}\hat S_{-\mathbf q}$.
